@@ -1,0 +1,2254 @@
+{
+  "users": [
+    {
+      "id": "usr_admin_1",
+      "name": "Hestiia Administrator",
+      "email": "admin@hestiia.com",
+      "username": "admin",
+      "passwordHash": "$2b$10$q7OpHXhyZhZ68e6C2wUseuAOIKss3TGv7XLdJVADhQQtHqUh3L/sG",
+      "role": "superadmin",
+      "active": true,
+      "createdAt": "2026-10-01T10:00:00.000Z",
+      "lastLogin": "2026-10-25T19:02:22.413Z"
+    },
+    {
+      "id": "usr_manager_1",
+      "name": "Floor Manager (Shyam Nagar)",
+      "email": "manager@hestiia.com",
+      "username": "manager",
+      "passwordHash": "$2b$10$q7OpHXhyZhZ68e6C2wUseuRvMk.mksdWLZwmMQwiMnD4Tg4VXVOvW",
+      "role": "manager",
+      "active": true,
+      "createdAt": "2026-10-05T10:00:00.000Z",
+      "lastLogin": "2026-10-25T10:04:32.659Z"
+    },
+    {
+      "id": "usr_1792922813633",
+      "name": "Swatantra Singh",
+      "email": "swatantrasingh308@gmail.com",
+      "username": "swat",
+      "passwordHash": "$2b$10$qBLRaZe1nG7wVx3YexS3xuvxuWz3sLOyh7v3drOzbu40R7irJepg.",
+      "role": "staff",
+      "active": true,
+      "createdAt": "2026-10-25T10:06:53.866Z",
+      "lastLogin": "2026-10-25T10:08:58.075Z"
+    }
+  ],
+  "settings": {
+    "restaurantName": "HESTIIA RESTAURANT",
+    "tagline": "Flavours That Stay With You",
+    "eyebrow": "A MODERN INDIAN DINING EXPERIENCE",
+    "description": "Discover a memorable dining experience with rich Indian flavours, thoughtfully crafted dishes and an ambience made for every occasion in Shyam Nagar, Kanpur.",
+    "address": "PAC Road, Shyam Nagar, Kanpur, Uttar Pradesh 208013",
+    "phone": "+91 78808 40622",
+    "whatsapp": "917880840622",
+    "email": "reservations@hestiia.com",
+    "openingHours": "Monday – Sunday: 12:00 PM – 11:30 PM",
+    "timezone": "Asia/Kolkata",
+    "currency": "INR",
+    "currencySymbol": "₹",
+    "taxRatePercent": 5,
+    "deliveryFee": 40,
+    "minOrderValue": 200,
+    "orderAcceptanceEnabled": true,
+    "tableReservationEnabled": true,
+    "invoicePrefix": "HST-",
+    "zomatoRating": "4.5",
+    "socialInstagram": "https://instagram.com/hestiiarestaurant",
+    "socialFacebook": "https://facebook.com/hestiiarestaurant"
+  },
+  "categories": [
+    {
+      "id": "cat-main",
+      "name": "Main Course",
+      "slug": "main-course",
+      "description": "Slow-simmered handi gravies and aromatic curries",
+      "displayOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "cat-biryani",
+      "name": "Biryani",
+      "slug": "biryani",
+      "description": "Fragrant dum cooked long-grain basmati delicacies",
+      "displayOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "cat-starters",
+      "name": "Starters",
+      "slug": "starters",
+      "description": "Tantalizing appetizers crafted for warm beginnings",
+      "displayOrder": 3,
+      "isActive": true
+    },
+    {
+      "id": "cat-kebabs",
+      "name": "Kebabs",
+      "slug": "kebabs",
+      "description": "Charcoal-grilled succulent tandoori preparations",
+      "displayOrder": 4,
+      "isActive": true
+    },
+    {
+      "id": "cat-chinese",
+      "name": "Chinese",
+      "slug": "chinese",
+      "description": "Wok-tossed Indo-Chinese rice and sizzling appetisers",
+      "displayOrder": 5,
+      "isActive": true
+    },
+    {
+      "id": "cat-noodles",
+      "name": "Noodles",
+      "slug": "noodles",
+      "description": "Signature stir-fried noodles with farm-fresh greens",
+      "displayOrder": 6,
+      "isActive": true
+    },
+    {
+      "id": "cat-desserts",
+      "name": "Desserts",
+      "slug": "desserts",
+      "description": "Royal Indian confections and modern artisan sweets",
+      "displayOrder": 7,
+      "isActive": true
+    },
+    {
+      "id": "cat-beverages",
+      "name": "Beverages",
+      "slug": "beverages",
+      "description": "Chilled mocktails, smoked chaas and artisanal coolers",
+      "displayOrder": 8,
+      "isActive": true
+    }
+  ],
+  "dishes": [
+    {
+      "id": "handi-paneer",
+      "name": "Handi Paneer",
+      "slug": "handi-paneer",
+      "category": "Main Course",
+      "description": "Rich, aromatic curry with soft paneer cubes and traditional Indian spices.",
+      "fullDescription": "Fresh malai paneer simmered in an earthenware clay pot with freshly crushed coriander seeds, Kashmiri red chilies, and a velvety onion-tomato masala enriched with churned butter and fenugreek.",
+      "price": 325,
+      "compareAtPrice": 360,
+      "image": "/uploads/Complete_Digital_Solutions_for_Restaurants-1792952163209-534821731.png",
+      "isVeg": true,
+      "isSignature": true,
+      "spiceLevel": 2,
+      "preparationTime": "20 mins",
+      "ingredients": [
+        "Malai Paneer",
+        "Earthen Pot Masala",
+        "Fenugreek",
+        "Clay Pot Gravy",
+        "Desi Ghee"
+      ],
+      "chefNote": "Slow-simmered in clay handi to impart authentic rustic smoked earthiness.",
+      "available": true,
+      "displayOrder": 1,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-25T18:16:17.672Z"
+    },
+    {
+      "id": "paneer-lababdar",
+      "name": "Paneer Lababdar",
+      "slug": "paneer-lababdar",
+      "category": "Main Course",
+      "description": "Creamy tomato-based gravy enriched with grated paneer and coriander.",
+      "fullDescription": "Succulent cubes of cottage cheese enveloped in a luscious, mildly sweet and tangy gravy of vine-ripened tomatoes, cashew butter, ginger juliennes and aromatic cardamom.",
+      "price": 365,
+      "image": "/images/dishes/paneer-lababdar.jpg",
+      "isVeg": true,
+      "isSignature": true,
+      "spiceLevel": 1,
+      "preparationTime": "22 mins",
+      "ingredients": [
+        "Cottage Cheese",
+        "Cashew Cream",
+        "Vine Tomatoes",
+        "Ginger Juliennes",
+        "Mace"
+      ],
+      "chefNote": "Finished with a drizzle of heavy cream and slow-roasted cumin butter.",
+      "available": true,
+      "displayOrder": 2,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "veg-biryani",
+      "name": "Veg Biryani",
+      "slug": "veg-biryani",
+      "category": "Biryani",
+      "description": "Fragrant long-grain basmati with garden vegetables, saffron and herbs.",
+      "fullDescription": "Aromatic Daawat basmati rice sealed with dough and slow-cooked over low embers (Dum) with baby carrots, French beans, cauliflower florets, Kashmiri saffron milk and fresh garden mint.",
+      "price": 344,
+      "image": "/images/dishes/veg-biryani.jpg",
+      "isVeg": true,
+      "isSignature": true,
+      "spiceLevel": 2,
+      "preparationTime": "25 mins",
+      "ingredients": [
+        "Aged Basmati",
+        "Seasonal Farm Veggies",
+        "Kashmiri Saffron",
+        "Mint & Coriander",
+        "Crispy Onions"
+      ],
+      "chefNote": "Served with chilled pomegranate burani raita and spicy salan.",
+      "available": true,
+      "displayOrder": 3,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "hyderabadi-biryani",
+      "name": "Hyderabadi Dum Biryani",
+      "slug": "hyderabadi-biryani",
+      "category": "Biryani",
+      "description": "Authentic Nizami spice blend layered with basmati and fried onions.",
+      "fullDescription": "Steeped in royal Nizami tradition, layers of long-grain rice infused with crushed star anise, cinnamon quills, marinated soya chaap, caramelized birista, and saffron milk.",
+      "price": 385,
+      "image": "/images/dishes/hyderabadi-biryani.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 3,
+      "preparationTime": "25 mins",
+      "ingredients": [
+        "Basmati Rice",
+        "Soya Chaap",
+        "Star Anise",
+        "Kashmiri Saffron",
+        "Birista Onions"
+      ],
+      "chefNote": "Steamed in copper degh to lock in the fragrant steam.",
+      "available": true,
+      "displayOrder": 4,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "chaap-tikka-biryani",
+      "name": "Chaap Tikka Biryani",
+      "slug": "chaap-tikka-biryani",
+      "category": "Biryani",
+      "description": "Tandoor-smoked marinated soya chaap layered with fragrant spiced rice.",
+      "fullDescription": "Plump soya chaap chunks marinated in mustard oil, hung curd, and roasted gram flour, charred over charcoal and then folded into fragrant saffron basmati rice.",
+      "price": 395,
+      "image": "/images/dishes/chaap-tikka-biryani.jpg",
+      "isVeg": true,
+      "isSignature": true,
+      "spiceLevel": 2,
+      "preparationTime": "25 mins",
+      "ingredients": [
+        "Tandoori Soya Chaap",
+        "Aged Basmati",
+        "Hung Curd Marinade",
+        "Mint Leaves",
+        "Kewra Water"
+      ],
+      "chefNote": "Smoked with charcoal embers and clove essence before serving.",
+      "available": true,
+      "displayOrder": 5,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "paneer-65",
+      "name": "Paneer 65",
+      "slug": "paneer-65",
+      "category": "Starters",
+      "description": "Crispy fried paneer tossed in fiery curry leaves and mustard seeds.",
+      "fullDescription": "Crisp paneer bites dusted with rice flour and Southern spices, quick-fried and tossed in a sizzling tempering of curry leaves, crushed black pepper, green chilies and tangy curd.",
+      "price": 295,
+      "image": "/images/dishes/paneer-65.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 3,
+      "preparationTime": "15 mins",
+      "ingredients": [
+        "Paneer Batons",
+        "Fresh Curry Leaves",
+        "Black Pepper",
+        "Mustard Seeds",
+        "Tangy Curd"
+      ],
+      "chefNote": "Tossed fresh per order so the exterior maintains its signature crackle.",
+      "available": true,
+      "displayOrder": 6,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "chilli-potato",
+      "name": "Crispy Honey Chilli Potato",
+      "slug": "chilli-potato",
+      "category": "Chinese",
+      "description": "Golden fried potato fingers coated in a spicy sweet garlic sauce.",
+      "fullDescription": "Twice-fried crisp potato batons tossed in a flaming wok with garlic, ginger, dark soy, red chili paste, wild forest honey, and toasted white sesame seeds.",
+      "price": 245,
+      "image": "/images/dishes/chilli-potato.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 2,
+      "preparationTime": "15 mins",
+      "ingredients": [
+        "Crisp Potatoes",
+        "Wild Forest Honey",
+        "Toasted Sesame",
+        "Dark Soy",
+        "Spring Onions"
+      ],
+      "chefNote": "Garnished with toasted sesame and fine scallion curls.",
+      "available": true,
+      "displayOrder": 7,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "dahi-kebab",
+      "name": "Dahi Ke Kebab",
+      "slug": "dahi-kebab",
+      "category": "Kebabs",
+      "description": "Velvety hung curd patties with a golden crust and aromatic herb filling.",
+      "fullDescription": "Pillowy patties of hand-hung creamy yogurt, delicately spiked with chopped mint, green chilies, roasted cashew nuts, and roasted cumin seeds, shallow pan-seared in desi ghee.",
+      "price": 315,
+      "image": "/images/dishes/dahi-kebab.jpg",
+      "isVeg": true,
+      "isSignature": true,
+      "spiceLevel": 1,
+      "preparationTime": "18 mins",
+      "ingredients": [
+        "Hung Yogurt",
+        "Cashew Crunch",
+        "Roasted Cumin",
+        "Fresh Mint",
+        "Desi Ghee"
+      ],
+      "chefNote": "Crisp on the outside, melts like velvet on the tongue.",
+      "available": true,
+      "displayOrder": 8,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "haryali-kebab",
+      "name": "Haryali Paneer Tikka",
+      "slug": "haryali-kebab",
+      "category": "Kebabs",
+      "description": "Tandoori cottage cheese cubes marinated in mint, coriander and spices.",
+      "fullDescription": "Thick slabs of fresh malai paneer steeped in a rich emerald paste of garden mint, coriander, baby spinach, roasted cumin and rock salt, skewered with bell peppers and roasted in clay oven.",
+      "price": 335,
+      "image": "/images/dishes/haryali-kebab.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 2,
+      "preparationTime": "20 mins",
+      "ingredients": [
+        "Malai Paneer",
+        "Mint & Coriander Paste",
+        "Tandoori Spices",
+        "Bell Peppers",
+        "Rock Salt"
+      ],
+      "chefNote": "Basted with butter and chaat masala straight from the tandoor.",
+      "available": true,
+      "displayOrder": 9,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "spring-roll",
+      "name": "Hestiia Golden Spring Rolls",
+      "slug": "spring-roll",
+      "category": "Starters",
+      "description": "Crisp pastry wrappers stuffed with shredded wok vegetables and glass noodles.",
+      "fullDescription": "Paper-thin golden pastry rolls packed with julienned cabbage, carrots, bell peppers, bean sprouts and glass noodles, served with sweet chili dip and hot garlic sauce.",
+      "price": 235,
+      "image": "/images/dishes/spring-roll.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 1,
+      "preparationTime": "15 mins",
+      "ingredients": [
+        "Spring Roll Wrappers",
+        "Julienne Veggies",
+        "Glass Noodles",
+        "Sweet Chili Dip",
+        "Sesame Oil"
+      ],
+      "chefNote": "Fried to a golden shatteringly crisp perfection.",
+      "available": true,
+      "displayOrder": 10,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "paneer-manchurian",
+      "name": "Wok Paneer Manchurian",
+      "slug": "paneer-manchurian",
+      "category": "Chinese",
+      "description": "Crispy cottage cheese tossed in a savory ginger, garlic, and scallion sauce.",
+      "fullDescription": "Fried golden cottage cheese cubes tossed in an aromatic dark savory glaze made with braised ginger, garlic, chopped coriander roots, green chilies, and light soy sauce.",
+      "price": 295,
+      "image": "/images/dishes/paneer-manchurian.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 2,
+      "preparationTime": "16 mins",
+      "ingredients": [
+        "Cottage Cheese",
+        "Scallions",
+        "Braised Ginger",
+        "Light Soy",
+        "Green Chilies"
+      ],
+      "chefNote": "Can be ordered dry as a starter or semi-gravy for pairing with rice.",
+      "available": true,
+      "displayOrder": 11,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "garlic-fried-rice",
+      "name": "Burnt Garlic Fried Rice",
+      "slug": "garlic-fried-rice",
+      "category": "Chinese",
+      "description": "Fragrant jasmine rice wok-tossed with aromatic golden burnt garlic and scallions.",
+      "fullDescription": "Fluffy steamed rice wok-seared over high flame with crunchy golden burnt garlic flakes, finely diced spring vegetables, white pepper and toasted sesame oil.",
+      "price": 255,
+      "image": "/images/dishes/garlic-fried-rice.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 1,
+      "preparationTime": "15 mins",
+      "ingredients": [
+        "Steamed Rice",
+        "Burnt Garlic Flakes",
+        "Scallions",
+        "White Pepper",
+        "Sesame Oil"
+      ],
+      "chefNote": "Smoky wok aroma (wok hei) in every spoonful.",
+      "available": true,
+      "displayOrder": 12,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "paneer-fried-rice",
+      "name": "Hestiia Paneer Fried Rice",
+      "slug": "paneer-fried-rice",
+      "category": "Chinese",
+      "description": "Wok-tossed rice loaded with seasoned paneer cubes and crunchy vegetables.",
+      "fullDescription": "Savory stir-fried rice loaded with lightly charred paneer cubes, sweet corn, carrots, French beans, and scallions in a light soy seasoning.",
+      "price": 285,
+      "image": "/images/dishes/paneer-fried-rice.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 1,
+      "preparationTime": "16 mins",
+      "ingredients": [
+        "Rice",
+        "Seared Paneer Cubes",
+        "Sweet Corn",
+        "Carrots",
+        "Soy Seasoning"
+      ],
+      "chefNote": "A wholesome meal enjoyed across all age groups.",
+      "available": true,
+      "displayOrder": 13,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "garlic-noodles",
+      "name": "Chilli Garlic Hakka Noodles",
+      "slug": "garlic-noodles",
+      "category": "Noodles",
+      "description": "Tossed noodles with a robust red chilli and roasted garlic punch.",
+      "fullDescription": "Classic wheat noodles wok-tossed with julienne cabbage, bell peppers, scallions, fiery chili oil, and generous heaps of crushed roasted garlic.",
+      "price": 265,
+      "image": "/images/dishes/garlic-noodles.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 3,
+      "preparationTime": "15 mins",
+      "ingredients": [
+        "Wheat Noodles",
+        "Roasted Garlic",
+        "Chili Oil",
+        "Julienne Peppers",
+        "Scallions"
+      ],
+      "chefNote": "Bold, spicy, and satisfyingly zesty.",
+      "available": true,
+      "displayOrder": 14,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "hestiia-special-noodles",
+      "name": "Hestiia Chef Special Noodles",
+      "slug": "hestiia-special-noodles",
+      "category": "Noodles",
+      "description": "Signature wok-tossed noodles with paneer, exotic veggies and secret spice sauce.",
+      "fullDescription": "Chef signature noodle preparation featuring yellow zucchini, baby corn, broccoli, shredded paneer and wok-smoked scallions in an exclusive five-spice sauce.",
+      "price": 295,
+      "image": "/images/dishes/hestiia-special-noodles.jpg",
+      "isVeg": true,
+      "isSignature": true,
+      "spiceLevel": 2,
+      "preparationTime": "18 mins",
+      "ingredients": [
+        "Hand-Pulled Noodles",
+        "Paneer Ribbons",
+        "Broccoli",
+        "Baby Corn",
+        "Secret Five-Spice Sauce"
+      ],
+      "chefNote": "Crafted exclusively by our executive chef for Hestiia guests.",
+      "available": true,
+      "displayOrder": 15,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "dum-aloo",
+      "name": "Kashmiri Dum Aloo",
+      "slug": "dum-aloo",
+      "category": "Main Course",
+      "description": "Baby potatoes simmered in a velvety Kashmiri chilli and fennel yogurt gravy.",
+      "fullDescription": "Pricked baby potatoes deep-fried till golden, then slow-cooked under dough seal (dum) in an aromatic yogurt-based gravy flavored with Kashmiri deggi mirch, saunf (fennel) and dry ginger (sonth).",
+      "price": 285,
+      "image": "/images/dishes/dum-aloo.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 2,
+      "preparationTime": "22 mins",
+      "ingredients": [
+        "Baby Potatoes",
+        "Kashmiri Chili Gravy",
+        "Fennel Powder",
+        "Dry Ginger",
+        "Hung Curd"
+      ],
+      "chefNote": "Authentic recipe free of onion and garlic, bursting with rich warm spices.",
+      "available": true,
+      "displayOrder": 16,
+      "createdAt": "2026-10-01T12:00:00Z",
+      "updatedAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "id": "awadhi-korma-platter-3474",
+      "name": "Awadhi Korma Platter",
+      "slug": "awadhi-korma-platter",
+      "category": "Main Course",
+      "description": "Tender simmered Awadhi gravy with saffron essence",
+      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
+      "price": 380,
+      "image": "/images/dishes/handi-paneer.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 2,
+      "preparationTime": "20 mins",
+      "ingredients": [],
+      "available": true,
+      "displayOrder": 17,
+      "createdAt": "2026-10-25T09:15:06.621Z",
+      "updatedAt": "2026-10-25T17:29:43.726Z"
+    },
+    {
+      "id": "awadhi-korma-platter-vxfv",
+      "name": "Awadhi Korma Platter",
+      "slug": "awadhi-korma-platter",
+      "category": "Main Course",
+      "description": "Tender simmered Awadhi gravy with saffron essence",
+      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
+      "price": 380,
+      "image": "/images/dishes/handi-paneer.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 2,
+      "preparationTime": "20 mins",
+      "ingredients": [],
+      "available": false,
+      "displayOrder": 18,
+      "createdAt": "2026-10-25T16:14:36.544Z",
+      "updatedAt": "2026-10-25T17:29:49.716Z"
+    },
+    {
+      "id": "awadhi-korma-platter-7soe",
+      "name": "Awadhi Korma Platter",
+      "slug": "awadhi-korma-platter",
+      "category": "Main Course",
+      "description": "Tender simmered Awadhi gravy with saffron essence",
+      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
+      "price": 380,
+      "image": "/images/dishes/handi-paneer.jpg",
+      "isVeg": true,
+      "isSignature": false,
+      "spiceLevel": 2,
+      "preparationTime": "20 mins",
+      "ingredients": [],
+      "available": true,
+      "displayOrder": 19,
+      "createdAt": "2026-10-25T16:46:51.643Z",
+      "updatedAt": "2026-10-25T17:29:47.701Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_1792946811669_o6e9",
+      "orderNumber": "HST-2026-1006",
+      "customerName": "Rohit Aggarwal",
+      "customerPhone": "+91 98390 99881",
+      "deliveryAddress": "Shyam Nagar Block B, Kanpur",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "handi-paneer",
+          "name": "Handi Paneer",
+          "price": 325,
+          "quantity": 2,
+          "total": 650,
+          "image": "/images/dishes/handi-paneer.jpg"
+        },
+        {
+          "dishId": "veg-biryani",
+          "name": "Veg Biryani",
+          "price": 344,
+          "quantity": 1,
+          "total": 344,
+          "image": "/images/dishes/veg-biryani.jpg"
+        }
+      ],
+      "subtotal": 994,
+      "taxAmount": 50,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 1084,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-10-25T16:46:51.669Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with COD"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-10-25T16:46:51.684Z",
+          "actor": "Hestiia Administrator",
+          "note": "Kitchen order accepted by Head Chef"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1006",
+      "createdAt": "2026-10-25T16:46:51.669Z",
+      "updatedAt": "2026-10-25T16:46:51.698Z"
+    },
+    {
+      "id": "ord_1792944876567_0gbv",
+      "orderNumber": "HST-2026-1005",
+      "customerName": "Rohit Aggarwal",
+      "customerPhone": "+91 98390 99881",
+      "deliveryAddress": "Shyam Nagar Block B, Kanpur",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "handi-paneer",
+          "name": "Handi Paneer",
+          "price": 325,
+          "quantity": 2,
+          "total": 650,
+          "image": "/images/dishes/handi-paneer.jpg"
+        },
+        {
+          "dishId": "veg-biryani",
+          "name": "Veg Biryani",
+          "price": 344,
+          "quantity": 1,
+          "total": 344,
+          "image": "/images/dishes/veg-biryani.jpg"
+        }
+      ],
+      "subtotal": 994,
+      "taxAmount": 50,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 1084,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-10-25T16:14:36.567Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with COD"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-10-25T16:14:36.580Z",
+          "actor": "Hestiia Administrator",
+          "note": "Kitchen order accepted by Head Chef"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1005",
+      "createdAt": "2026-10-25T16:14:36.567Z",
+      "updatedAt": "2026-10-25T16:14:36.594Z"
+    },
+    {
+      "id": "ord_1792919706650_llkp",
+      "orderNumber": "HST-2026-1004",
+      "customerName": "Rohit Aggarwal",
+      "customerPhone": "+91 98390 99881",
+      "deliveryAddress": "Shyam Nagar Block B, Kanpur",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "handi-paneer",
+          "name": "Handi Paneer",
+          "price": 325,
+          "quantity": 2,
+          "total": 650,
+          "image": "/images/dishes/handi-paneer.jpg"
+        },
+        {
+          "dishId": "veg-biryani",
+          "name": "Veg Biryani",
+          "price": 344,
+          "quantity": 1,
+          "total": 344,
+          "image": "/images/dishes/veg-biryani.jpg"
+        }
+      ],
+      "subtotal": 994,
+      "taxAmount": 50,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 1084,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-10-25T09:15:06.650Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with COD"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-10-25T09:15:06.665Z",
+          "actor": "Hestiia Administrator",
+          "note": "Kitchen order accepted by Head Chef"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1004",
+      "createdAt": "2026-10-25T09:15:06.650Z",
+      "updatedAt": "2026-10-25T09:15:06.678Z"
+    },
+    {
+      "id": "ord_1001",
+      "orderNumber": "HST-2026-1001",
+      "customerName": "Aditya Srivastava",
+      "customerPhone": "+91 98390 12345",
+      "customerEmail": "aditya.srivastava@gmail.com",
+      "deliveryAddress": "Flat 402, Royal Enclave, Shyam Nagar, Kanpur",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "handi-paneer",
+          "name": "Handi Paneer",
+          "price": 325,
+          "quantity": 2,
+          "total": 650,
+          "image": "/images/dishes/handi-paneer.jpg"
+        },
+        {
+          "dishId": "veg-biryani",
+          "name": "Veg Biryani",
+          "price": 344,
+          "quantity": 1,
+          "total": 344,
+          "image": "/images/dishes/veg-biryani.jpg"
+        }
+      ],
+      "subtotal": 994,
+      "taxAmount": 50,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 1084,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "orderStatus": "completed",
+      "notes": "Please keep extra coriander and green chutney.",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-10-24T19:30:00Z",
+          "actor": "Customer"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-10-24T19:32:00Z",
+          "actor": "Manager"
+        },
+        {
+          "status": "preparing",
+          "timestamp": "2026-10-24T19:35:00Z",
+          "actor": "Kitchen Head"
+        },
+        {
+          "status": "out_for_delivery",
+          "timestamp": "2026-10-24T19:58:00Z",
+          "actor": "Delivery Partner"
+        },
+        {
+          "status": "completed",
+          "timestamp": "2026-10-24T20:25:00Z",
+          "actor": "System"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1001",
+      "createdAt": "2026-10-24T19:30:00Z",
+      "updatedAt": "2026-10-24T20:25:00Z"
+    },
+    {
+      "id": "ord_1002",
+      "orderNumber": "HST-2026-1002",
+      "customerName": "Pooja Gupta",
+      "customerPhone": "+91 94150 98765",
+      "customerEmail": "pooja.gupta.knp@yahoo.com",
+      "deliveryAddress": "Table #4 (Main Dining Hall)",
+      "fulfillmentType": "dine-in",
+      "items": [
+        {
+          "dishId": "dahi-kebab",
+          "name": "Dahi Ke Kebab",
+          "price": 315,
+          "quantity": 1,
+          "total": 315,
+          "image": "/images/dishes/dahi-kebab.jpg"
+        },
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 365,
+          "quantity": 1,
+          "total": 365,
+          "image": "/images/dishes/paneer-lababdar.jpg"
+        },
+        {
+          "dishId": "chaap-tikka-biryani",
+          "name": "Chaap Tikka Biryani",
+          "price": 395,
+          "quantity": 1,
+          "total": 395,
+          "image": "/images/dishes/chaap-tikka-biryani.jpg"
+        }
+      ],
+      "subtotal": 1075,
+      "taxAmount": 54,
+      "deliveryCharge": 0,
+      "discountAmount": 0,
+      "grandTotal": 1129,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "orderStatus": "preparing",
+      "notes": "Mild spice for the child please.",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-10-25T13:15:00Z",
+          "actor": "Customer"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-10-25T13:17:00Z",
+          "actor": "Captain"
+        },
+        {
+          "status": "preparing",
+          "timestamp": "2026-10-25T13:20:00Z",
+          "actor": "Kitchen Head"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1002",
+      "createdAt": "2026-10-25T13:15:00Z",
+      "updatedAt": "2026-10-25T13:20:00Z"
+    },
+    {
+      "id": "ord_1003",
+      "orderNumber": "HST-2026-1003",
+      "customerName": "Vikram Rajput",
+      "customerPhone": "+91 97920 44556",
+      "customerEmail": "vikram.rajput@outlook.com",
+      "deliveryAddress": "Self-Pickup Counter",
+      "fulfillmentType": "pickup",
+      "items": [
+        {
+          "dishId": "royal-nawab-feast",
+          "name": "Royal Nawab Feast (Serves 4)",
+          "price": 1249,
+          "quantity": 1,
+          "total": 1249,
+          "image": "/images/dishes/paneer-lababdar.jpg"
+        }
+      ],
+      "subtotal": 1249,
+      "taxAmount": 62,
+      "deliveryCharge": 0,
+      "discountAmount": 0,
+      "grandTotal": 1311,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "orderStatus": "pending",
+      "notes": "Will pick up at 08:30 PM sharp.",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-10-25T13:45:00Z",
+          "actor": "Customer"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1003",
+      "createdAt": "2026-10-25T13:45:00Z",
+      "updatedAt": "2026-10-25T13:45:00Z"
+    }
+  ],
+  "customers": [
+    {
+      "id": "cust_1792919706650",
+      "name": "Rohit Aggarwal",
+      "phone": "+91 98390 99881",
+      "totalOrders": 3,
+      "totalSpent": 3252,
+      "lastOrderDate": "2026-10-25T16:46:51.669Z",
+      "createdAt": "2026-10-25T09:15:06.650Z"
+    },
+    {
+      "id": "cust_1",
+      "name": "Aditya Srivastava",
+      "phone": "+91 98390 12345",
+      "email": "aditya.srivastava@gmail.com",
+      "totalOrders": 3,
+      "totalSpent": 2840,
+      "lastOrderDate": "2026-10-24T19:30:00Z",
+      "createdAt": "2026-10-10T12:00:00Z"
+    },
+    {
+      "id": "cust_2",
+      "name": "Pooja Gupta",
+      "phone": "+91 94150 98765",
+      "email": "pooja.gupta.knp@yahoo.com",
+      "totalOrders": 2,
+      "totalSpent": 1650,
+      "lastOrderDate": "2026-10-25T13:15:00Z",
+      "createdAt": "2026-10-15T15:30:00Z"
+    },
+    {
+      "id": "cust_3",
+      "name": "Vikram Rajput",
+      "phone": "+91 97920 44556",
+      "email": "vikram.rajput@outlook.com",
+      "totalOrders": 1,
+      "totalSpent": 1311,
+      "lastOrderDate": "2026-10-25T13:45:00Z",
+      "createdAt": "2026-10-25T13:40:00Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay_1792946811670",
+      "paymentReference": "PAY_HST-2026-1006",
+      "orderId": "ord_1792946811669_o6e9",
+      "orderNumber": "HST-2026-1006",
+      "amount": 1084,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-10-25T16:46:51.669Z",
+      "collectedBy": "Delivery Rider Aman"
+    },
+    {
+      "id": "pay_1792944876567",
+      "paymentReference": "PAY_HST-2026-1005",
+      "orderId": "ord_1792944876567_0gbv",
+      "orderNumber": "HST-2026-1005",
+      "amount": 1084,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-10-25T16:14:36.567Z",
+      "collectedBy": "Delivery Rider Aman"
+    },
+    {
+      "id": "pay_1792919706650",
+      "paymentReference": "PAY_HST-2026-1004",
+      "orderId": "ord_1792919706650_llkp",
+      "orderNumber": "HST-2026-1004",
+      "amount": 1084,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-10-25T09:15:06.650Z",
+      "collectedBy": "Delivery Rider Aman"
+    },
+    {
+      "id": "pay_1001",
+      "paymentReference": "PAY_HST_1001",
+      "orderId": "ord_1001",
+      "orderNumber": "HST-2026-1001",
+      "amount": 1084,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-10-24T19:31:15Z",
+      "gatewayTransactionReference": "razor_pay_8918237192",
+      "gatewaySignature": "sig_valid_verified_by_backend"
+    },
+    {
+      "id": "pay_1002",
+      "paymentReference": "PAY_HST_1002",
+      "orderId": "ord_1002",
+      "orderNumber": "HST-2026-1002",
+      "amount": 1129,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-10-25T13:16:30Z",
+      "gatewayTransactionReference": "upi_ref_7880840622@okaxis",
+      "collectedBy": "Floor Cashier 1"
+    },
+    {
+      "id": "pay_1003",
+      "paymentReference": "PAY_HST_1003",
+      "orderId": "ord_1003",
+      "orderNumber": "HST-2026-1003",
+      "amount": 1311,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-10-25T13:45:00Z"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "inv_1792946811669",
+      "invoiceNumber": "HST-INV-1006",
+      "orderId": "ord_1792946811669_o6e9",
+      "orderNumber": "HST-2026-1006",
+      "customerName": "Rohit Aggarwal",
+      "customerPhone": "+91 98390 99881",
+      "customerAddress": "Shyam Nagar Block B, Kanpur",
+      "items": [
+        {
+          "dishId": "handi-paneer",
+          "name": "Handi Paneer",
+          "price": 325,
+          "quantity": 2,
+          "total": 650,
+          "image": "/images/dishes/handi-paneer.jpg"
+        },
+        {
+          "dishId": "veg-biryani",
+          "name": "Veg Biryani",
+          "price": 344,
+          "quantity": 1,
+          "total": 344,
+          "image": "/images/dishes/veg-biryani.jpg"
+        }
+      ],
+      "subtotal": 994,
+      "taxAmount": 50,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 1084,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-10-25T16:46:51.669Z"
+    },
+    {
+      "id": "inv_1792944876567",
+      "invoiceNumber": "HST-INV-1005",
+      "orderId": "ord_1792944876567_0gbv",
+      "orderNumber": "HST-2026-1005",
+      "customerName": "Rohit Aggarwal",
+      "customerPhone": "+91 98390 99881",
+      "customerAddress": "Shyam Nagar Block B, Kanpur",
+      "items": [
+        {
+          "dishId": "handi-paneer",
+          "name": "Handi Paneer",
+          "price": 325,
+          "quantity": 2,
+          "total": 650,
+          "image": "/images/dishes/handi-paneer.jpg"
+        },
+        {
+          "dishId": "veg-biryani",
+          "name": "Veg Biryani",
+          "price": 344,
+          "quantity": 1,
+          "total": 344,
+          "image": "/images/dishes/veg-biryani.jpg"
+        }
+      ],
+      "subtotal": 994,
+      "taxAmount": 50,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 1084,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-10-25T16:14:36.567Z"
+    },
+    {
+      "id": "inv_1792919706650",
+      "invoiceNumber": "HST-INV-1004",
+      "orderId": "ord_1792919706650_llkp",
+      "orderNumber": "HST-2026-1004",
+      "customerName": "Rohit Aggarwal",
+      "customerPhone": "+91 98390 99881",
+      "customerAddress": "Shyam Nagar Block B, Kanpur",
+      "items": [
+        {
+          "dishId": "handi-paneer",
+          "name": "Handi Paneer",
+          "price": 325,
+          "quantity": 2,
+          "total": 650,
+          "image": "/images/dishes/handi-paneer.jpg"
+        },
+        {
+          "dishId": "veg-biryani",
+          "name": "Veg Biryani",
+          "price": 344,
+          "quantity": 1,
+          "total": 344,
+          "image": "/images/dishes/veg-biryani.jpg"
+        }
+      ],
+      "subtotal": 994,
+      "taxAmount": 50,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 1084,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-10-25T09:15:06.650Z"
+    },
+    {
+      "id": "inv_1001",
+      "invoiceNumber": "HST-INV-1001",
+      "orderId": "ord_1001",
+      "orderNumber": "HST-2026-1001",
+      "customerName": "Aditya Srivastava",
+      "customerPhone": "+91 98390 12345",
+      "customerAddress": "Flat 402, Royal Enclave, Shyam Nagar, Kanpur",
+      "items": [
+        {
+          "dishId": "handi-paneer",
+          "name": "Handi Paneer",
+          "price": 325,
+          "quantity": 2,
+          "total": 650,
+          "image": "/images/dishes/handi-paneer.jpg"
+        },
+        {
+          "dishId": "veg-biryani",
+          "name": "Veg Biryani",
+          "price": 344,
+          "quantity": 1,
+          "total": 344,
+          "image": "/images/dishes/veg-biryani.jpg"
+        }
+      ],
+      "subtotal": 994,
+      "taxAmount": 50,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 1084,
+      "paymentMethod": "Online Payment (Razorpay)",
+      "paymentStatus": "Paid",
+      "issuedAt": "2026-10-24T19:30:00Z"
+    },
+    {
+      "id": "inv_1002",
+      "invoiceNumber": "HST-INV-1002",
+      "orderId": "ord_1002",
+      "orderNumber": "HST-2026-1002",
+      "customerName": "Pooja Gupta",
+      "customerPhone": "+91 94150 98765",
+      "customerAddress": "Table #4 (Main Dining Hall)",
+      "items": [
+        {
+          "dishId": "dahi-kebab",
+          "name": "Dahi Ke Kebab",
+          "price": 315,
+          "quantity": 1,
+          "total": 315,
+          "image": "/images/dishes/dahi-kebab.jpg"
+        },
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 365,
+          "quantity": 1,
+          "total": 365,
+          "image": "/images/dishes/paneer-lababdar.jpg"
+        },
+        {
+          "dishId": "chaap-tikka-biryani",
+          "name": "Chaap Tikka Biryani",
+          "price": 395,
+          "quantity": 1,
+          "total": 395,
+          "image": "/images/dishes/chaap-tikka-biryani.jpg"
+        }
+      ],
+      "subtotal": 1075,
+      "taxAmount": 54,
+      "deliveryCharge": 0,
+      "discountAmount": 0,
+      "grandTotal": 1129,
+      "paymentMethod": "UPI Dining Pay",
+      "paymentStatus": "Paid",
+      "issuedAt": "2026-10-25T13:15:00Z"
+    },
+    {
+      "id": "inv_1003",
+      "invoiceNumber": "HST-INV-1003",
+      "orderId": "ord_1003",
+      "orderNumber": "HST-2026-1003",
+      "customerName": "Vikram Rajput",
+      "customerPhone": "+91 97920 44556",
+      "customerAddress": "Self-Pickup Counter",
+      "items": [
+        {
+          "dishId": "royal-nawab-feast",
+          "name": "Royal Nawab Feast (Serves 4)",
+          "price": 1249,
+          "quantity": 1,
+          "total": 1249,
+          "image": "/images/dishes/paneer-lababdar.jpg"
+        }
+      ],
+      "subtotal": 1249,
+      "taxAmount": 62,
+      "deliveryCharge": 0,
+      "discountAmount": 0,
+      "grandTotal": 1311,
+      "paymentMethod": "Cash on Counter (COD)",
+      "paymentStatus": "Pending",
+      "issuedAt": "2026-10-25T13:45:00Z"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "tb_1793020206050",
+      "bookingRef": "HST-TB-2610-1404",
+      "customerName": "sumo",
+      "phone": "9554600967",
+      "date": "2026-10-26",
+      "time": "08:00 PM",
+      "guests": "4 Guests",
+      "occasion": "Birthday Celebration",
+      "specialRequests": "bdjsbfkjdsc cjds jchdscj ds sdjhcbdshuc sdk",
+      "status": "new",
+      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
+      "staffNotes": "",
+      "createdAt": "2026-10-26T13:10:06.050Z",
+      "updatedAt": "2026-10-26T13:10:06.050Z"
+    },
+    {
+      "id": "tb_1793018837790",
+      "bookingRef": "HST-TB-2610-3697",
+      "customerName": "rohit singh",
+      "phone": "9554600967",
+      "date": "2026-10-26",
+      "time": "08:00 PM",
+      "guests": "4 Guests",
+      "occasion": "Family Dinner",
+      "specialRequests": "sjnds ajbdsjd ssdjbdb ddhdan dhbdwd jdb",
+      "status": "confirmed",
+      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
+      "staffNotes": "ghghj gvh hu yvyvc vgyvuy hhh bh uhb h gh b",
+      "createdAt": "2026-10-26T12:47:17.790Z",
+      "updatedAt": "2026-10-26T13:06:49.912Z",
+      "confirmedAt": "2026-10-26T12:50:50.782Z",
+      "allocatedTable": "Leather Booth B1 (4 Seats)",
+      "confirmationMethod": "whatsapp"
+    },
+    {
+      "id": "tb_1793018469217",
+      "bookingRef": "HST-TB-2610-9832",
+      "customerName": "Swatantra Test",
+      "phone": "07880840622",
+      "date": "2026-10-26",
+      "time": "08:00 PM",
+      "guests": "4 Guests",
+      "occasion": "Family Dinner",
+      "status": "new",
+      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
+      "staffNotes": "",
+      "createdAt": "2026-10-26T12:41:09.214Z",
+      "updatedAt": "2026-10-26T12:41:09.214Z"
+    },
+    {
+      "id": "tb_1793018200133",
+      "customerName": "Rahul Test",
+      "phone": "9876543210",
+      "date": "2026-10-26",
+      "time": "08:00 PM",
+      "guests": "4 Guests",
+      "occasion": "Family Dinner",
+      "status": "new",
+      "staffNotes": "",
+      "createdAt": "2026-10-26T12:36:40.133Z",
+      "updatedAt": "2026-10-26T12:36:40.133Z"
+    },
+    {
+      "id": "tb_1793016413516",
+      "customerName": "swat",
+      "phone": "9554600967",
+      "date": "2026-10-26",
+      "time": "08:00 PM",
+      "guests": "4 Guests",
+      "occasion": "Family Dinner",
+      "specialRequests": "hbdcbhsc cshcbscbscb",
+      "status": "confirmed",
+      "staffNotes": "hs cbdshc  sc hcs chsc",
+      "createdAt": "2026-10-26T12:06:53.516Z",
+      "updatedAt": "2026-10-26T12:08:04.223Z"
+    },
+    {
+      "id": "tb_1793011017297",
+      "customerName": "swatantra",
+      "phone": "9554600967",
+      "date": "2026-10-26",
+      "time": "08:00 PM",
+      "guests": "4 Guests",
+      "occasion": "Birthday Celebration",
+      "specialRequests": "music for celibration",
+      "status": "confirmed",
+      "staffNotes": "b4 kjdns fjsf fsd fjdfsd fjd fds jf djfd",
+      "createdAt": "2026-10-26T10:36:57.297Z",
+      "updatedAt": "2026-10-26T10:39:10.978Z"
+    },
+    {
+      "id": "tb_1792946811716",
+      "customerName": "Tarun Saxena",
+      "phone": "+91 99180 77665",
+      "date": "2026-10-30",
+      "time": "08:00 PM",
+      "guests": "4 Guests",
+      "occasion": "Birthday Dinner",
+      "status": "confirmed",
+      "staffNotes": "Reserved Booth B2",
+      "createdAt": "2026-10-25T16:46:51.716Z",
+      "updatedAt": "2026-10-25T16:46:51.727Z"
+    },
+    {
+      "id": "tb_1792944876610",
+      "customerName": "Tarun Saxena",
+      "phone": "+91 99180 77665",
+      "date": "2026-10-30",
+      "time": "08:00 PM",
+      "guests": "4 Guests",
+      "occasion": "Birthday Dinner",
+      "status": "confirmed",
+      "staffNotes": "Reserved Booth B2",
+      "createdAt": "2026-10-25T16:14:36.610Z",
+      "updatedAt": "2026-10-25T16:14:36.623Z"
+    },
+    {
+      "id": "tb_1792919706697",
+      "customerName": "Tarun Saxena",
+      "phone": "+91 99180 77665",
+      "date": "2026-10-30",
+      "time": "08:00 PM",
+      "guests": "4 Guests",
+      "occasion": "Birthday Dinner",
+      "status": "confirmed",
+      "staffNotes": "Reserved Booth B2",
+      "createdAt": "2026-10-25T09:15:06.697Z",
+      "updatedAt": "2026-10-25T09:37:02.823Z"
+    },
+    {
+      "id": "tb_2001",
+      "customerName": "Rahul Verma",
+      "phone": "+91 98380 55667",
+      "email": "rahul.verma@techcorp.in",
+      "date": "2026-10-26",
+      "time": "08:30 PM",
+      "guests": "4 Guests",
+      "occasion": "Anniversary Dinner",
+      "specialRequests": "Window side leather booth preferred with flower arrangement.",
+      "status": "confirmed",
+      "staffNotes": "Allocated Booth B3. Captain informed for celebration dessert.",
+      "createdAt": "2026-10-24T15:00:00Z",
+      "updatedAt": "2026-10-24T16:30:00Z"
+    },
+    {
+      "id": "tb_2002",
+      "customerName": "Neha Awasthi",
+      "phone": "+91 99180 33441",
+      "email": "neha.awasthi@gmail.com",
+      "date": "2026-10-27",
+      "time": "01:30 PM",
+      "guests": "6 Guests",
+      "occasion": "Family Lunch Gathering",
+      "specialRequests": "One high chair for toddler required.",
+      "status": "new",
+      "staffNotes": "",
+      "createdAt": "2026-10-25T10:15:00Z",
+      "updatedAt": "2026-10-25T10:15:00Z"
+    }
+  ],
+  "partyInquiries": [
+    {
+      "id": "pty_1792946811737",
+      "customerName": "Shree Radhey Exports Ltd",
+      "phone": "+91 98391 00112",
+      "eventType": "corporate",
+      "preferredDate": "2026-11-20",
+      "guestCount": 40,
+      "budgetRange": "₹40,000 – ₹60,000",
+      "specialRequirements": "Vegetarian live counter with Handi Paneer & Chaap Tikka Biryani",
+      "status": "new",
+      "staffNotes": "",
+      "createdAt": "2026-10-25T16:46:51.737Z",
+      "updatedAt": "2026-10-25T16:46:51.737Z"
+    },
+    {
+      "id": "pty_1792944876634",
+      "customerName": "Shree Radhey Exports Ltd",
+      "phone": "+91 98391 00112",
+      "eventType": "corporate",
+      "preferredDate": "2026-11-20",
+      "guestCount": 40,
+      "budgetRange": "₹40,000 – ₹60,000",
+      "specialRequirements": "Vegetarian live counter with Handi Paneer & Chaap Tikka Biryani",
+      "status": "new",
+      "staffNotes": "",
+      "createdAt": "2026-10-25T16:14:36.634Z",
+      "updatedAt": "2026-10-25T16:14:36.634Z"
+    },
+    {
+      "id": "pty_1792919706720",
+      "customerName": "Shree Radhey Exports Ltd",
+      "phone": "+91 98391 00112",
+      "eventType": "corporate",
+      "preferredDate": "2026-11-20",
+      "guestCount": 40,
+      "budgetRange": "₹40,000 – ₹60,000",
+      "specialRequirements": "Vegetarian live counter with Handi Paneer & Chaap Tikka Biryani",
+      "status": "new",
+      "staffNotes": "",
+      "createdAt": "2026-10-25T09:15:06.720Z",
+      "updatedAt": "2026-10-25T09:15:06.720Z"
+    },
+    {
+      "id": "pty_3001",
+      "customerName": "Dr. Alok Nath Dixit",
+      "phone": "+91 94151 22334",
+      "email": "dr.alok.dixit@kanpurmed.org",
+      "eventType": "birthday",
+      "preferredDate": "2026-11-08",
+      "guestCount": 35,
+      "budgetRange": "₹35,000 – ₹50,000",
+      "specialRequirements": "Private banquet section, live starter buffet with Dahi Ke Kebab and Handi Paneer live counter.",
+      "status": "contacted",
+      "staffNotes": "Called Dr. Dixit. Sent custom banquet menu on WhatsApp. Waiting for menu finalization.",
+      "followUpDate": "2026-10-28",
+      "createdAt": "2026-10-23T11:20:00Z",
+      "updatedAt": "2026-10-24T09:40:00Z"
+    },
+    {
+      "id": "pty_3002",
+      "customerName": "Ritu Singhania",
+      "phone": "+91 98399 77880",
+      "email": "ritu.singhania@elegance.com",
+      "eventType": "corporate",
+      "preferredDate": "2026-11-15",
+      "guestCount": 50,
+      "budgetRange": "₹50,000 – ₹75,000",
+      "specialRequirements": "High-tea followed by multi-course North Indian dinner. Projector and mic setup needed.",
+      "status": "new",
+      "staffNotes": "",
+      "followUpDate": "2026-10-26",
+      "createdAt": "2026-10-25T12:00:00Z",
+      "updatedAt": "2026-10-25T12:00:00Z"
+    }
+  ],
+  "promotions": [
+    {
+      "id": "promo-1",
+      "title": "Royal Nawab Feast (Serves 4)",
+      "subtitle": "Our signature multi-course grand dining experience",
+      "price": 1249,
+      "originalPrice": 1599,
+      "serves": "4 Guests",
+      "badge": "Best Seller",
+      "items": [
+        "Choice of Handi Paneer or Paneer Lababdar",
+        "Choice of Hyderabadi Dum Biryani or Veg Biryani",
+        "Dahi Ke Kebab Platter (6 pcs)",
+        "4 Fresh Butter Naans & Laccha Parathas",
+        "Chilled Gulab Jamun with Rose Rabdi (4 pcs)"
+      ],
+      "image": "/images/dishes/paneer-lababdar.jpg",
+      "isActive": true,
+      "displayOrder": 1
+    },
+    {
+      "id": "promo-2",
+      "title": "Chef's Tasting Flight (Serves 2)",
+      "subtitle": "Exclusive modern interpretations by our Master Chef",
+      "price": 1699,
+      "originalPrice": 1999,
+      "serves": "2 Guests",
+      "badge": "Limited Edition",
+      "items": [
+        "Welcome Smoked Chaas Shots",
+        "Truffle Spiced Paneer 65 & Crispy Chilli Potato",
+        "Handi Paneer in Mini Clay Pots with Warqi Parathas",
+        "Slow Dum Chaap Tikka Biryani with Burani Raita",
+        "Deconstructed Royal Rose Falooda with Gold Dust"
+      ],
+      "image": "/images/dishes/handi-paneer.jpg",
+      "isActive": true,
+      "displayOrder": 2
+    },
+    {
+      "id": "promo-1792925825271",
+      "title": "Monday special",
+      "subtitle": "aaj ka din kuch khash hai",
+      "price": 999,
+      "originalPrice": 1299,
+      "serves": "2 Guests",
+      "badge": "Special Offer",
+      "items": [
+        "Course 1",
+        "Course 2",
+        "Dessert"
+      ],
+      "image": "/images/dishes/handi-paneer.jpg",
+      "isActive": true,
+      "displayOrder": 3
+    }
+  ],
+  "gallery": [
+    {
+      "id": "amb-1",
+      "title": "The Golden Dining Sanctuary",
+      "category": "Interior",
+      "image": "/images/ambience/ambience-1.jpg",
+      "description": "Warm ambient pendant lights and plush velvet seating designed for unforgettable moments.",
+      "isFeatured": true,
+      "displayOrder": 1
+    },
+    {
+      "id": "amb-2",
+      "title": "Intimate Leather Booths",
+      "category": "Seating",
+      "image": "/images/ambience/ambience-2.jpg",
+      "description": "Private partitioned dining alcoves with bespoke wood carvings and soft acoustic lighting.",
+      "isFeatured": true,
+      "displayOrder": 2
+    },
+    {
+      "id": "amb-3",
+      "title": "The Artisanal Bar & Counter",
+      "category": "Bar & Lounge",
+      "image": "/images/ambience/ambience-3.jpg",
+      "description": "Backlit golden marble and brass counter crafting refreshing mocktails and smoked beverages.",
+      "isFeatured": true,
+      "displayOrder": 3
+    },
+    {
+      "id": "amb-4",
+      "title": "Evening Candlelit Tables",
+      "category": "Dining Table",
+      "image": "/images/ambience/ambience-4.jpg",
+      "description": "Fine ceramic place settings with brass cutlery set against warm wooden tables.",
+      "isFeatured": false,
+      "displayOrder": 4
+    },
+    {
+      "id": "amb-5",
+      "title": "Central Dining Hall",
+      "category": "Main Hall",
+      "image": "/images/ambience/ambience-5.jpg",
+      "description": "Spacious banquet-style dining hall with live indoor botanical accents and chandeliers.",
+      "isFeatured": false,
+      "displayOrder": 5
+    },
+    {
+      "id": "amb-6",
+      "title": "Hestiia Exterior Facade",
+      "category": "Facade",
+      "image": "/images/ambience/hestiia-facade.jpg",
+      "description": "The illuminated golden entrance welcoming guests on PAC Road, Shyam Nagar, Kanpur.",
+      "isFeatured": true,
+      "displayOrder": 6
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev_1792946811746",
+      "customerName": "Kunal Singhal",
+      "rating": 5,
+      "comment": "Exceptional slow-cooked flavours and rustic clay aroma!",
+      "dishName": "Handi Paneer",
+      "source": "website",
+      "isApproved": true,
+      "createdAt": "2026-10-25T16:46:51.746Z"
+    },
+    {
+      "id": "rev_1792944876643",
+      "customerName": "Kunal Singhal",
+      "rating": 5,
+      "comment": "Exceptional slow-cooked flavours and rustic clay aroma!",
+      "dishName": "Handi Paneer",
+      "source": "website",
+      "isApproved": true,
+      "createdAt": "2026-10-25T16:14:36.643Z"
+    },
+    {
+      "id": "rev_1792919706733",
+      "customerName": "Kunal Singhal",
+      "rating": 5,
+      "comment": "Exceptional slow-cooked flavours and rustic clay aroma!",
+      "dishName": "Handi Paneer",
+      "source": "website",
+      "isApproved": true,
+      "createdAt": "2026-10-25T09:15:06.733Z"
+    },
+    {
+      "id": "rev_1",
+      "customerName": "Akash Mehrotra",
+      "rating": 5,
+      "dishName": "Handi Paneer",
+      "comment": "Hands down the best Handi Paneer in Kanpur! The slow clay pot smoke flavour is unforgettable. Warm hospitality and stunning interiors.",
+      "source": "google",
+      "isApproved": true,
+      "staffReply": "Thank you Akash ji! It is an honour to serve you our master chef clay handi preparation. Looking forward to welcoming you back!",
+      "createdAt": "2026-10-20T14:00:00Z"
+    },
+    {
+      "id": "rev_2",
+      "customerName": "Shalini Tripathi",
+      "rating": 5,
+      "dishName": "Dahi Ke Kebab",
+      "comment": "The Dahi Ke Kebab literally melted in mouth. Perfect ambience for family celebrations. Clean, lavish, and courteous team.",
+      "source": "website",
+      "isApproved": true,
+      "staffReply": "Warm gratitude Shalini ji! Our kitchen team pours love into our signature hung curd kebabs.",
+      "createdAt": "2026-10-22T21:10:00Z"
+    },
+    {
+      "id": "rev_3",
+      "customerName": "Manish Chawla",
+      "rating": 4,
+      "dishName": "Hyderabadi Dum Biryani",
+      "comment": "Very authentic dum aroma and authentic long-grain basmati rice. Slight delay on weekend peak hours, but food quality is unmatched.",
+      "source": "direct",
+      "isApproved": true,
+      "staffReply": "Thank you for your valuable feedback Manish ji. We have reinforced our weekend kitchen line to reduce wait times.",
+      "createdAt": "2026-10-24T20:30:00Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "aud_1793020206053_jtjz",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #HST-TB-2610-1404 (tb_1793020206050) by sumo for 2026-10-26 08:00 PM",
+      "timestamp": "2026-10-26T13:10:06.053Z"
+    },
+    {
+      "id": "aud_1793020009915_dxuk",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #HST-TB-2610-3697 status updated to confirmed (Table: Leather Booth B1 (4 Seats))",
+      "timestamp": "2026-10-26T13:06:49.915Z"
+    },
+    {
+      "id": "aud_1793019050785_hrf8",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #HST-TB-2610-3697 status updated to confirmed (Table: Leather Booth B1 (4 Seats))",
+      "timestamp": "2026-10-26T12:50:50.785Z"
+    },
+    {
+      "id": "aud_1793018837792_eriu",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #HST-TB-2610-3697 (tb_1793018837790) by rohit singh for 2026-10-26 08:00 PM",
+      "timestamp": "2026-10-26T12:47:17.792Z"
+    },
+    {
+      "id": "aud_1793018469219_6wub",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #HST-TB-2610-9832 (tb_1793018469217) by Swatantra Test for 2026-10-26 08:00 PM",
+      "timestamp": "2026-10-26T12:41:09.219Z"
+    },
+    {
+      "id": "aud_1793018200137_3v2u",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #tb_1793018200133 by Rahul Test for 2026-10-26 08:00 PM",
+      "timestamp": "2026-10-26T12:36:40.137Z"
+    },
+    {
+      "id": "aud_1793016484225_o4gm",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1793016413516 status updated to confirmed",
+      "timestamp": "2026-10-26T12:08:04.225Z"
+    },
+    {
+      "id": "aud_1793016441535_nbcl",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1793016413516 status updated to confirmed",
+      "timestamp": "2026-10-26T12:07:21.535Z"
+    },
+    {
+      "id": "aud_1793016413520_90tf",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #tb_1793016413516 by swat for 2026-10-26 08:00 PM",
+      "timestamp": "2026-10-26T12:06:53.520Z"
+    },
+    {
+      "id": "aud_1793011150981_ah41",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1793011017297 status updated to confirmed",
+      "timestamp": "2026-10-26T10:39:10.981Z"
+    },
+    {
+      "id": "aud_1793011017307_yrhs",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #tb_1793011017297 by swatantra  for 2026-10-26 08:00 PM",
+      "timestamp": "2026-10-26T10:36:57.307Z"
+    },
+    {
+      "id": "aud_1792954942417_wtsy",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T19:02:22.417Z"
+    },
+    {
+      "id": "aud_1792952177675_uorg",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Handi Paneer",
+      "timestamp": "2026-10-25T18:16:17.675Z"
+    },
+    {
+      "id": "aud_1792952163285_kdvf",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: Complete_Digital_Solutions_for_Restaurants-1792952163209-534821731.png (2112 KB)",
+      "timestamp": "2026-10-25T18:16:03.285Z"
+    },
+    {
+      "id": "aud_1792951897235_bdvm",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T18:11:37.235Z"
+    },
+    {
+      "id": "aud_1792951677978_074v",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Handi Paneer",
+      "timestamp": "2026-10-25T18:07:57.978Z"
+    },
+    {
+      "id": "aud_1792951658374_yt6q",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: kalesh-phone-mockup-1792951658332-52046016.png (1581 KB)",
+      "timestamp": "2026-10-25T18:07:38.374Z"
+    },
+    {
+      "id": "aud_1792950845976_qrsa",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T17:54:05.976Z"
+    },
+    {
+      "id": "aud_1792950753023_2ogw",
+      "action": "ADMIN_LOGOUT",
+      "user": "admin",
+      "details": "User logged out",
+      "timestamp": "2026-10-25T17:52:33.023Z"
+    },
+    {
+      "id": "aud_1792949697140_dc6x",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T17:34:57.140Z"
+    },
+    {
+      "id": "aud_1792949678383_y7ah",
+      "action": "ADMIN_LOGOUT",
+      "user": "swat",
+      "details": "User logged out",
+      "timestamp": "2026-10-25T17:34:38.383Z"
+    },
+    {
+      "id": "aud_1792949389717_fyyq",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "swat",
+      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
+      "timestamp": "2026-10-25T17:29:49.717Z"
+    },
+    {
+      "id": "aud_1792949387702_rkg7",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "swat",
+      "details": "Awadhi Korma Platter set to Available",
+      "timestamp": "2026-10-25T17:29:47.703Z"
+    },
+    {
+      "id": "aud_1792949386605_05wa",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "swat",
+      "details": "Awadhi Korma Platter set to Available",
+      "timestamp": "2026-10-25T17:29:46.605Z"
+    },
+    {
+      "id": "aud_1792949383729_7ozi",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "swat",
+      "details": "Awadhi Korma Platter set to Available",
+      "timestamp": "2026-10-25T17:29:43.729Z"
+    },
+    {
+      "id": "aud_1792946811759_3o3h",
+      "action": "REVIEW_APPROVAL_TOGGLE",
+      "user": "admin",
+      "details": "Review #rev_1792946811746 set to approved=true",
+      "timestamp": "2026-10-25T16:46:51.759Z"
+    },
+    {
+      "id": "aud_1792946811748_gfvw",
+      "action": "CUSTOMER_FEEDBACK_SUBMITTED",
+      "user": "Public Customer",
+      "details": "Feedback received from Kunal Singhal (5★)",
+      "timestamp": "2026-10-25T16:46:51.748Z"
+    },
+    {
+      "id": "aud_1792946811739_5u1k",
+      "action": "PARTY_INQUIRY_CREATED",
+      "user": "Public Customer",
+      "details": "Party inquiry #pty_1792946811737 for 40 guests on 2026-11-20",
+      "timestamp": "2026-10-25T16:46:51.739Z"
+    },
+    {
+      "id": "aud_1792946811728_vt2g",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1792946811716 status updated to confirmed",
+      "timestamp": "2026-10-25T16:46:51.728Z"
+    },
+    {
+      "id": "aud_1792946811717_8y38",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #tb_1792946811716 by Tarun Saxena for 2026-10-30 08:00 PM",
+      "timestamp": "2026-10-25T16:46:51.717Z"
+    },
+    {
+      "id": "aud_1792946811700_5d5t",
+      "action": "PAYMENT_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Order HST-2026-1006 payment marked as paid",
+      "timestamp": "2026-10-25T16:46:51.700Z"
+    },
+    {
+      "id": "aud_1792946811686_8v4k",
+      "action": "ORDER_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Order HST-2026-1006 status changed to confirmed",
+      "timestamp": "2026-10-25T16:46:51.686Z"
+    },
+    {
+      "id": "aud_1792946811671_8jpu",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1006 placed for ₹1084 by Rohit Aggarwal",
+      "timestamp": "2026-10-25T16:46:51.671Z"
+    },
+    {
+      "id": "aud_1792946811658_mfil",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "admin",
+      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
+      "timestamp": "2026-10-25T16:46:51.658Z"
+    },
+    {
+      "id": "aud_1792946811646_6hbw",
+      "action": "CREATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Created food item: Awadhi Korma Platter (₹380)",
+      "timestamp": "2026-10-25T16:46:51.646Z"
+    },
+    {
+      "id": "aud_1792946811555_i7k6",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T16:46:51.555Z"
+    },
+    {
+      "id": "aud_1792946811337_mwr7",
+      "action": "FAILED_LOGIN_ATTEMPT",
+      "user": "admin",
+      "details": "Failed login attempt from IP ::1",
+      "ip": "::1",
+      "timestamp": "2026-10-25T16:46:51.337Z"
+    },
+    {
+      "id": "aud_1792944876656_k5m3",
+      "action": "REVIEW_APPROVAL_TOGGLE",
+      "user": "admin",
+      "details": "Review #rev_1792944876643 set to approved=true",
+      "timestamp": "2026-10-25T16:14:36.656Z"
+    },
+    {
+      "id": "aud_1792944876645_st2r",
+      "action": "CUSTOMER_FEEDBACK_SUBMITTED",
+      "user": "Public Customer",
+      "details": "Feedback received from Kunal Singhal (5★)",
+      "timestamp": "2026-10-25T16:14:36.645Z"
+    },
+    {
+      "id": "aud_1792944876636_ww3k",
+      "action": "PARTY_INQUIRY_CREATED",
+      "user": "Public Customer",
+      "details": "Party inquiry #pty_1792944876634 for 40 guests on 2026-11-20",
+      "timestamp": "2026-10-25T16:14:36.636Z"
+    },
+    {
+      "id": "aud_1792944876625_xq9q",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1792944876610 status updated to confirmed",
+      "timestamp": "2026-10-25T16:14:36.625Z"
+    },
+    {
+      "id": "aud_1792944876611_zf4t",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #tb_1792944876610 by Tarun Saxena for 2026-10-30 08:00 PM",
+      "timestamp": "2026-10-25T16:14:36.611Z"
+    },
+    {
+      "id": "aud_1792944876595_7vw1",
+      "action": "PAYMENT_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Order HST-2026-1005 payment marked as paid",
+      "timestamp": "2026-10-25T16:14:36.595Z"
+    },
+    {
+      "id": "aud_1792944876582_nv7b",
+      "action": "ORDER_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Order HST-2026-1005 status changed to confirmed",
+      "timestamp": "2026-10-25T16:14:36.582Z"
+    },
+    {
+      "id": "aud_1792944876569_hwaj",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1005 placed for ₹1084 by Rohit Aggarwal",
+      "timestamp": "2026-10-25T16:14:36.569Z"
+    },
+    {
+      "id": "aud_1792944876556_xy4e",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "admin",
+      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
+      "timestamp": "2026-10-25T16:14:36.556Z"
+    },
+    {
+      "id": "aud_1792944876545_bopm",
+      "action": "CREATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Created food item: Awadhi Korma Platter (₹380)",
+      "timestamp": "2026-10-25T16:14:36.545Z"
+    },
+    {
+      "id": "aud_1792944876448_nryi",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T16:14:36.448Z"
+    },
+    {
+      "id": "aud_1792944876229_iwj6",
+      "action": "FAILED_LOGIN_ATTEMPT",
+      "user": "admin",
+      "details": "Failed login attempt from IP ::1",
+      "ip": "::1",
+      "timestamp": "2026-10-25T16:14:36.229Z"
+    },
+    {
+      "id": "aud_1792925825275_bfl2",
+      "action": "CREATE_PROMOTION",
+      "user": "swat",
+      "details": "Created dining offer: Monday special",
+      "timestamp": "2026-10-25T10:57:05.275Z"
+    },
+    {
+      "id": "aud_1792925377322_0fdv",
+      "action": "REVIEW_APPROVAL_TOGGLE",
+      "user": "swat",
+      "details": "Review #rev_1792919706733 set to approved=true",
+      "timestamp": "2026-10-25T10:49:37.322Z"
+    },
+    {
+      "id": "aud_1792925374791_3d10",
+      "action": "REVIEW_APPROVAL_TOGGLE",
+      "user": "swat",
+      "details": "Review #rev_1792919706733 set to approved=false",
+      "timestamp": "2026-10-25T10:49:34.791Z"
+    },
+    {
+      "id": "aud_1792922938078_xdvu",
+      "action": "ADMIN_LOGIN",
+      "user": "swat",
+      "details": "Successful login by Swatantra Singh (staff)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T10:08:58.078Z"
+    },
+    {
+      "id": "aud_1792922913368_t97g",
+      "action": "ADMIN_LOGOUT",
+      "user": "admin",
+      "details": "User logged out",
+      "timestamp": "2026-10-25T10:08:33.368Z"
+    },
+    {
+      "id": "aud_1792922877348_gae2",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T10:07:57.348Z"
+    },
+    {
+      "id": "aud_1792922863981_ylsd",
+      "action": "ADMIN_LOGOUT",
+      "user": "admin",
+      "details": "User logged out",
+      "timestamp": "2026-10-25T10:07:43.981Z"
+    },
+    {
+      "id": "aud_1792922813868_ikrm",
+      "action": "USER_CREATED",
+      "user": "admin",
+      "details": "Created user swat (staff)",
+      "timestamp": "2026-10-25T10:06:53.868Z"
+    },
+    {
+      "id": "aud_1792922711287_68qc",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T10:05:11.287Z"
+    },
+    {
+      "id": "aud_1792922705036_f9c1",
+      "action": "ADMIN_LOGOUT",
+      "user": "manager",
+      "details": "User logged out",
+      "timestamp": "2026-10-25T10:05:05.036Z"
+    },
+    {
+      "id": "aud_1792922672660_yoz4",
+      "action": "ADMIN_LOGIN",
+      "user": "manager",
+      "details": "Successful login by Floor Manager (Shyam Nagar) (manager)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T10:04:32.660Z"
+    },
+    {
+      "id": "aud_1792922655457_93pj",
+      "action": "ADMIN_LOGOUT",
+      "user": "admin",
+      "details": "User logged out",
+      "timestamp": "2026-10-25T10:04:15.457Z"
+    },
+    {
+      "id": "aud_1792921022825_co6k",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1792919706697 status updated to confirmed",
+      "timestamp": "2026-10-25T09:37:02.826Z"
+    },
+    {
+      "id": "aud_1792921015087_f8hm",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1792919706697 status updated to rejected",
+      "timestamp": "2026-10-25T09:36:55.087Z"
+    },
+    {
+      "id": "aud_1792920998506_izy9",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1792919706697 status updated to completed",
+      "timestamp": "2026-10-25T09:36:38.507Z"
+    },
+    {
+      "id": "aud_1792920988497_6pi0",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1792919706697 status updated to confirmed",
+      "timestamp": "2026-10-25T09:36:28.497Z"
+    },
+    {
+      "id": "aud_1792920977977_1ggz",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1792919706697 status updated to contacted",
+      "timestamp": "2026-10-25T09:36:17.977Z"
+    },
+    {
+      "id": "aud_1792920676484_uo51",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "admin",
+      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
+      "timestamp": "2026-10-25T09:31:16.484Z"
+    },
+    {
+      "id": "aud_1792920675147_z3eu",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "admin",
+      "details": "Awadhi Korma Platter set to Available",
+      "timestamp": "2026-10-25T09:31:15.147Z"
+    },
+    {
+      "id": "aud_1792920254874_s2s8",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T09:24:14.875Z"
+    },
+    {
+      "id": "aud_1792919706749_ku74",
+      "action": "REVIEW_APPROVAL_TOGGLE",
+      "user": "admin",
+      "details": "Review #rev_1792919706733 set to approved=true",
+      "timestamp": "2026-10-25T09:15:06.749Z"
+    },
+    {
+      "id": "aud_1792919706734_zv55",
+      "action": "CUSTOMER_FEEDBACK_SUBMITTED",
+      "user": "Public Customer",
+      "details": "Feedback received from Kunal Singhal (5★)",
+      "timestamp": "2026-10-25T09:15:06.734Z"
+    },
+    {
+      "id": "aud_1792919706722_jqhd",
+      "action": "PARTY_INQUIRY_CREATED",
+      "user": "Public Customer",
+      "details": "Party inquiry #pty_1792919706720 for 40 guests on 2026-11-20",
+      "timestamp": "2026-10-25T09:15:06.722Z"
+    },
+    {
+      "id": "aud_1792919706711_yhl2",
+      "action": "BOOKING_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Booking #tb_1792919706697 status updated to confirmed",
+      "timestamp": "2026-10-25T09:15:06.711Z"
+    },
+    {
+      "id": "aud_1792919706699_xx9f",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #tb_1792919706697 by Tarun Saxena for 2026-10-30 08:00 PM",
+      "timestamp": "2026-10-25T09:15:06.699Z"
+    },
+    {
+      "id": "aud_1792919706680_lp6b",
+      "action": "PAYMENT_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Order HST-2026-1004 payment marked as paid",
+      "timestamp": "2026-10-25T09:15:06.680Z"
+    },
+    {
+      "id": "aud_1792919706667_9i01",
+      "action": "ORDER_STATUS_CHANGED",
+      "user": "Hestiia Administrator",
+      "details": "Order HST-2026-1004 status changed to confirmed",
+      "timestamp": "2026-10-25T09:15:06.667Z"
+    },
+    {
+      "id": "aud_1792919706652_vema",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1004 placed for ₹1084 by Rohit Aggarwal",
+      "timestamp": "2026-10-25T09:15:06.652Z"
+    },
+    {
+      "id": "aud_1792919706637_3ijp",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "admin",
+      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
+      "timestamp": "2026-10-25T09:15:06.637Z"
+    },
+    {
+      "id": "aud_1792919706623_8amd",
+      "action": "CREATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Created food item: Awadhi Korma Platter (₹380)",
+      "timestamp": "2026-10-25T09:15:06.623Z"
+    },
+    {
+      "id": "aud_1792919706519_hvo0",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-25T09:15:06.519Z"
+    },
+    {
+      "id": "aud_1792919706268_v4p0",
+      "action": "FAILED_LOGIN_ATTEMPT",
+      "user": "admin",
+      "details": "Failed login attempt from IP ::1",
+      "ip": "::1",
+      "timestamp": "2026-10-25T09:15:06.268Z"
+    },
+    {
+      "id": "aud_seed",
+      "action": "SYSTEM_INITIALIZATION",
+      "user": "System Bootstrapper",
+      "details": "Initialized Hestiia Restaurant Admin Database with seed menu and settings.",
+      "timestamp": "2026-10-01T10:00:00.000Z"
+    }
+  ]
+}
