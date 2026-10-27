@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import hpp from 'hpp';
 import rateLimit from 'express-rate-limit';
 
-import { PORT, UPLOADS_DIR, NODE_ENV } from './shared/config/utils.js';
+import { PORT, UPLOADS_DIR, MENU_DIR, NODE_ENV } from './shared/config/utils.js';
 import { connectDB } from './shared/config/db.js';
 import { globalErrorHandler } from './shared/middlewares/error.middleware.js';
 import { AppError } from './shared/utils/appError.js';
@@ -72,6 +72,7 @@ app.use(['/api/auth/login', '/api/admin/auth/login'], authLimiter);
 
 // 7. Static file serving (dish & ambience uploads)
 app.use('/uploads', express.static(UPLOADS_DIR));
+app.use('/menu', express.static(MENU_DIR));
 
 // 8. Healthcheck
 app.get('/api/health', (_req: Request, res: Response) => {

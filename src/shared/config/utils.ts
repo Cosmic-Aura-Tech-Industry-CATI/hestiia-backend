@@ -13,6 +13,7 @@ export const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 export const ADMIN_URL = process.env.ADMIN_URL || 'http://localhost:3000';
 
 export const UPLOADS_DIR = path.resolve(process.cwd(), 'public', 'uploads');
+export const MENU_DIR = path.resolve(process.cwd(), 'public', 'uploads', 'menu');
 export const DATA_DIR = path.resolve(process.cwd(), 'data');
 
 export const CURRENCY = 'INR';

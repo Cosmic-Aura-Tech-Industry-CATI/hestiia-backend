@@ -20,7 +20,13 @@ export const menuService = {
     }
 
     if (category && category !== 'All') {
-      items = items.filter((d) => d.category.toLowerCase() === String(category).toLowerCase());
+      const catLow = String(category).toLowerCase();
+      items = items.filter(
+        (d) =>
+          d.category.toLowerCase() === catLow ||
+          d.category.toLowerCase().replace(/[^a-z0-9]+/g, '-') === catLow ||
+          (d as any).categoryId?.toLowerCase() === catLow
+      );
     }
 
     if (isVeg !== undefined) {
@@ -54,7 +60,13 @@ export const menuService = {
     let dishes = [...db.getState().dishes];
 
     if (category && category !== 'All') {
-      dishes = dishes.filter((d) => d.category.toLowerCase() === String(category).toLowerCase());
+      const catLow = String(category).toLowerCase();
+      dishes = dishes.filter(
+        (d) =>
+          d.category.toLowerCase() === catLow ||
+          d.category.toLowerCase().replace(/[^a-z0-9]+/g, '-') === catLow ||
+          (d as any).categoryId?.toLowerCase() === catLow
+      );
     }
 
     if (available !== undefined && available !== 'all') {

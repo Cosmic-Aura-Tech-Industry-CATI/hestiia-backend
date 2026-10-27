@@ -131,9 +131,9 @@
       "category": "Main Course",
       "description": "Rich, aromatic curry with soft paneer cubes and traditional Indian spices.",
       "fullDescription": "Fresh malai paneer simmered in an earthenware clay pot with freshly crushed coriander seeds, Kashmiri red chilies, and a velvety onion-tomato masala enriched with churned butter and fenugreek.",
-      "price": 325,
+      "price": 229,
       "compareAtPrice": 360,
-      "image": "/uploads/Complete_Digital_Solutions_for_Restaurants-1792952163209-534821731.png",
+      "image": "/uploads/1793044827862-411404267.png",
       "isVeg": true,
       "isSignature": true,
       "spiceLevel": 2,
@@ -149,7 +149,7 @@
       "available": true,
       "displayOrder": 1,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-25T18:16:17.672Z"
+      "updatedAt": "2026-10-26T20:00:42.114Z"
     },
     {
       "id": "paneer-lababdar",
@@ -158,8 +158,8 @@
       "category": "Main Course",
       "description": "Creamy tomato-based gravy enriched with grated paneer and coriander.",
       "fullDescription": "Succulent cubes of cottage cheese enveloped in a luscious, mildly sweet and tangy gravy of vine-ripened tomatoes, cashew butter, ginger juliennes and aromatic cardamom.",
-      "price": 365,
-      "image": "/images/dishes/paneer-lababdar.jpg",
+      "price": 269,
+      "image": "/uploads/1793044986481-223508333.png",
       "isVeg": true,
       "isSignature": true,
       "spiceLevel": 1,
@@ -175,7 +175,8 @@
       "available": true,
       "displayOrder": 2,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:04:24.741Z",
+      "compareAtPrice": 320
     },
     {
       "id": "veg-biryani",
@@ -185,9 +186,9 @@
       "description": "Fragrant long-grain basmati with garden vegetables, saffron and herbs.",
       "fullDescription": "Aromatic Daawat basmati rice sealed with dough and slow-cooked over low embers (Dum) with baby carrots, French beans, cauliflower florets, Kashmiri saffron milk and fresh garden mint.",
       "price": 344,
-      "image": "/images/dishes/veg-biryani.jpg",
+      "image": "/uploads/1793047998402-264881757.png",
       "isVeg": true,
-      "isSignature": true,
+      "isSignature": false,
       "spiceLevel": 2,
       "preparationTime": "25 mins",
       "ingredients": [
@@ -201,7 +202,7 @@
       "available": true,
       "displayOrder": 3,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:53:28.332Z"
     },
     {
       "id": "hyderabadi-biryani",
@@ -211,7 +212,7 @@
       "description": "Authentic Nizami spice blend layered with basmati and fried onions.",
       "fullDescription": "Steeped in royal Nizami tradition, layers of long-grain rice infused with crushed star anise, cinnamon quills, marinated soya chaap, caramelized birista, and saffron milk.",
       "price": 385,
-      "image": "/images/dishes/hyderabadi-biryani.jpg",
+      "image": "/uploads/1793048028991-553274770.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 3,
@@ -227,7 +228,7 @@
       "available": true,
       "displayOrder": 4,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:53:51.660Z"
     },
     {
       "id": "chaap-tikka-biryani",
@@ -237,7 +238,7 @@
       "description": "Tandoor-smoked marinated soya chaap layered with fragrant spiced rice.",
       "fullDescription": "Plump soya chaap chunks marinated in mustard oil, hung curd, and roasted gram flour, charred over charcoal and then folded into fragrant saffron basmati rice.",
       "price": 395,
-      "image": "/images/dishes/chaap-tikka-biryani.jpg",
+      "image": "/uploads/1793048059832-354170680.png",
       "isVeg": true,
       "isSignature": true,
       "spiceLevel": 2,
@@ -253,7 +254,7 @@
       "available": true,
       "displayOrder": 5,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:54:25.298Z"
     },
     {
       "id": "paneer-65",
@@ -263,7 +264,7 @@
       "description": "Crispy fried paneer tossed in fiery curry leaves and mustard seeds.",
       "fullDescription": "Crisp paneer bites dusted with rice flour and Southern spices, quick-fried and tossed in a sizzling tempering of curry leaves, crushed black pepper, green chilies and tangy curd.",
       "price": 295,
-      "image": "/images/dishes/paneer-65.jpg",
+      "image": "/uploads/1793048092546-132278137.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 3,
@@ -279,7 +280,7 @@
       "available": true,
       "displayOrder": 6,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:54:54.659Z"
     },
     {
       "id": "chilli-potato",
@@ -289,7 +290,7 @@
       "description": "Golden fried potato fingers coated in a spicy sweet garlic sauce.",
       "fullDescription": "Twice-fried crisp potato batons tossed in a flaming wok with garlic, ginger, dark soy, red chili paste, wild forest honey, and toasted white sesame seeds.",
       "price": 245,
-      "image": "/images/dishes/chilli-potato.jpg",
+      "image": "/uploads/1793048110446-807161598.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 2,
@@ -305,7 +306,7 @@
       "available": true,
       "displayOrder": 7,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:55:13.743Z"
     },
     {
       "id": "dahi-kebab",
@@ -315,7 +316,7 @@
       "description": "Velvety hung curd patties with a golden crust and aromatic herb filling.",
       "fullDescription": "Pillowy patties of hand-hung creamy yogurt, delicately spiked with chopped mint, green chilies, roasted cashew nuts, and roasted cumin seeds, shallow pan-seared in desi ghee.",
       "price": 315,
-      "image": "/images/dishes/dahi-kebab.jpg",
+      "image": "/uploads/1793048134488-142043779.png",
       "isVeg": true,
       "isSignature": true,
       "spiceLevel": 1,
@@ -331,7 +332,7 @@
       "available": true,
       "displayOrder": 8,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:55:38.477Z"
     },
     {
       "id": "haryali-kebab",
@@ -341,7 +342,7 @@
       "description": "Tandoori cottage cheese cubes marinated in mint, coriander and spices.",
       "fullDescription": "Thick slabs of fresh malai paneer steeped in a rich emerald paste of garden mint, coriander, baby spinach, roasted cumin and rock salt, skewered with bell peppers and roasted in clay oven.",
       "price": 335,
-      "image": "/images/dishes/haryali-kebab.jpg",
+      "image": "/uploads/1793048164358-234866908.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 2,
@@ -357,7 +358,7 @@
       "available": true,
       "displayOrder": 9,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:56:48.174Z"
     },
     {
       "id": "spring-roll",
@@ -367,7 +368,7 @@
       "description": "Crisp pastry wrappers stuffed with shredded wok vegetables and glass noodles.",
       "fullDescription": "Paper-thin golden pastry rolls packed with julienned cabbage, carrots, bell peppers, bean sprouts and glass noodles, served with sweet chili dip and hot garlic sauce.",
       "price": 235,
-      "image": "/images/dishes/spring-roll.jpg",
+      "image": "/uploads/1793048293931-740548213.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 1,
@@ -383,7 +384,7 @@
       "available": true,
       "displayOrder": 10,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:58:16.254Z"
     },
     {
       "id": "paneer-manchurian",
@@ -393,7 +394,7 @@
       "description": "Crispy cottage cheese tossed in a savory ginger, garlic, and scallion sauce.",
       "fullDescription": "Fried golden cottage cheese cubes tossed in an aromatic dark savory glaze made with braised ginger, garlic, chopped coriander roots, green chilies, and light soy sauce.",
       "price": 295,
-      "image": "/images/dishes/paneer-manchurian.jpg",
+      "image": "/uploads/1793048310348-238535110.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 2,
@@ -409,7 +410,7 @@
       "available": true,
       "displayOrder": 11,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:58:32.346Z"
     },
     {
       "id": "garlic-fried-rice",
@@ -419,7 +420,7 @@
       "description": "Fragrant jasmine rice wok-tossed with aromatic golden burnt garlic and scallions.",
       "fullDescription": "Fluffy steamed rice wok-seared over high flame with crunchy golden burnt garlic flakes, finely diced spring vegetables, white pepper and toasted sesame oil.",
       "price": 255,
-      "image": "/images/dishes/garlic-fried-rice.jpg",
+      "image": "/uploads/1793048331717-810664220.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 1,
@@ -435,7 +436,7 @@
       "available": true,
       "displayOrder": 12,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T20:58:53.121Z"
     },
     {
       "id": "paneer-fried-rice",
@@ -445,7 +446,7 @@
       "description": "Wok-tossed rice loaded with seasoned paneer cubes and crunchy vegetables.",
       "fullDescription": "Savory stir-fried rice loaded with lightly charred paneer cubes, sweet corn, carrots, French beans, and scallions in a light soy seasoning.",
       "price": 285,
-      "image": "/images/dishes/paneer-fried-rice.jpg",
+      "image": "/uploads/1793048394298-154340583.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 1,
@@ -461,7 +462,7 @@
       "available": true,
       "displayOrder": 13,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T21:00:00.864Z"
     },
     {
       "id": "garlic-noodles",
@@ -471,7 +472,7 @@
       "description": "Tossed noodles with a robust red chilli and roasted garlic punch.",
       "fullDescription": "Classic wheat noodles wok-tossed with julienne cabbage, bell peppers, scallions, fiery chili oil, and generous heaps of crushed roasted garlic.",
       "price": 265,
-      "image": "/images/dishes/garlic-noodles.jpg",
+      "image": "/uploads/1793048416223-784355032.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 3,
@@ -487,7 +488,7 @@
       "available": true,
       "displayOrder": 14,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T21:00:18.858Z"
     },
     {
       "id": "hestiia-special-noodles",
@@ -497,7 +498,7 @@
       "description": "Signature wok-tossed noodles with paneer, exotic veggies and secret spice sauce.",
       "fullDescription": "Chef signature noodle preparation featuring yellow zucchini, baby corn, broccoli, shredded paneer and wok-smoked scallions in an exclusive five-spice sauce.",
       "price": 295,
-      "image": "/images/dishes/hestiia-special-noodles.jpg",
+      "image": "/uploads/1793048442641-980593819.png",
       "isVeg": true,
       "isSignature": true,
       "spiceLevel": 2,
@@ -513,7 +514,7 @@
       "available": true,
       "displayOrder": 15,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T21:00:44.812Z"
     },
     {
       "id": "dum-aloo",
@@ -523,7 +524,7 @@
       "description": "Baby potatoes simmered in a velvety Kashmiri chilli and fennel yogurt gravy.",
       "fullDescription": "Pricked baby potatoes deep-fried till golden, then slow-cooked under dough seal (dum) in an aromatic yogurt-based gravy flavored with Kashmiri deggi mirch, saunf (fennel) and dry ginger (sonth).",
       "price": 285,
-      "image": "/images/dishes/dum-aloo.jpg",
+      "image": "/uploads/1793048474406-54634669.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 2,
@@ -539,7 +540,7 @@
       "available": true,
       "displayOrder": 16,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-01T12:00:00Z"
+      "updatedAt": "2026-10-26T21:01:17.571Z"
     },
     {
       "id": "awadhi-korma-platter-3474",
@@ -549,7 +550,7 @@
       "description": "Tender simmered Awadhi gravy with saffron essence",
       "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
       "price": 380,
-      "image": "/images/dishes/handi-paneer.jpg",
+      "image": "/uploads/1793048493985-948267489.png",
       "isVeg": true,
       "isSignature": false,
       "spiceLevel": 2,
@@ -558,45 +559,7 @@
       "available": true,
       "displayOrder": 17,
       "createdAt": "2026-10-25T09:15:06.621Z",
-      "updatedAt": "2026-10-25T17:29:43.726Z"
-    },
-    {
-      "id": "awadhi-korma-platter-vxfv",
-      "name": "Awadhi Korma Platter",
-      "slug": "awadhi-korma-platter",
-      "category": "Main Course",
-      "description": "Tender simmered Awadhi gravy with saffron essence",
-      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
-      "price": 380,
-      "image": "/images/dishes/handi-paneer.jpg",
-      "isVeg": true,
-      "isSignature": false,
-      "spiceLevel": 2,
-      "preparationTime": "20 mins",
-      "ingredients": [],
-      "available": false,
-      "displayOrder": 18,
-      "createdAt": "2026-10-25T16:14:36.544Z",
-      "updatedAt": "2026-10-25T17:29:49.716Z"
-    },
-    {
-      "id": "awadhi-korma-platter-7soe",
-      "name": "Awadhi Korma Platter",
-      "slug": "awadhi-korma-platter",
-      "category": "Main Course",
-      "description": "Tender simmered Awadhi gravy with saffron essence",
-      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
-      "price": 380,
-      "image": "/images/dishes/handi-paneer.jpg",
-      "isVeg": true,
-      "isSignature": false,
-      "spiceLevel": 2,
-      "preparationTime": "20 mins",
-      "ingredients": [],
-      "available": true,
-      "displayOrder": 19,
-      "createdAt": "2026-10-25T16:46:51.643Z",
-      "updatedAt": "2026-10-25T17:29:47.701Z"
+      "updatedAt": "2026-10-26T21:01:35.356Z"
     }
   ],
   "orders": [
@@ -1544,7 +1507,7 @@
       "id": "amb-1",
       "title": "The Golden Dining Sanctuary",
       "category": "Interior",
-      "image": "/images/ambience/ambience-1.jpg",
+      "image": "/uploads/1793033840294-44742411.png",
       "description": "Warm ambient pendant lights and plush velvet seating designed for unforgettable moments.",
       "isFeatured": true,
       "displayOrder": 1
@@ -1661,6 +1624,272 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "aud_1793048531521_nh3w",
+      "action": "DELETE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Permanently deleted unused food item: Awadhi Korma Platter",
+      "timestamp": "2026-10-26T21:02:11.521Z"
+    },
+    {
+      "id": "aud_1793048516229_jsjh",
+      "action": "DELETE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Permanently deleted unused food item: Awadhi Korma Platter",
+      "timestamp": "2026-10-26T21:01:56.229Z"
+    },
+    {
+      "id": "aud_1793048495358_d679",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Awadhi Korma Platter",
+      "timestamp": "2026-10-26T21:01:35.358Z"
+    },
+    {
+      "id": "aud_1793048494017_nys9",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048493985-948267489.png (2980 KB)",
+      "timestamp": "2026-10-26T21:01:34.017Z"
+    },
+    {
+      "id": "aud_1793048477574_x884",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Kashmiri Dum Aloo",
+      "timestamp": "2026-10-26T21:01:17.574Z"
+    },
+    {
+      "id": "aud_1793048474450_4pp9",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048474406-54634669.png (2828 KB)",
+      "timestamp": "2026-10-26T21:01:14.450Z"
+    },
+    {
+      "id": "aud_1793048444814_b1hs",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Hestiia Chef Special Noodles",
+      "timestamp": "2026-10-26T21:00:44.814Z"
+    },
+    {
+      "id": "aud_1793048442670_kjz9",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048442641-980593819.png (2855 KB)",
+      "timestamp": "2026-10-26T21:00:42.670Z"
+    },
+    {
+      "id": "aud_1793048418862_ex47",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Chilli Garlic Hakka Noodles",
+      "timestamp": "2026-10-26T21:00:18.862Z"
+    },
+    {
+      "id": "aud_1793048416260_pnc7",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048416223-784355032.png (2749 KB)",
+      "timestamp": "2026-10-26T21:00:16.260Z"
+    },
+    {
+      "id": "aud_1793048400867_lxwm",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Hestiia Paneer Fried Rice",
+      "timestamp": "2026-10-26T21:00:00.867Z"
+    },
+    {
+      "id": "aud_1793048394328_p45p",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048394298-154340583.png (2758 KB)",
+      "timestamp": "2026-10-26T20:59:54.328Z"
+    },
+    {
+      "id": "aud_1793048333124_ktt9",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Burnt Garlic Fried Rice",
+      "timestamp": "2026-10-26T20:58:53.124Z"
+    },
+    {
+      "id": "aud_1793048331756_31ko",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048331717-810664220.png (2672 KB)",
+      "timestamp": "2026-10-26T20:58:51.756Z"
+    },
+    {
+      "id": "aud_1793048312348_v8jy",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Wok Paneer Manchurian",
+      "timestamp": "2026-10-26T20:58:32.348Z"
+    },
+    {
+      "id": "aud_1793048310385_ayt2",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048310348-238535110.png (2762 KB)",
+      "timestamp": "2026-10-26T20:58:30.385Z"
+    },
+    {
+      "id": "aud_1793048296257_v4br",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Hestiia Golden Spring Rolls",
+      "timestamp": "2026-10-26T20:58:16.257Z"
+    },
+    {
+      "id": "aud_1793048293970_eqva",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048293931-740548213.png (2686 KB)",
+      "timestamp": "2026-10-26T20:58:13.970Z"
+    },
+    {
+      "id": "aud_1793048208177_v1u6",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Haryali Paneer Tikka",
+      "timestamp": "2026-10-26T20:56:48.177Z"
+    },
+    {
+      "id": "aud_1793048164397_s4x9",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048164358-234866908.png (2721 KB)",
+      "timestamp": "2026-10-26T20:56:04.398Z"
+    },
+    {
+      "id": "aud_1793048138480_y80c",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Dahi Ke Kebab",
+      "timestamp": "2026-10-26T20:55:38.480Z"
+    },
+    {
+      "id": "aud_1793048134532_my69",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048134488-142043779.png (2691 KB)",
+      "timestamp": "2026-10-26T20:55:34.532Z"
+    },
+    {
+      "id": "aud_1793048113746_kaav",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Crispy Honey Chilli Potato",
+      "timestamp": "2026-10-26T20:55:13.746Z"
+    },
+    {
+      "id": "aud_1793048110483_4qbq",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048110446-807161598.png (2668 KB)",
+      "timestamp": "2026-10-26T20:55:10.483Z"
+    },
+    {
+      "id": "aud_1793048094662_rd50",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Paneer 65",
+      "timestamp": "2026-10-26T20:54:54.662Z"
+    },
+    {
+      "id": "aud_1793048092604_6wmj",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048092546-132278137.png (2739 KB)",
+      "timestamp": "2026-10-26T20:54:52.604Z"
+    },
+    {
+      "id": "aud_1793048065300_f1cr",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Chaap Tikka Biryani",
+      "timestamp": "2026-10-26T20:54:25.300Z"
+    },
+    {
+      "id": "aud_1793048059858_56lj",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048059832-354170680.png (2827 KB)",
+      "timestamp": "2026-10-26T20:54:19.858Z"
+    },
+    {
+      "id": "aud_1793048031663_ij2a",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Hyderabadi Dum Biryani",
+      "timestamp": "2026-10-26T20:53:51.664Z"
+    },
+    {
+      "id": "aud_1793048029029_5efh",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793048028991-553274770.png (2788 KB)",
+      "timestamp": "2026-10-26T20:53:49.029Z"
+    },
+    {
+      "id": "aud_1793048008334_l4zm",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Veg Biryani",
+      "timestamp": "2026-10-26T20:53:28.334Z"
+    },
+    {
+      "id": "aud_1793047998448_76qg",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793047998402-264881757.png (2781 KB)",
+      "timestamp": "2026-10-26T20:53:18.448Z"
+    },
+    {
+      "id": "aud_1793045064744_28lm",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Paneer Lababdar",
+      "timestamp": "2026-10-26T20:04:24.744Z"
+    },
+    {
+      "id": "aud_1793044986527_gmt4",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793044986481-223508333.png (2649 KB)",
+      "timestamp": "2026-10-26T20:03:06.527Z"
+    },
+    {
+      "id": "aud_1793044842117_nf4z",
+      "action": "UPDATE_FOOD_ITEM",
+      "user": "admin",
+      "details": "Updated dish: Handi Paneer",
+      "timestamp": "2026-10-26T20:00:42.117Z"
+    },
+    {
+      "id": "aud_1793044827939_c1pc",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793044827862-411404267.png (2672 KB)",
+      "timestamp": "2026-10-26T20:00:27.939Z"
+    },
+    {
+      "id": "aud_1793033842306_kpo5",
+      "action": "UPDATE_GALLERY_PHOTO",
+      "user": "admin",
+      "details": "Updated photo: The Golden Dining Sanctuary",
+      "timestamp": "2026-10-26T16:57:22.306Z"
+    },
+    {
+      "id": "aud_1793033840417_w9xx",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793033840294-44742411.png (1788 KB)",
+      "timestamp": "2026-10-26T16:57:20.417Z"
+    },
     {
       "id": "aud_1793020206053_jtjz",
       "action": "TABLE_BOOKING_REQUESTED",

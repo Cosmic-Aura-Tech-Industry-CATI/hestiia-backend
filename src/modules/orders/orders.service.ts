@@ -39,7 +39,9 @@ export const ordersService = {
     let calculatedSubtotal = 0;
 
     for (const requestedItem of items) {
-      const dish = state.dishes.find((d) => d.id === requestedItem.dishId || d.id === requestedItem.id);
+      const dish = state.dishes.find(
+        (d) => d.id === requestedItem.dishId || d.id === requestedItem.id || d.slug === requestedItem.dishId || d.slug === requestedItem.id
+      );
       if (!dish) {
         throw new AppError(`Dish with ID '${requestedItem.dishId || requestedItem.id}' not found in active menu.`, 400);
       }
