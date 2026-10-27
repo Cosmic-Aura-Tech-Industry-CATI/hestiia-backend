@@ -9,7 +9,7 @@
       "role": "superadmin",
       "active": true,
       "createdAt": "2026-10-01T10:00:00.000Z",
-      "lastLogin": "2026-10-25T19:02:22.413Z"
+      "lastLogin": "2026-10-27T07:22:38.347Z"
     },
     {
       "id": "usr_manager_1",
@@ -146,10 +146,10 @@
         "Desi Ghee"
       ],
       "chefNote": "Slow-simmered in clay handi to impart authentic rustic smoked earthiness.",
-      "available": true,
+      "available": false,
       "displayOrder": 1,
       "createdAt": "2026-10-01T12:00:00Z",
-      "updatedAt": "2026-10-26T20:00:42.114Z"
+      "updatedAt": "2026-10-27T07:23:38.755Z"
     },
     {
       "id": "paneer-lababdar",
@@ -1556,6 +1556,15 @@
       "description": "The illuminated golden entrance welcoming guests on PAC Road, Shyam Nagar, Kanpur.",
       "isFeatured": true,
       "displayOrder": 6
+    },
+    {
+      "id": "amb-1793079079181",
+      "title": "Heritage Curry & Tandoor Spread",
+      "category": "Dinning Table",
+      "image": "/uploads/1793079047313-201301191.webp",
+      "description": "Authentic North Indian curry spread with Kadai Paneer, fresh tandoori rotis in a brass basket, and mixed vegetable sabzi",
+      "isFeatured": true,
+      "displayOrder": 7
     }
   ],
   "reviews": [
@@ -1624,6 +1633,49 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "aud_1793086493906_z7lz",
+      "action": "ADMIN_LOGOUT",
+      "user": "admin",
+      "details": "User logged out",
+      "timestamp": "2026-10-27T07:34:53.907Z"
+    },
+    {
+      "id": "aud_1793085818757_a6qm",
+      "action": "TOGGLE_DISH_AVAILABILITY",
+      "user": "admin",
+      "details": "Handi Paneer set to Unavailable (86’d)",
+      "timestamp": "2026-10-27T07:23:38.757Z"
+    },
+    {
+      "id": "aud_1793085758350_rfvb",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-10-27T07:22:38.350Z"
+    },
+    {
+      "id": "aud_1793079113701_nxs3",
+      "action": "UPDATE_GALLERY_PHOTO",
+      "user": "admin",
+      "details": "Updated photo: Heritage Curry & Tandoor Spread",
+      "timestamp": "2026-10-27T05:31:53.701Z"
+    },
+    {
+      "id": "aud_1793079079185_j7p3",
+      "action": "ADD_GALLERY_PHOTO",
+      "user": "admin",
+      "details": "Added gallery photo: Heritage Curry & Tandoor Spread",
+      "timestamp": "2026-10-27T05:31:19.185Z"
+    },
+    {
+      "id": "aud_1793079047342_ftit",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1793079047313-201301191.webp (117 KB)",
+      "timestamp": "2026-10-27T05:30:47.342Z"
+    },
     {
       "id": "aud_1793048531521_nh3w",
       "action": "DELETE_FOOD_ITEM",
