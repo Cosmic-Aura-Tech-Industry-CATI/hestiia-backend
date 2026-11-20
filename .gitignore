@@ -1,6 +1,12 @@
 # Dependencies
 node_modules/
 
+# Next.js build output
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
 # Environment Variables
 .env
 .env.local
@@ -18,7 +24,7 @@ pnpm-debug.log*
 dist/
 build/
 
-# Uploads / user generated media
+# Legacy local uploads
 public/uploads/*
 !public/uploads/.gitkeep
 

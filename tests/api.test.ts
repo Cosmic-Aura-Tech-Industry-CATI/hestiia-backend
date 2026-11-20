@@ -1,18 +1,48 @@
-import app from '../src/server.js';
-import { db } from '../src/shared/config/db.js';
+import 'dotenv/config';
+import { spawn, ChildProcess } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import mongoose from 'mongoose';
+import { connectDB } from '../src/lib/mongodb';
+import { BookingModel } from '../src/models/Booking.model';
+import { CustomerModel } from '../src/models/Customer.model';
+import { DishModel } from '../src/models/Dish.model';
+import { InvoiceModel } from '../src/models/Invoice.model';
+import { LoginAttemptModel } from '../src/models/LoginAttempt.model';
+import { OrderModel } from '../src/models/Order.model';
+import { PartyInquiryModel } from '../src/models/PartyInquiry.model';
+import { PaymentModel } from '../src/models/Payment.model';
+import { ReviewModel } from '../src/models/Review.model';
+import { UserModel } from '../src/models/User.model';
 
-let server: any;
 const PORT = 5099;
 const BASE_URL = `http://localhost:${PORT}/api`;
 
-async function runTests() {
-  console.log('🧪 [TEST SUITE START] Running Hestiia Restaurant Admin & Backend Integration Tests...\n');
+async function waitForHealth(timeoutMs = 30000) {
+  const started = Date.now();
+  while (Date.now() - started < timeoutMs) {
+    try {
+      const res = await fetch(`${BASE_URL}/health`);
+      if (res.ok) return;
+    } catch {
+      // Server still booting
+    }
+    await new Promise((r) => setTimeout(r, 400));
+  }
+  throw new Error('Timed out waiting for Next.js API server to become healthy.');
+}
 
-  // Start temporary test server
-  await new Promise<void>((resolve) => {
-    server = app.listen(PORT, () => {
-      resolve();
-    });
+async function runTests() {
+  console.log('🧪 [TEST SUITE START] Running Hestiia Next.js + MongoDB Integration Tests...\n');
+
+  const hasBuild = fs.existsSync(path.resolve(process.cwd(), '.next', 'BUILD_ID'));
+  const nextSubcommand = hasBuild ? 'start' : 'dev';
+  const nextBin = path.resolve(process.cwd(), 'node_modules', 'next', 'dist', 'bin', 'next');
+
+  const serverProc: ChildProcess = spawn(process.execPath, [nextBin, nextSubcommand, '-p', String(PORT)], {
+    cwd: process.cwd(),
+    env: { ...process.env, NODE_ENV: hasBuild ? 'production' : 'development' },
+    stdio: ['ignore', 'pipe', 'pipe'],
   });
 
   let passed = 0;
@@ -35,8 +65,14 @@ async function runTests() {
   let createdBookingId = '';
   let createdPartyId = '';
   let createdReviewId = '';
+  const testOrderPhone = '9839099881';
+  const tempStaffUsername = `test_staff_${Date.now()}`;
+  const bruteForceProbeUser = `bruteforce_probe_${Date.now()}`;
 
   try {
+    await waitForHealth();
+    await connectDB();
+
     // 1. Healthcheck
     const healthRes = await fetch(`${BASE_URL}/health`).then((r) => r.json());
     assert(healthRes.status === 'healthy', 'API Healthcheck returns healthy status');
@@ -106,20 +142,18 @@ async function runTests() {
     }).then((r) => r.json());
     assert(toggleRes.dish?.available === false, 'Availability successfully toggled to Sold Out (86’d)');
 
-    // 9. Online Order Lifecycle & Price Integrity Check
+    // 9. Online Order Lifecycle & Price Integrity Check (using active available dishes)
+    const activeDish = pubMenuRes.dishes[0];
     const orderRes = await fetch(`${BASE_URL}/orders`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         customerName: 'Rohit Aggarwal',
-        customerPhone: '+91 98390 99881',
+        customerPhone: `+91 ${testOrderPhone}`,
         deliveryAddress: 'Shyam Nagar Block B, Kanpur',
         fulfillmentType: 'delivery',
         paymentMethod: 'cod',
-        items: [
-          { dishId: 'handi-paneer', quantity: 2 },
-          { dishId: 'veg-biryani', quantity: 1 },
-        ],
+        items: [{ dishId: activeDish.id, quantity: 2 }],
       }),
     }).then((r) => r.json());
 
@@ -215,7 +249,6 @@ async function runTests() {
     assert(revRes.success === true, 'Customer review submitted (pending moderation)');
     createdReviewId = revRes.review.id;
 
-    // Approve Review
     const approveRes = await fetch(`${BASE_URL}/admin/reviews/admin/${createdReviewId}/approve`, {
       method: 'PATCH',
       headers: {
@@ -244,24 +277,157 @@ async function runTests() {
     }).then((r) => r.json());
     assert(settingsRes.settings?.currency === 'INR' && settingsRes.settings?.taxRatePercent === 5, 'Settings reflect INR currency and 5% GST');
 
+    // 19. Upload Endpoint Validation (rejects missing file)
+    const emptyUploadForm = new FormData();
+    const emptyUploadRes = await fetch(`${BASE_URL}/admin/upload`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${adminToken}` },
+      body: emptyUploadForm,
+    });
+    assert(emptyUploadRes.status === 400, 'Upload endpoint rejects empty form payload with 400');
+
+    // 20. Auth Hardening: createUser validation (invalid role & weak password)
+    const badRoleRes = await fetch(`${BASE_URL}/admin/auth/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${adminToken}`,
+      },
+      body: JSON.stringify({
+        name: 'Invalid Role User',
+        email: 'badrole@hestiia.com',
+        username: 'bad_role_user',
+        password: 'ValidPassword1',
+        role: 'owner',
+      }),
+    });
+    assert(badRoleRes.status === 400, 'createUser rejects disallowed role with status 400');
+
+    const weakPwdRes = await fetch(`${BASE_URL}/admin/auth/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${adminToken}`,
+      },
+      body: JSON.stringify({
+        name: 'Weak Password User',
+        email: 'weakpwd@hestiia.com',
+        username: 'weak_pwd_user',
+        password: 'weak',
+        role: 'staff',
+      }),
+    });
+    assert(weakPwdRes.status === 400, 'createUser rejects weak password with status 400');
+
+    // 21. Auth Hardening: Create valid staff user & verify token invalidation on password change + logout
+    const createStaffRes = await fetch(`${BASE_URL}/admin/auth/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${adminToken}`,
+      },
+      body: JSON.stringify({
+        name: 'Test Staff Member',
+        email: `${tempStaffUsername}@hestiia.com`,
+        username: tempStaffUsername,
+        password: 'StaffUser@2026',
+        role: 'staff',
+      }),
+    });
+    const createStaffBody = await createStaffRes.json();
+    assert(createStaffRes.status === 201 && createStaffBody.user?.role === 'staff', 'Valid staff user created via superadmin');
+
+    const staffLoginRes = await fetch(`${BASE_URL}/admin/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: tempStaffUsername, password: 'StaffUser@2026' }),
+    }).then((r) => r.json());
+    const oldStaffToken = staffLoginRes.token;
+    assert(Boolean(oldStaffToken), 'Newly created staff user can log in');
+
+    const changePwdRes = await fetch(`${BASE_URL}/admin/auth/change-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${oldStaffToken}`,
+      },
+      body: JSON.stringify({ currentPassword: 'StaffUser@2026', newPassword: 'StaffUserNew@2026' }),
+    });
+    assert(changePwdRes.status === 200, 'Staff password updated successfully');
+
+    const staleTokenAfterPwdRes = await fetch(`${BASE_URL}/admin/auth/me`, {
+      headers: { Authorization: `Bearer ${oldStaffToken}` },
+    });
+    assert(staleTokenAfterPwdRes.status === 401, 'Old JWT invalidated immediately after password change');
+
+    const staffReloginRes = await fetch(`${BASE_URL}/admin/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: tempStaffUsername, password: 'StaffUserNew@2026' }),
+    }).then((r) => r.json());
+    const freshStaffToken = staffReloginRes.token;
+    assert(Boolean(freshStaffToken), 'Staff user can log in with new password');
+
+    const logoutRes = await fetch(`${BASE_URL}/admin/auth/logout`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${freshStaffToken}` },
+    });
+    assert(logoutRes.status === 200, 'Staff logout succeeded');
+
+    const tokenAfterLogoutRes = await fetch(`${BASE_URL}/admin/auth/me`, {
+      headers: { Authorization: `Bearer ${freshStaffToken}` },
+    });
+    assert(tokenAfterLogoutRes.status === 401, 'JWT invalidated immediately after logout');
+
+    // 22. Auth Hardening: Brute-force lockout after 5 failed attempts
+    for (let i = 0; i < 5; i++) {
+      await fetch(`${BASE_URL}/admin/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: bruteForceProbeUser, password: 'WrongPassword1' }),
+      });
+    }
+    const lockedRes = await fetch(`${BASE_URL}/admin/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: bruteForceProbeUser, password: 'WrongPassword1' }),
+    });
+    assert(lockedRes.status === 429, 'Brute-force lockout returns 429 after 5 failed attempts');
   } catch (err: any) {
     console.error('Test execution error:', err);
     failed++;
   } finally {
-    if (server) {
-      server.close();
+    try {
+      await connectDB();
+      await Promise.all([
+        createdDishId ? DishModel.deleteOne({ id: createdDishId }) : Promise.resolve(),
+        createdOrderId ? OrderModel.deleteOne({ id: createdOrderId }) : Promise.resolve(),
+        createdOrderId ? PaymentModel.deleteOne({ orderId: createdOrderId }) : Promise.resolve(),
+        createdInvoiceNumber
+          ? InvoiceModel.deleteOne({ invoiceNumber: createdInvoiceNumber })
+          : Promise.resolve(),
+        createdBookingId ? BookingModel.deleteOne({ id: createdBookingId }) : Promise.resolve(),
+        createdPartyId ? PartyInquiryModel.deleteOne({ id: createdPartyId }) : Promise.resolve(),
+        createdReviewId ? ReviewModel.deleteOne({ id: createdReviewId }) : Promise.resolve(),
+        CustomerModel.deleteOne({ normalizedPhone: `91${testOrderPhone}` }),
+        UserModel.deleteOne({ username: tempStaffUsername }),
+        LoginAttemptModel.deleteMany({
+          key: { $regex: `${tempStaffUsername}|${bruteForceProbeUser}|ratelimit:` },
+        }),
+      ]);
+      await mongoose.disconnect();
+    } catch {
+      // Ignore cleanup errors
     }
+
+    serverProc.kill();
   }
 
   console.log(`\n=======================================================`);
   console.log(`📊 TEST RESULTS: ${passed} PASSED, ${failed} FAILED`);
   console.log(`=======================================================\n`);
 
-  if (failed > 0) {
-    process.exit(1);
-  } else {
-    process.exit(0);
-  }
+  process.exit(failed > 0 ? 1 : 0);
 }
 
 runTests();
