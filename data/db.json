@@ -9,7 +9,8 @@
       "role": "superadmin",
       "active": true,
       "createdAt": "2026-10-01T10:00:00.000Z",
-      "lastLogin": "2026-11-21T07:27:55.213Z"
+      "lastLogin": "2026-11-21T08:33:55.414Z",
+      "tokenVersion": 1
     },
     {
       "id": "usr_manager_1",
@@ -1650,6 +1651,29 @@
       "user": "admin",
       "details": "Added gallery photo: bike",
       "timestamp": "2026-11-21T09:33:57.956Z"
+    },
+    {
+      "id": "aud_1795250494429_agsv",
+      "action": "ADMIN_LOGOUT",
+      "user": "admin",
+      "details": "User logged out and session revoked",
+      "ip": "::1",
+      "timestamp": "2026-11-21T08:41:34.430Z"
+    },
+    {
+      "id": "aud_1795250035419_4ke3",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-11-21T08:33:55.420Z"
+    },
+    {
+      "id": "aud_1795246062888_4rv7",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #HST-TB-2611-8511 (tb_1795246062885) by 5fg6h7jikolp; for 2026-11-21 08:00 PM",
+      "timestamp": "2026-11-21T07:27:42.888Z"
     },
     {
       "id": "aud_1795253623709_8bo4",

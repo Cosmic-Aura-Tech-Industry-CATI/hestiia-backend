@@ -8,14 +8,53 @@ export const login = catchAsync(async (req: AuthenticatedRequest, res: Response)
   const { username, password } = req.body;
   const ip = req.ip || req.socket.remoteAddress || 'unknown';
 
-  const { token, user } = await authService.login(username, password, ip);
+  const result = await authService.login(username, password, ip);
 
   res.status(200).json({
     success: true,
-    message: 'Welcome back to Hestiia Restaurant Administration.',
+    ...result,
+  });
+});
+
+export const verifyOtp = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const { otpSessionId, otp } = req.body;
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+
+  const { token, user } = await authService.verifyOtp(otpSessionId, otp, ip);
+
+  res.status(200).json({
+    success: true,
+    message: 'Authentication successful. Welcome to Hestiia Administration.',
     token,
     user,
   });
+});
+
+export const resendOtp = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const { otpSessionId } = req.body;
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+
+  const result = await authService.resendOtp(otpSessionId, ip);
+
+  res.status(200).json(result);
+});
+
+export const forgotPassword = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const { emailOrUsername } = req.body;
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+
+  const result = await authService.forgotPassword(emailOrUsername, ip);
+
+  res.status(200).json(result);
+});
+
+export const resetPassword = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const { resetSessionId, otp, newPassword } = req.body;
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+
+  const result = await authService.resetPassword(resetSessionId, otp, newPassword, ip);
+
+  res.status(200).json(result);
 });
 
 export const getMe = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
