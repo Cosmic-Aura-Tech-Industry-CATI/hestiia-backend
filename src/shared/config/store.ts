@@ -11,6 +11,7 @@ export interface AdminUser {
   passwordHash: string;
   role: 'superadmin' | 'manager' | 'staff';
   active: boolean;
+  tokenVersion?: number;
   lastLogin?: string;
   createdAt: string;
 }
@@ -280,7 +281,15 @@ class JSONDatabase {
     if (fs.existsSync(DB_FILE)) {
       try {
         const raw = fs.readFileSync(DB_FILE, 'utf-8');
-        return JSON.parse(raw);
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.users && Array.isArray(parsed.users)) {
+          parsed.users.forEach((u: any) => {
+            if (typeof u.tokenVersion !== 'number') {
+              u.tokenVersion = 0;
+            }
+          });
+        }
+        return parsed;
       } catch (err) {
         console.error('Error reading db.json, initializing fresh store:', err);
       }
@@ -293,7 +302,14 @@ class JSONDatabase {
   private save(data?: DatabaseState) {
     if (data) this.state = data;
     try {
-      fs.writeFileSync(DB_FILE, JSON.stringify(this.state, null, 2), 'utf-8');
+      const tmpFile = `${DB_FILE}.${Date.now()}-${Math.random().toString(36).substring(2, 6)}.tmp`;
+      fs.writeFileSync(tmpFile, JSON.stringify(this.state, null, 2), 'utf-8');
+      try {
+        fs.renameSync(tmpFile, DB_FILE);
+      } catch {
+        fs.copyFileSync(tmpFile, DB_FILE);
+        fs.unlinkSync(tmpFile);
+      }
     } catch (err) {
       console.error('Failed to write db.json:', err);
     }
@@ -338,6 +354,7 @@ class JSONDatabase {
         passwordHash,
         role: 'superadmin',
         active: true,
+        tokenVersion: 0,
         createdAt: '2026-10-01T10:00:00.000Z',
       },
       {
@@ -348,6 +365,7 @@ class JSONDatabase {
         passwordHash: bcrypt.hashSync('Manager@Hestiia2026', salt),
         role: 'manager',
         active: true,
+        tokenVersion: 0,
         createdAt: '2026-10-05T10:00:00.000Z',
       },
     ];

@@ -20,7 +20,7 @@ export const getAdminInquiries = catchAsync(async (req: AuthenticatedRequest, re
 
 export const updateInquiryStatus = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const actor = req.user?.name || req.user?.username || 'Staff';
-  const inquiry = await partyService.updateInquiryStatus(req.params.id, req.body, actor);
+  const inquiry = await partyService.updateInquiryStatus(String(req.params.id), req.body, actor);
   res.status(200).json({
     success: true,
     inquiry,

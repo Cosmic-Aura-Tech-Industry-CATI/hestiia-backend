@@ -9,6 +9,6 @@ export const getInvoices = catchAsync(async (req: AuthenticatedRequest, res: Res
 });
 
 export const getInvoiceDetails = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const result = await invoicesService.getInvoiceDetails(req.params.identifier);
+  const result = await invoicesService.getInvoiceDetails(String(req.params.identifier));
   res.status(200).json({ success: true, ...result });
 });

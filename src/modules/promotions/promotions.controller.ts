@@ -23,7 +23,7 @@ export const createPromotion = catchAsync(async (req: AuthenticatedRequest, res:
 });
 
 export const updatePromotion = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const promotion = await promotionsService.updatePromotion(req.params.id, req.body, req.user?.username);
+  const promotion = await promotionsService.updatePromotion(String(req.params.id), req.body, req.user?.username);
   res.status(200).json({
     success: true,
     promotion,
@@ -32,7 +32,7 @@ export const updatePromotion = catchAsync(async (req: AuthenticatedRequest, res:
 });
 
 export const deletePromotion = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  await promotionsService.deletePromotion(req.params.id, req.user?.username);
+  await promotionsService.deletePromotion(String(req.params.id), req.user?.username);
   res.status(200).json({
     success: true,
     message: 'Promotion removed successfully.',

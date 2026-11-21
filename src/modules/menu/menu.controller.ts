@@ -9,7 +9,7 @@ export const getPublicMenu = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const getDishById = catchAsync(async (req: Request, res: Response) => {
-  const dish = await menuService.getDishById(req.params.id);
+  const dish = await menuService.getDishById(String(req.params.id));
   res.status(200).json({ success: true, dish });
 });
 
@@ -28,7 +28,7 @@ export const createDish = catchAsync(async (req: AuthenticatedRequest, res: Resp
 });
 
 export const updateDish = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const dish = await menuService.updateDish(req.params.id, req.body, req.user?.username);
+  const dish = await menuService.updateDish(String(req.params.id), req.body, req.user?.username);
   res.status(200).json({
     success: true,
     dish,
@@ -37,16 +37,16 @@ export const updateDish = catchAsync(async (req: AuthenticatedRequest, res: Resp
 });
 
 export const toggleAvailability = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const { dish, statusText } = await menuService.toggleAvailability(req.params.id, req.body.available, req.user?.username);
+  const { dish, statusText } = await menuService.toggleAvailability(String(req.params.id), req.body.available, req.user?.username);
   res.status(200).json({
     success: true,
     dish,
-    message: `${dish.name} is now marked as ${statusText}.`,
+    message: `${(dish as any).name} is now marked as ${statusText}.`,
   });
 });
 
 export const deleteDish = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const result = await menuService.deleteDish(req.params.id, req.user?.username);
+  const result = await menuService.deleteDish(String(req.params.id), req.user?.username);
   res.status(200).json({
     success: true,
     ...result,

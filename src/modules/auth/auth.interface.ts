@@ -6,6 +6,7 @@ export interface IAdminUser {
   passwordHash: string;
   role: 'superadmin' | 'manager' | 'staff';
   active: boolean;
+  tokenVersion?: number;
   lastLogin?: string;
   createdAt: string;
 }

@@ -29,9 +29,9 @@ export const protect = catchAsync(async (req: AuthenticatedRequest, _res: Respon
     return next(new AppError('Authentication required. Please log in to the admin dashboard.', 401));
   }
 
-  let decoded: { id: string; role: string; username: string };
+  let decoded: { id: string; role: string; username: string; tokenVersion?: number };
   try {
-    decoded = jwt.verify(token, JWT_SECRET) as { id: string; role: string; username: string };
+    decoded = jwt.verify(token, JWT_SECRET) as { id: string; role: string; username: string; tokenVersion?: number };
   } catch (err: any) {
     return next(new AppError('Invalid or expired session. Please log in again.', 401));
   }
@@ -39,6 +39,12 @@ export const protect = catchAsync(async (req: AuthenticatedRequest, _res: Respon
   const user = db.getState().users.find((u) => u.id === decoded.id && u.active);
   if (!user) {
     return next(new AppError('Account not found or has been deactivated.', 401));
+  }
+
+  const currentTokenVersion = user.tokenVersion || 0;
+  const tokenVersionInJwt = decoded.tokenVersion || 0;
+  if (tokenVersionInJwt !== currentTokenVersion) {
+    return next(new AppError('Session invalidated due to password change or logout. Please log in again.', 401));
   }
 
   const { passwordHash, ...safeUser } = user;

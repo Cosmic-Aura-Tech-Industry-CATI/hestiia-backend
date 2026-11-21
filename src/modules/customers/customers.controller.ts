@@ -9,6 +9,6 @@ export const getCustomers = catchAsync(async (req: AuthenticatedRequest, res: Re
 });
 
 export const getCustomerById = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const result = await customersService.getCustomerById(req.params.id);
+  const result = await customersService.getCustomerById(String(req.params.id));
   res.status(200).json({ success: true, ...result });
 });

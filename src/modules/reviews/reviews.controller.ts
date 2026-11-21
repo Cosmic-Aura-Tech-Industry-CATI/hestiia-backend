@@ -23,7 +23,7 @@ export const getAdminReviews = catchAsync(async (req: AuthenticatedRequest, res:
 });
 
 export const toggleApproval = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const review = await reviewsService.toggleApproval(req.params.id, req.body.isApproved, req.user?.username);
+  const review = await reviewsService.toggleApproval(String(req.params.id), req.body.isApproved, req.user?.username);
   res.status(200).json({
     success: true,
     review,
@@ -32,7 +32,7 @@ export const toggleApproval = catchAsync(async (req: AuthenticatedRequest, res: 
 });
 
 export const replyReview = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const review = await reviewsService.replyReview(req.params.id, req.body.staffReply, req.user?.username);
+  const review = await reviewsService.replyReview(String(req.params.id), req.body.staffReply, req.user?.username);
   res.status(200).json({
     success: true,
     review,
@@ -41,7 +41,7 @@ export const replyReview = catchAsync(async (req: AuthenticatedRequest, res: Res
 });
 
 export const deleteReview = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  await reviewsService.deleteReview(req.params.id, req.user?.username);
+  await reviewsService.deleteReview(String(req.params.id), req.user?.username);
   res.status(200).json({
     success: true,
     message: 'Review removed.',

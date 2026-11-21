@@ -26,7 +26,12 @@ export const getMe = catchAsync(async (req: AuthenticatedRequest, res: Response)
 });
 
 export const logout = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  db.logAudit('ADMIN_LOGOUT', req.user?.username || 'admin', 'User logged out');
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+  if (req.user?.id) {
+    await authService.logout(req.user.id, req.user.username, ip);
+  } else {
+    db.logAudit('ADMIN_LOGOUT', req.user?.username || 'admin', 'User logged out', ip);
+  }
   res.status(200).json({ success: true, message: 'Logged out successfully.' });
 });
 

@@ -23,7 +23,7 @@ export const addPhoto = catchAsync(async (req: AuthenticatedRequest, res: Respon
 });
 
 export const updatePhoto = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const photo = await galleryService.updatePhoto(req.params.id, req.body, req.user?.username);
+  const photo = await galleryService.updatePhoto(String(req.params.id), req.body, req.user?.username);
   res.status(200).json({
     success: true,
     photo,
@@ -32,7 +32,7 @@ export const updatePhoto = catchAsync(async (req: AuthenticatedRequest, res: Res
 });
 
 export const deletePhoto = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  await galleryService.deletePhoto(req.params.id, req.user?.username);
+  await galleryService.deletePhoto(String(req.params.id), req.user?.username);
   res.status(200).json({
     success: true,
     message: 'Photo deleted from gallery.',

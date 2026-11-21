@@ -16,5 +16,10 @@ export const UPLOADS_DIR = path.resolve(process.cwd(), 'public', 'uploads');
 export const MENU_DIR = path.resolve(process.cwd(), 'public', 'uploads', 'menu');
 export const DATA_DIR = path.resolve(process.cwd(), 'data');
 
+export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME || '';
+export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY || '';
+export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET || '';
+export const CLOUDINARY_URL = process.env.CLOUDINARY_URL || '';
+
 export const CURRENCY = 'INR';
 export const CURRENCY_SYMBOL = '₹';

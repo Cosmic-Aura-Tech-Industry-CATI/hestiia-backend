@@ -19,13 +19,13 @@ export const getAdminOrders = catchAsync(async (req: AuthenticatedRequest, res: 
 });
 
 export const getOrderDetails = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const result = await ordersService.getOrderDetails(req.params.id);
+  const result = await ordersService.getOrderDetails(String(req.params.id));
   res.status(200).json({ success: true, ...result });
 });
 
 export const updateOrderStatus = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const actor = req.user?.name || req.user?.username || 'Staff';
-  const order = await ordersService.updateOrderStatus(req.params.id, req.body.status, req.body.note, actor);
+  const order = await ordersService.updateOrderStatus(String(req.params.id), req.body.status, req.body.note, actor);
   res.status(200).json({
     success: true,
     order,
@@ -35,7 +35,7 @@ export const updateOrderStatus = catchAsync(async (req: AuthenticatedRequest, re
 
 export const updateOrderPayment = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const actor = req.user?.name || req.user?.username || 'Staff';
-  const order = await ordersService.updateOrderPayment(req.params.id, req.body.paymentStatus, req.body.collectedBy, actor);
+  const order = await ordersService.updateOrderPayment(String(req.params.id), req.body.paymentStatus, req.body.collectedBy, actor);
   res.status(200).json({
     success: true,
     order,

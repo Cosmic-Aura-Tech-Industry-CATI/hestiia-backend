@@ -53,13 +53,23 @@ export const authService = {
     db.logAudit('ADMIN_LOGIN', user.username, `Successful login by ${user.name} (${user.role})`, ip);
 
     const token = jwt.sign(
-      { id: user.id, username: user.username, role: user.role, name: user.name },
+      { id: user.id, username: user.username, role: user.role, name: user.name, tokenVersion: user.tokenVersion || 0 },
       JWT_SECRET,
       { expiresIn: JWT_EXPIRES_IN as any }
     );
 
     const { passwordHash, ...safeUser } = user;
     return { token, user: safeUser };
+  },
+
+  async logout(userId: string, username = 'admin', ip = 'unknown') {
+    db.updateState((s) => {
+      const target = s.users.find((u) => u.id === userId);
+      if (target) {
+        target.tokenVersion = (target.tokenVersion || 0) + 1;
+      }
+    });
+    db.logAudit('ADMIN_LOGOUT', username, 'User logged out and session revoked', ip);
   },
 
   async changePassword(userId: string, currentPassword?: string, newPassword?: string) {
@@ -75,7 +85,10 @@ export const authService = {
     const newHash = bcrypt.hashSync(newPassword, 10);
     db.updateState((s) => {
       const target = s.users.find((u) => u.id === userId);
-      if (target) target.passwordHash = newHash;
+      if (target) {
+        target.passwordHash = newHash;
+        target.tokenVersion = (target.tokenVersion || 0) + 1;
+      }
     });
 
     db.logAudit('PASSWORD_CHANGED', user.username, 'Password updated successfully');
@@ -91,6 +104,15 @@ export const authService = {
       throw new AppError('All fields are required.', 400);
     }
 
+    const validRoles = ['superadmin', 'manager', 'staff'];
+    if (!validRoles.includes(role)) {
+      throw new AppError(`Invalid role '${role}'. Role must be one of: ${validRoles.join(', ')}.`, 400);
+    }
+
+    if (password.length < 8) {
+      throw new AppError('Password must be at least 8 characters long.', 400);
+    }
+
     const state = db.getState();
     if (state.users.some((u) => u.username.toLowerCase() === username.toLowerCase() || u.email.toLowerCase() === email.toLowerCase())) {
       throw new AppError('Username or email already exists.', 400);
@@ -99,11 +121,12 @@ export const authService = {
     const newUser: IAdminUser = {
       id: 'usr_' + Date.now(),
       name,
-      email,
-      username,
+      email: email.toLowerCase().trim(),
+      username: username.toLowerCase().trim(),
       passwordHash: bcrypt.hashSync(password, 10),
       role: role as 'superadmin' | 'manager' | 'staff',
       active: true,
+      tokenVersion: 0,
       createdAt: new Date().toISOString(),
     };
 

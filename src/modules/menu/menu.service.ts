@@ -211,8 +211,8 @@ export const menuService = {
       }
     });
 
-    db.logAudit('UPDATE_FOOD_ITEM', username, `Updated dish: ${updatedDish?.name}`);
-    return updatedDish!;
+    db.logAudit('UPDATE_FOOD_ITEM', username, `Updated dish: ${(updatedDish as any)?.name}`);
+    return (updatedDish as any);
   },
 
   async toggleAvailability(dishId: string, available?: boolean, username = 'admin') {

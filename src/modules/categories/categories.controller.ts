@@ -23,7 +23,7 @@ export const createCategory = catchAsync(async (req: AuthenticatedRequest, res: 
 });
 
 export const updateCategory = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const category = await categoriesService.updateCategory(req.params.id, req.body, req.user?.username);
+  const category = await categoriesService.updateCategory(String(req.params.id), req.body, req.user?.username);
   res.status(200).json({
     success: true,
     category,
@@ -32,7 +32,7 @@ export const updateCategory = catchAsync(async (req: AuthenticatedRequest, res: 
 });
 
 export const deleteCategory = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const { name } = await categoriesService.deleteCategory(req.params.id, req.user?.username);
+  const { name } = await categoriesService.deleteCategory(String(req.params.id), req.user?.username);
   res.status(200).json({
     success: true,
     message: `Category '${name}' deleted successfully.`,
