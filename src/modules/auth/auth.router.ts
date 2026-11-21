@@ -4,10 +4,14 @@ import * as authController from './auth.controller.js';
 
 const router = Router();
 
-// Public
+// Public Authentication & Recovery routes
 router.post('/login', authController.login);
+router.post('/verify-otp', authController.verifyOtp);
+router.post('/resend-otp', authController.resendOtp);
+router.post('/forgot-password', authController.forgotPassword);
+router.post('/reset-password', authController.resetPassword);
 
-// Protected
+// Protected routes
 router.use(protect);
 router.get('/me', authController.getMe);
 router.post('/logout', authController.logout);

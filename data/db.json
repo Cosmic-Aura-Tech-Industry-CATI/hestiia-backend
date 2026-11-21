@@ -9,8 +9,8 @@
       "role": "superadmin",
       "active": true,
       "createdAt": "2026-10-01T10:00:00.000Z",
-      "lastLogin": "2026-11-21T07:18:52.980Z",
-      "tokenVersion": 0
+      "lastLogin": "2026-11-21T08:33:55.414Z",
+      "tokenVersion": 1
     },
     {
       "id": "usr_manager_1",
@@ -2335,6 +2335,22 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "aud_1795250494429_agsv",
+      "action": "ADMIN_LOGOUT",
+      "user": "admin",
+      "details": "User logged out and session revoked",
+      "ip": "::1",
+      "timestamp": "2026-11-21T08:41:34.430Z"
+    },
+    {
+      "id": "aud_1795250035419_4ke3",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-11-21T08:33:55.420Z"
+    },
     {
       "id": "aud_1795246062888_4rv7",
       "action": "TABLE_BOOKING_REQUESTED",
