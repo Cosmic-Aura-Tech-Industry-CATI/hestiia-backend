@@ -9,8 +9,7 @@
       "role": "superadmin",
       "active": true,
       "createdAt": "2026-10-01T10:00:00.000Z",
-      "lastLogin": "2026-11-21T07:18:52.980Z",
-      "tokenVersion": 0
+      "lastLogin": "2026-11-21T07:27:55.213Z"
     },
     {
       "id": "usr_manager_1",
@@ -21,8 +20,7 @@
       "role": "manager",
       "active": true,
       "createdAt": "2026-10-05T10:00:00.000Z",
-      "lastLogin": "2026-10-25T10:04:32.659Z",
-      "tokenVersion": 0
+      "lastLogin": "2026-10-25T10:04:32.659Z"
     },
     {
       "id": "usr_1792922813633",
@@ -33,8 +31,7 @@
       "role": "staff",
       "active": true,
       "createdAt": "2026-10-25T10:06:53.866Z",
-      "lastLogin": "2026-10-25T10:08:58.075Z",
-      "tokenVersion": 0
+      "lastLogin": "2026-10-25T10:08:58.075Z"
     }
   ],
   "settings": {
@@ -149,7 +146,7 @@
         "Desi Ghee"
       ],
       "chefNote": "Slow-simmered in clay handi to impart authentic rustic smoked earthiness.",
-      "available": true,
+      "available": false,
       "displayOrder": 1,
       "createdAt": "2026-10-01T12:00:00Z",
       "updatedAt": "2026-10-27T07:23:38.755Z"
@@ -563,327 +560,9 @@
       "displayOrder": 17,
       "createdAt": "2026-10-25T09:15:06.621Z",
       "updatedAt": "2026-10-26T21:01:35.356Z"
-    },
-    {
-      "id": "awadhi-korma-platter-sjqx",
-      "name": "Awadhi Korma Platter",
-      "slug": "awadhi-korma-platter",
-      "category": "Main Course",
-      "description": "Tender simmered Awadhi gravy with saffron essence",
-      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
-      "price": 380,
-      "image": "/images/dishes/handi-paneer.jpg",
-      "isVeg": true,
-      "isSignature": false,
-      "spiceLevel": 2,
-      "preparationTime": "20 mins",
-      "ingredients": [],
-      "available": false,
-      "displayOrder": 18,
-      "createdAt": "2026-11-20T07:28:22.467Z",
-      "updatedAt": "2026-11-20T07:28:22.471Z"
-    },
-    {
-      "id": "awadhi-korma-platter-v5rr",
-      "name": "Awadhi Korma Platter",
-      "slug": "awadhi-korma-platter",
-      "category": "Main Course",
-      "description": "Tender simmered Awadhi gravy with saffron essence",
-      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
-      "price": 380,
-      "image": "/images/dishes/handi-paneer.jpg",
-      "isVeg": true,
-      "isSignature": false,
-      "spiceLevel": 2,
-      "preparationTime": "20 mins",
-      "ingredients": [],
-      "available": false,
-      "displayOrder": 19,
-      "createdAt": "2026-11-20T07:28:54.353Z",
-      "updatedAt": "2026-11-20T07:28:54.357Z"
-    },
-    {
-      "id": "awadhi-korma-platter-pexd",
-      "name": "Awadhi Korma Platter",
-      "slug": "awadhi-korma-platter",
-      "category": "Main Course",
-      "description": "Tender simmered Awadhi gravy with saffron essence",
-      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
-      "price": 380,
-      "image": "/images/dishes/handi-paneer.jpg",
-      "isVeg": true,
-      "isSignature": false,
-      "spiceLevel": 2,
-      "preparationTime": "20 mins",
-      "ingredients": [],
-      "available": false,
-      "displayOrder": 20,
-      "createdAt": "2026-11-20T07:29:46.539Z",
-      "updatedAt": "2026-11-20T07:29:46.543Z"
-    },
-    {
-      "id": "awadhi-korma-platter-sv7y",
-      "name": "Awadhi Korma Platter",
-      "slug": "awadhi-korma-platter",
-      "category": "Main Course",
-      "description": "Tender simmered Awadhi gravy with saffron essence",
-      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
-      "price": 380,
-      "image": "/images/dishes/handi-paneer.jpg",
-      "isVeg": true,
-      "isSignature": false,
-      "spiceLevel": 2,
-      "preparationTime": "20 mins",
-      "ingredients": [],
-      "available": false,
-      "displayOrder": 21,
-      "createdAt": "2026-11-20T08:03:48.360Z",
-      "updatedAt": "2026-11-20T08:03:48.367Z"
-    },
-    {
-      "id": "awadhi-korma-platter-l0wo",
-      "name": "Awadhi Korma Platter",
-      "slug": "awadhi-korma-platter",
-      "category": "Main Course",
-      "description": "Tender simmered Awadhi gravy with saffron essence",
-      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
-      "price": 380,
-      "image": "/images/dishes/handi-paneer.jpg",
-      "isVeg": true,
-      "isSignature": false,
-      "spiceLevel": 2,
-      "preparationTime": "20 mins",
-      "ingredients": [],
-      "available": false,
-      "displayOrder": 22,
-      "createdAt": "2026-11-20T08:19:06.141Z",
-      "updatedAt": "2026-11-20T08:19:06.150Z"
-    },
-    {
-      "id": "awadhi-korma-platter-ya8y",
-      "name": "Awadhi Korma Platter",
-      "slug": "awadhi-korma-platter",
-      "category": "Main Course",
-      "description": "Tender simmered Awadhi gravy with saffron essence",
-      "fullDescription": "Tender simmered Awadhi gravy with saffron essence",
-      "price": 380,
-      "image": "/images/dishes/handi-paneer.jpg",
-      "isVeg": true,
-      "isSignature": false,
-      "spiceLevel": 2,
-      "preparationTime": "20 mins",
-      "ingredients": [],
-      "available": false,
-      "displayOrder": 23,
-      "createdAt": "2026-11-20T08:27:48.946Z",
-      "updatedAt": "2026-11-20T08:27:48.955Z"
     }
   ],
   "orders": [
-    {
-      "id": "ord_1795163268965_w00b",
-      "orderNumber": "HST-2026-1010",
-      "customerName": "Rohit Aggarwal",
-      "customerPhone": "+91 98390 99881",
-      "deliveryAddress": "Shyam Nagar Block B, Kanpur",
-      "fulfillmentType": "delivery",
-      "items": [
-        {
-          "dishId": "handi-paneer",
-          "name": "Handi Paneer",
-          "price": 229,
-          "quantity": 2,
-          "total": 458,
-          "image": "/uploads/1793044827862-411404267.png"
-        },
-        {
-          "dishId": "veg-biryani",
-          "name": "Veg Biryani",
-          "price": 344,
-          "quantity": 1,
-          "total": 344,
-          "image": "/uploads/1793047998402-264881757.png"
-        }
-      ],
-      "subtotal": 802,
-      "taxAmount": 40,
-      "deliveryCharge": 40,
-      "discountAmount": 0,
-      "grandTotal": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "orderStatus": "confirmed",
-      "statusHistory": [
-        {
-          "status": "pending",
-          "timestamp": "2026-11-20T08:27:48.965Z",
-          "actor": "Customer Order Portal",
-          "note": "Order placed via DELIVERY with COD"
-        },
-        {
-          "status": "confirmed",
-          "timestamp": "2026-11-20T08:27:48.976Z",
-          "actor": "Hestiia Administrator",
-          "note": "Kitchen order accepted by Head Chef"
-        }
-      ],
-      "invoiceNumber": "HST-INV-1010",
-      "createdAt": "2026-11-20T08:27:48.965Z",
-      "updatedAt": "2026-11-20T08:27:48.987Z"
-    },
-    {
-      "id": "ord_1795162746158_q9z6",
-      "orderNumber": "HST-2026-1009",
-      "customerName": "Rohit Aggarwal",
-      "customerPhone": "+91 98390 99881",
-      "deliveryAddress": "Shyam Nagar Block B, Kanpur",
-      "fulfillmentType": "delivery",
-      "items": [
-        {
-          "dishId": "handi-paneer",
-          "name": "Handi Paneer",
-          "price": 229,
-          "quantity": 2,
-          "total": 458,
-          "image": "/uploads/1793044827862-411404267.png"
-        },
-        {
-          "dishId": "veg-biryani",
-          "name": "Veg Biryani",
-          "price": 344,
-          "quantity": 1,
-          "total": 344,
-          "image": "/uploads/1793047998402-264881757.png"
-        }
-      ],
-      "subtotal": 802,
-      "taxAmount": 40,
-      "deliveryCharge": 40,
-      "discountAmount": 0,
-      "grandTotal": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "orderStatus": "confirmed",
-      "statusHistory": [
-        {
-          "status": "pending",
-          "timestamp": "2026-11-20T08:19:06.158Z",
-          "actor": "Customer Order Portal",
-          "note": "Order placed via DELIVERY with COD"
-        },
-        {
-          "status": "confirmed",
-          "timestamp": "2026-11-20T08:19:06.168Z",
-          "actor": "Hestiia Administrator",
-          "note": "Kitchen order accepted by Head Chef"
-        }
-      ],
-      "invoiceNumber": "HST-INV-1009",
-      "createdAt": "2026-11-20T08:19:06.158Z",
-      "updatedAt": "2026-11-20T08:19:06.178Z"
-    },
-    {
-      "id": "ord_1795161828372_ihtc",
-      "orderNumber": "HST-2026-1008",
-      "customerName": "Rohit Aggarwal",
-      "customerPhone": "+91 98390 99881",
-      "deliveryAddress": "Shyam Nagar Block B, Kanpur",
-      "fulfillmentType": "delivery",
-      "items": [
-        {
-          "dishId": "handi-paneer",
-          "name": "Handi Paneer",
-          "price": 229,
-          "quantity": 2,
-          "total": 458,
-          "image": "/uploads/1793044827862-411404267.png"
-        },
-        {
-          "dishId": "veg-biryani",
-          "name": "Veg Biryani",
-          "price": 344,
-          "quantity": 1,
-          "total": 344,
-          "image": "/uploads/1793047998402-264881757.png"
-        }
-      ],
-      "subtotal": 802,
-      "taxAmount": 40,
-      "deliveryCharge": 40,
-      "discountAmount": 0,
-      "grandTotal": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "orderStatus": "confirmed",
-      "statusHistory": [
-        {
-          "status": "pending",
-          "timestamp": "2026-11-20T08:03:48.372Z",
-          "actor": "Customer Order Portal",
-          "note": "Order placed via DELIVERY with COD"
-        },
-        {
-          "status": "confirmed",
-          "timestamp": "2026-11-20T08:03:48.380Z",
-          "actor": "Hestiia Administrator",
-          "note": "Kitchen order accepted by Head Chef"
-        }
-      ],
-      "invoiceNumber": "HST-INV-1008",
-      "createdAt": "2026-11-20T08:03:48.372Z",
-      "updatedAt": "2026-11-20T08:03:48.387Z"
-    },
-    {
-      "id": "ord_1795159786548_yxai",
-      "orderNumber": "HST-2026-1007",
-      "customerName": "Rohit Aggarwal",
-      "customerPhone": "+91 98390 99881",
-      "deliveryAddress": "Shyam Nagar Block B, Kanpur",
-      "fulfillmentType": "delivery",
-      "items": [
-        {
-          "dishId": "handi-paneer",
-          "name": "Handi Paneer",
-          "price": 229,
-          "quantity": 2,
-          "total": 458,
-          "image": "/uploads/1793044827862-411404267.png"
-        },
-        {
-          "dishId": "veg-biryani",
-          "name": "Veg Biryani",
-          "price": 344,
-          "quantity": 1,
-          "total": 344,
-          "image": "/uploads/1793047998402-264881757.png"
-        }
-      ],
-      "subtotal": 802,
-      "taxAmount": 40,
-      "deliveryCharge": 40,
-      "discountAmount": 0,
-      "grandTotal": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "orderStatus": "confirmed",
-      "statusHistory": [
-        {
-          "status": "pending",
-          "timestamp": "2026-11-20T07:29:46.548Z",
-          "actor": "Customer Order Portal",
-          "note": "Order placed via DELIVERY with COD"
-        },
-        {
-          "status": "confirmed",
-          "timestamp": "2026-11-20T07:29:46.554Z",
-          "actor": "Hestiia Administrator",
-          "note": "Kitchen order accepted by Head Chef"
-        }
-      ],
-      "invoiceNumber": "HST-INV-1007",
-      "createdAt": "2026-11-20T07:29:46.548Z",
-      "updatedAt": "2026-11-20T07:29:46.559Z"
-    },
     {
       "id": "ord_1792946811669_o6e9",
       "orderNumber": "HST-2026-1006",
@@ -1191,7 +870,7 @@
       "discountAmount": 0,
       "grandTotal": 1311,
       "paymentMethod": "cod",
-      "paymentStatus": "paid",
+      "paymentStatus": "pending",
       "orderStatus": "pending",
       "notes": "Will pick up at 08:30 PM sharp.",
       "statusHistory": [
@@ -1199,17 +878,11 @@
           "status": "pending",
           "timestamp": "2026-10-25T13:45:00Z",
           "actor": "Customer"
-        },
-        {
-          "status": "pending",
-          "timestamp": "2026-11-21T07:21:48.725Z",
-          "actor": "Hestiia Administrator",
-          "note": "Payment collected in full (₹1311) by Floor Cashier Counter"
         }
       ],
       "invoiceNumber": "HST-INV-1003",
       "createdAt": "2026-10-25T13:45:00Z",
-      "updatedAt": "2026-11-21T07:21:48.725Z"
+      "updatedAt": "2026-10-25T13:45:00Z"
     }
   ],
   "customers": [
@@ -1217,9 +890,9 @@
       "id": "cust_1792919706650",
       "name": "Rohit Aggarwal",
       "phone": "+91 98390 99881",
-      "totalOrders": 7,
-      "totalSpent": 6780,
-      "lastOrderDate": "2026-11-20T08:27:48.965Z",
+      "totalOrders": 3,
+      "totalSpent": 3252,
+      "lastOrderDate": "2026-10-25T16:46:51.669Z",
       "createdAt": "2026-10-25T09:15:06.650Z"
     },
     {
@@ -1254,50 +927,6 @@
     }
   ],
   "payments": [
-    {
-      "id": "pay_1795163268965",
-      "paymentReference": "PAY_HST-2026-1010",
-      "orderId": "ord_1795163268965_w00b",
-      "orderNumber": "HST-2026-1010",
-      "amount": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "transactionDate": "2026-11-20T08:27:48.965Z",
-      "collectedBy": "Delivery Rider Aman"
-    },
-    {
-      "id": "pay_1795162746158",
-      "paymentReference": "PAY_HST-2026-1009",
-      "orderId": "ord_1795162746158_q9z6",
-      "orderNumber": "HST-2026-1009",
-      "amount": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "transactionDate": "2026-11-20T08:19:06.158Z",
-      "collectedBy": "Delivery Rider Aman"
-    },
-    {
-      "id": "pay_1795161828372",
-      "paymentReference": "PAY_HST-2026-1008",
-      "orderId": "ord_1795161828372_ihtc",
-      "orderNumber": "HST-2026-1008",
-      "amount": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "transactionDate": "2026-11-20T08:03:48.372Z",
-      "collectedBy": "Delivery Rider Aman"
-    },
-    {
-      "id": "pay_1795159786548",
-      "paymentReference": "PAY_HST-2026-1007",
-      "orderId": "ord_1795159786548_yxai",
-      "orderNumber": "HST-2026-1007",
-      "amount": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "transactionDate": "2026-11-20T07:29:46.548Z",
-      "collectedBy": "Delivery Rider Aman"
-    },
     {
       "id": "pay_1792946811670",
       "paymentReference": "PAY_HST-2026-1006",
@@ -1362,152 +991,11 @@
       "orderNumber": "HST-2026-1003",
       "amount": 1311,
       "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "transactionDate": "2026-10-25T13:45:00Z",
-      "collectedBy": "Floor Cashier Counter"
+      "paymentStatus": "pending",
+      "transactionDate": "2026-10-25T13:45:00Z"
     }
   ],
   "invoices": [
-    {
-      "id": "inv_1795163268965",
-      "invoiceNumber": "HST-INV-1010",
-      "orderId": "ord_1795163268965_w00b",
-      "orderNumber": "HST-2026-1010",
-      "customerName": "Rohit Aggarwal",
-      "customerPhone": "+91 98390 99881",
-      "customerAddress": "Shyam Nagar Block B, Kanpur",
-      "items": [
-        {
-          "dishId": "handi-paneer",
-          "name": "Handi Paneer",
-          "price": 229,
-          "quantity": 2,
-          "total": 458,
-          "image": "/uploads/1793044827862-411404267.png"
-        },
-        {
-          "dishId": "veg-biryani",
-          "name": "Veg Biryani",
-          "price": 344,
-          "quantity": 1,
-          "total": 344,
-          "image": "/uploads/1793047998402-264881757.png"
-        }
-      ],
-      "subtotal": 802,
-      "taxAmount": 40,
-      "deliveryCharge": 40,
-      "discountAmount": 0,
-      "grandTotal": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "issuedAt": "2026-11-20T08:27:48.965Z"
-    },
-    {
-      "id": "inv_1795162746158",
-      "invoiceNumber": "HST-INV-1009",
-      "orderId": "ord_1795162746158_q9z6",
-      "orderNumber": "HST-2026-1009",
-      "customerName": "Rohit Aggarwal",
-      "customerPhone": "+91 98390 99881",
-      "customerAddress": "Shyam Nagar Block B, Kanpur",
-      "items": [
-        {
-          "dishId": "handi-paneer",
-          "name": "Handi Paneer",
-          "price": 229,
-          "quantity": 2,
-          "total": 458,
-          "image": "/uploads/1793044827862-411404267.png"
-        },
-        {
-          "dishId": "veg-biryani",
-          "name": "Veg Biryani",
-          "price": 344,
-          "quantity": 1,
-          "total": 344,
-          "image": "/uploads/1793047998402-264881757.png"
-        }
-      ],
-      "subtotal": 802,
-      "taxAmount": 40,
-      "deliveryCharge": 40,
-      "discountAmount": 0,
-      "grandTotal": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "issuedAt": "2026-11-20T08:19:06.158Z"
-    },
-    {
-      "id": "inv_1795161828372",
-      "invoiceNumber": "HST-INV-1008",
-      "orderId": "ord_1795161828372_ihtc",
-      "orderNumber": "HST-2026-1008",
-      "customerName": "Rohit Aggarwal",
-      "customerPhone": "+91 98390 99881",
-      "customerAddress": "Shyam Nagar Block B, Kanpur",
-      "items": [
-        {
-          "dishId": "handi-paneer",
-          "name": "Handi Paneer",
-          "price": 229,
-          "quantity": 2,
-          "total": 458,
-          "image": "/uploads/1793044827862-411404267.png"
-        },
-        {
-          "dishId": "veg-biryani",
-          "name": "Veg Biryani",
-          "price": 344,
-          "quantity": 1,
-          "total": 344,
-          "image": "/uploads/1793047998402-264881757.png"
-        }
-      ],
-      "subtotal": 802,
-      "taxAmount": 40,
-      "deliveryCharge": 40,
-      "discountAmount": 0,
-      "grandTotal": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "issuedAt": "2026-11-20T08:03:48.372Z"
-    },
-    {
-      "id": "inv_1795159786548",
-      "invoiceNumber": "HST-INV-1007",
-      "orderId": "ord_1795159786548_yxai",
-      "orderNumber": "HST-2026-1007",
-      "customerName": "Rohit Aggarwal",
-      "customerPhone": "+91 98390 99881",
-      "customerAddress": "Shyam Nagar Block B, Kanpur",
-      "items": [
-        {
-          "dishId": "handi-paneer",
-          "name": "Handi Paneer",
-          "price": 229,
-          "quantity": 2,
-          "total": 458,
-          "image": "/uploads/1793044827862-411404267.png"
-        },
-        {
-          "dishId": "veg-biryani",
-          "name": "Veg Biryani",
-          "price": 344,
-          "quantity": 1,
-          "total": 344,
-          "image": "/uploads/1793047998402-264881757.png"
-        }
-      ],
-      "subtotal": 802,
-      "taxAmount": 40,
-      "deliveryCharge": 40,
-      "discountAmount": 0,
-      "grandTotal": 882,
-      "paymentMethod": "cod",
-      "paymentStatus": "paid",
-      "issuedAt": "2026-11-20T07:29:46.548Z"
-    },
     {
       "id": "inv_1792946811669",
       "invoiceNumber": "HST-INV-1006",
@@ -1715,105 +1203,11 @@
       "discountAmount": 0,
       "grandTotal": 1311,
       "paymentMethod": "Cash on Counter (COD)",
-      "paymentStatus": "paid",
+      "paymentStatus": "Pending",
       "issuedAt": "2026-10-25T13:45:00Z"
     }
   ],
   "bookings": [
-    {
-      "id": "tb_1795246062885",
-      "bookingRef": "HST-TB-2611-8511",
-      "customerName": "5fg6h7jikolp;",
-      "phone": "rcvtbyunimo,p",
-      "date": "2026-11-21",
-      "time": "08:00 PM",
-      "guests": "4 Guests",
-      "occasion": "Family Dinner",
-      "status": "new",
-      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
-      "staffNotes": "",
-      "createdAt": "2026-11-21T07:27:42.885Z",
-      "updatedAt": "2026-11-21T07:27:42.885Z"
-    },
-    {
-      "id": "tb_1795245985279",
-      "bookingRef": "HST-TB-2611-4974",
-      "customerName": "wertyuiop[]",
-      "phone": "sdrfyuiop[",
-      "date": "2026-11-21",
-      "time": "08:00 PM",
-      "guests": "4 Guests",
-      "occasion": "Family Dinner",
-      "status": "new",
-      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
-      "staffNotes": "",
-      "createdAt": "2026-11-21T07:26:25.279Z",
-      "updatedAt": "2026-11-21T07:26:25.279Z"
-    },
-    {
-      "id": "tb_1795163268998",
-      "bookingRef": "HST-TB-2610-3083",
-      "customerName": "Tarun Saxena",
-      "phone": "+91 99180 77665",
-      "date": "2026-10-30",
-      "time": "08:00 PM",
-      "guests": "4 Guests",
-      "occasion": "Birthday Dinner",
-      "status": "confirmed",
-      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
-      "staffNotes": "Reserved Booth B2",
-      "createdAt": "2026-11-20T08:27:48.998Z",
-      "updatedAt": "2026-11-20T08:27:49.008Z",
-      "confirmedAt": "2026-11-20T08:27:49.008Z"
-    },
-    {
-      "id": "tb_1795162746189",
-      "bookingRef": "HST-TB-2610-4141",
-      "customerName": "Tarun Saxena",
-      "phone": "+91 99180 77665",
-      "date": "2026-10-30",
-      "time": "08:00 PM",
-      "guests": "4 Guests",
-      "occasion": "Birthday Dinner",
-      "status": "confirmed",
-      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
-      "staffNotes": "Reserved Booth B2",
-      "createdAt": "2026-11-20T08:19:06.189Z",
-      "updatedAt": "2026-11-20T08:19:06.198Z",
-      "confirmedAt": "2026-11-20T08:19:06.198Z"
-    },
-    {
-      "id": "tb_1795161828396",
-      "bookingRef": "HST-TB-2610-3857",
-      "customerName": "Tarun Saxena",
-      "phone": "+91 99180 77665",
-      "date": "2026-10-30",
-      "time": "08:00 PM",
-      "guests": "4 Guests",
-      "occasion": "Birthday Dinner",
-      "status": "confirmed",
-      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
-      "staffNotes": "Reserved Booth B2",
-      "createdAt": "2026-11-20T08:03:48.396Z",
-      "updatedAt": "2026-11-20T08:03:48.402Z",
-      "confirmedAt": "2026-11-20T08:03:48.402Z"
-    },
-    {
-      "id": "tb_1795159786566",
-      "bookingRef": "HST-TB-2610-6073",
-      "customerName": "Tarun Saxena",
-      "phone": "+91 99180 77665",
-      "date": "2026-10-30",
-      "time": "08:00 PM",
-      "guests": "4 Guests",
-      "occasion": "Birthday Dinner",
-      "status": "confirmed",
-      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
-      "staffNotes": "Reserved Booth B2",
-      "createdAt": "2026-11-20T07:29:46.566Z",
-      "updatedAt": "2026-11-20T07:29:46.571Z",
-      "confirmedAt": "2026-11-20T07:29:46.571Z"
-    },
     {
       "id": "tb_1793020206050",
       "bookingRef": "HST-TB-2610-1404",
@@ -1889,7 +1283,9 @@
       "status": "confirmed",
       "staffNotes": "hs cbdshc  sc hcs chsc",
       "createdAt": "2026-10-26T12:06:53.516Z",
-      "updatedAt": "2026-10-26T12:08:04.223Z"
+      "updatedAt": "2026-11-20T16:00:56.251Z",
+      "confirmedAt": "2026-11-20T16:00:56.251Z",
+      "confirmationMethod": "whatsapp"
     },
     {
       "id": "tb_1793011017297",
@@ -1976,62 +1372,6 @@
     }
   ],
   "partyInquiries": [
-    {
-      "id": "pty_1795163269016",
-      "customerName": "Shree Radhey Exports Ltd",
-      "phone": "+91 98391 00112",
-      "eventType": "corporate",
-      "preferredDate": "2026-11-20",
-      "guestCount": 40,
-      "budgetRange": "₹40,000 – ₹60,000",
-      "specialRequirements": "Vegetarian live counter with Handi Paneer & Chaap Tikka Biryani",
-      "status": "new",
-      "staffNotes": "",
-      "createdAt": "2026-11-20T08:27:49.016Z",
-      "updatedAt": "2026-11-20T08:27:49.016Z"
-    },
-    {
-      "id": "pty_1795162746204",
-      "customerName": "Shree Radhey Exports Ltd",
-      "phone": "+91 98391 00112",
-      "eventType": "corporate",
-      "preferredDate": "2026-11-20",
-      "guestCount": 40,
-      "budgetRange": "₹40,000 – ₹60,000",
-      "specialRequirements": "Vegetarian live counter with Handi Paneer & Chaap Tikka Biryani",
-      "status": "new",
-      "staffNotes": "",
-      "createdAt": "2026-11-20T08:19:06.204Z",
-      "updatedAt": "2026-11-20T08:19:06.204Z"
-    },
-    {
-      "id": "pty_1795161828407",
-      "customerName": "Shree Radhey Exports Ltd",
-      "phone": "+91 98391 00112",
-      "eventType": "corporate",
-      "preferredDate": "2026-11-20",
-      "guestCount": 40,
-      "budgetRange": "₹40,000 – ₹60,000",
-      "specialRequirements": "Vegetarian live counter with Handi Paneer & Chaap Tikka Biryani",
-      "status": "new",
-      "staffNotes": "",
-      "createdAt": "2026-11-20T08:03:48.407Z",
-      "updatedAt": "2026-11-20T08:03:48.407Z"
-    },
-    {
-      "id": "pty_1795159786575",
-      "customerName": "Shree Radhey Exports Ltd",
-      "phone": "+91 98391 00112",
-      "eventType": "corporate",
-      "preferredDate": "2026-11-20",
-      "guestCount": 40,
-      "budgetRange": "₹40,000 – ₹60,000",
-      "specialRequirements": "Vegetarian live counter with Handi Paneer & Chaap Tikka Biryani",
-      "status": "new",
-      "staffNotes": "",
-      "createdAt": "2026-11-20T07:29:46.575Z",
-      "updatedAt": "2026-11-20T07:29:46.575Z"
-    },
     {
       "id": "pty_1792946811737",
       "customerName": "Shree Radhey Exports Ltd",
@@ -2227,49 +1567,18 @@
       "description": "Authentic North Indian curry spread with Kadai Paneer, fresh tandoori rotis in a brass basket, and mixed vegetable sabzi",
       "isFeatured": true,
       "displayOrder": 7
+    },
+    {
+      "id": "amb-1795253637954",
+      "title": "bike",
+      "category": "Interior",
+      "image": "/uploads/1795253623663-592918830.png",
+      "description": "",
+      "isFeatured": true,
+      "displayOrder": 8
     }
   ],
   "reviews": [
-    {
-      "id": "rev_1795163269023",
-      "customerName": "Kunal Singhal",
-      "rating": 5,
-      "comment": "Exceptional slow-cooked flavours and rustic clay aroma!",
-      "dishName": "Handi Paneer",
-      "source": "website",
-      "isApproved": true,
-      "createdAt": "2026-11-20T08:27:49.023Z"
-    },
-    {
-      "id": "rev_1795162746210",
-      "customerName": "Kunal Singhal",
-      "rating": 5,
-      "comment": "Exceptional slow-cooked flavours and rustic clay aroma!",
-      "dishName": "Handi Paneer",
-      "source": "website",
-      "isApproved": true,
-      "createdAt": "2026-11-20T08:19:06.210Z"
-    },
-    {
-      "id": "rev_1795161828411",
-      "customerName": "Kunal Singhal",
-      "rating": 5,
-      "comment": "Exceptional slow-cooked flavours and rustic clay aroma!",
-      "dishName": "Handi Paneer",
-      "source": "website",
-      "isApproved": true,
-      "createdAt": "2026-11-20T08:03:48.411Z"
-    },
-    {
-      "id": "rev_1795159786578",
-      "customerName": "Kunal Singhal",
-      "rating": 5,
-      "comment": "Exceptional slow-cooked flavours and rustic clay aroma!",
-      "dishName": "Handi Paneer",
-      "source": "website",
-      "isApproved": true,
-      "createdAt": "2026-11-20T07:29:46.578Z"
-    },
     {
       "id": "rev_1792946811746",
       "customerName": "Kunal Singhal",
@@ -2336,761 +1645,70 @@
   ],
   "auditLogs": [
     {
-      "id": "aud_1795246062888_4rv7",
-      "action": "TABLE_BOOKING_REQUESTED",
-      "user": "Public Customer",
-      "details": "Reservation inquiry #HST-TB-2611-8511 (tb_1795246062885) by 5fg6h7jikolp; for 2026-11-21 08:00 PM",
-      "timestamp": "2026-11-21T07:27:42.888Z"
+      "id": "aud_1795253637956_q0s6",
+      "action": "ADD_GALLERY_PHOTO",
+      "user": "admin",
+      "details": "Added gallery photo: bike",
+      "timestamp": "2026-11-21T09:33:57.956Z"
     },
     {
-      "id": "aud_1795245985281_9ynn",
-      "action": "TABLE_BOOKING_REQUESTED",
-      "user": "Public Customer",
-      "details": "Reservation inquiry #HST-TB-2611-4974 (tb_1795245985279) by wertyuiop[] for 2026-11-21 08:00 PM",
-      "timestamp": "2026-11-21T07:26:25.281Z"
+      "id": "aud_1795253623709_8bo4",
+      "action": "IMAGE_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded file: 1795253623663-592918830.png (2179 KB)",
+      "timestamp": "2026-11-21T09:33:43.709Z"
     },
     {
-      "id": "aud_1795245708726_wxur",
-      "action": "PAYMENT_COLLECTED",
-      "user": "Hestiia Administrator",
-      "details": "Payment for order HST-2026-1003 marked as collected",
-      "timestamp": "2026-11-21T07:21:48.726Z"
-    },
-    {
-      "id": "aud_1795245532983_i7cp",
+      "id": "aud_1795246075215_psy4",
       "action": "ADMIN_LOGIN",
       "user": "admin",
       "details": "Successful login by Hestiia Administrator (superadmin)",
       "ip": "::1",
-      "timestamp": "2026-11-21T07:18:52.983Z"
+      "timestamp": "2026-11-21T07:27:55.215Z"
     },
     {
-      "id": "aud_1795163269568_pzip",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795163268471",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:49.568Z"
-    },
-    {
-      "id": "aud_1795163269564_t9pt",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795163268471",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:49.564Z"
-    },
-    {
-      "id": "aud_1795163269558_tkkw",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795163268471",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:49.558Z"
-    },
-    {
-      "id": "aud_1795163269553_ok22",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795163268471",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:49.553Z"
-    },
-    {
-      "id": "aud_1795163269547_e918",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795163268471",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:49.547Z"
-    },
-    {
-      "id": "aud_1795163269539_9d0n",
+      "id": "aud_1795245432075_qen2",
       "action": "ADMIN_LOGOUT",
-      "user": "test_staff_1795163268471",
-      "details": "User logged out and session revoked",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:49.539Z"
-    },
-    {
-      "id": "aud_1795163269532_u7xi",
-      "action": "ADMIN_LOGIN",
-      "user": "test_staff_1795163268471",
-      "details": "Successful login by Test Staff Member (staff)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:49.532Z"
-    },
-    {
-      "id": "aud_1795163269442_szhl",
-      "action": "PASSWORD_CHANGED",
-      "user": "test_staff_1795163268471",
-      "details": "Password updated successfully",
-      "timestamp": "2026-11-20T08:27:49.442Z"
-    },
-    {
-      "id": "aud_1795163269247_ep4u",
-      "action": "ADMIN_LOGIN",
-      "user": "test_staff_1795163268471",
-      "details": "Successful login by Test Staff Member (staff)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:49.247Z"
-    },
-    {
-      "id": "aud_1795163269136_o94k",
-      "action": "USER_CREATED",
       "user": "admin",
-      "details": "Created user test_staff_1795163268471 (staff)",
-      "timestamp": "2026-11-20T08:27:49.136Z"
-    },
-    {
-      "id": "aud_1795163269030_2zhq",
-      "action": "REVIEW_APPROVAL_TOGGLE",
-      "user": "admin",
-      "details": "Review #rev_1795163269023 set to approved=true",
-      "timestamp": "2026-11-20T08:27:49.030Z"
-    },
-    {
-      "id": "aud_1795163269024_hr38",
-      "action": "CUSTOMER_FEEDBACK_SUBMITTED",
-      "user": "Public Customer",
-      "details": "Feedback received from Kunal Singhal (5★)",
-      "timestamp": "2026-11-20T08:27:49.024Z"
-    },
-    {
-      "id": "aud_1795163269018_8j0i",
-      "action": "PARTY_INQUIRY_CREATED",
-      "user": "Public Customer",
-      "details": "Party inquiry #pty_1795163269016 for 40 guests on 2026-11-20",
-      "timestamp": "2026-11-20T08:27:49.018Z"
-    },
-    {
-      "id": "aud_1795163269010_5bjg",
-      "action": "BOOKING_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Booking #HST-TB-2610-3083 status updated to confirmed",
-      "timestamp": "2026-11-20T08:27:49.010Z"
-    },
-    {
-      "id": "aud_1795163269000_fk3w",
-      "action": "TABLE_BOOKING_REQUESTED",
-      "user": "Public Customer",
-      "details": "Reservation inquiry #HST-TB-2610-3083 (tb_1795163268998) by Tarun Saxena for 2026-10-30 08:00 PM",
-      "timestamp": "2026-11-20T08:27:49.000Z"
-    },
-    {
-      "id": "aud_1795163268989_x1wz",
-      "action": "PAYMENT_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Order HST-2026-1010 payment marked as paid",
-      "timestamp": "2026-11-20T08:27:48.989Z"
-    },
-    {
-      "id": "aud_1795163268978_iezo",
-      "action": "ORDER_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Order HST-2026-1010 status changed to confirmed",
-      "timestamp": "2026-11-20T08:27:48.978Z"
-    },
-    {
-      "id": "aud_1795163268967_col6",
-      "action": "ORDER_PLACED",
-      "user": "Customer",
-      "details": "Order HST-2026-1010 placed for ₹882 by Rohit Aggarwal",
-      "timestamp": "2026-11-20T08:27:48.967Z"
-    },
-    {
-      "id": "aud_1795163268958_7vki",
-      "action": "TOGGLE_DISH_AVAILABILITY",
-      "user": "admin",
-      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
-      "timestamp": "2026-11-20T08:27:48.958Z"
-    },
-    {
-      "id": "aud_1795163268947_om8z",
-      "action": "CREATE_FOOD_ITEM",
-      "user": "admin",
-      "details": "Created food item: Awadhi Korma Platter (₹380)",
-      "timestamp": "2026-11-20T08:27:48.947Z"
-    },
-    {
-      "id": "aud_1795163268887_fdr6",
-      "action": "ADMIN_LOGIN",
-      "user": "admin",
-      "details": "Successful login by Hestiia Administrator (superadmin)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:48.887Z"
-    },
-    {
-      "id": "aud_1795163268751_v3y5",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "admin",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:27:48.751Z"
-    },
-    {
-      "id": "aud_1795162746774_zmop",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795162745803",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:06.774Z"
-    },
-    {
-      "id": "aud_1795162746768_juql",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795162745803",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:06.768Z"
-    },
-    {
-      "id": "aud_1795162746761_xr4k",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795162745803",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:06.761Z"
-    },
-    {
-      "id": "aud_1795162746756_9ec3",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795162745803",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:06.756Z"
-    },
-    {
-      "id": "aud_1795162746749_nz6z",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795162745803",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:06.749Z"
-    },
-    {
-      "id": "aud_1795162746740_jsl6",
-      "action": "ADMIN_LOGOUT",
-      "user": "test_staff_1795162745803",
-      "details": "User logged out and session revoked",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:06.740Z"
-    },
-    {
-      "id": "aud_1795162746732_she5",
-      "action": "ADMIN_LOGIN",
-      "user": "test_staff_1795162745803",
-      "details": "Successful login by Test Staff Member (staff)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:06.732Z"
-    },
-    {
-      "id": "aud_1795162746613_177n",
-      "action": "PASSWORD_CHANGED",
-      "user": "test_staff_1795162745803",
-      "details": "Password updated successfully",
-      "timestamp": "2026-11-20T08:19:06.613Z"
-    },
-    {
-      "id": "aud_1795162746417_h4gn",
-      "action": "ADMIN_LOGIN",
-      "user": "test_staff_1795162745803",
-      "details": "Successful login by Test Staff Member (staff)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:06.417Z"
-    },
-    {
-      "id": "aud_1795162746324_3y1h",
-      "action": "USER_CREATED",
-      "user": "admin",
-      "details": "Created user test_staff_1795162745803 (staff)",
-      "timestamp": "2026-11-20T08:19:06.324Z"
-    },
-    {
-      "id": "aud_1795162746218_r8u5",
-      "action": "REVIEW_APPROVAL_TOGGLE",
-      "user": "admin",
-      "details": "Review #rev_1795162746210 set to approved=true",
-      "timestamp": "2026-11-20T08:19:06.218Z"
-    },
-    {
-      "id": "aud_1795162746212_i67x",
-      "action": "CUSTOMER_FEEDBACK_SUBMITTED",
-      "user": "Public Customer",
-      "details": "Feedback received from Kunal Singhal (5★)",
-      "timestamp": "2026-11-20T08:19:06.212Z"
-    },
-    {
-      "id": "aud_1795162746206_r1xt",
-      "action": "PARTY_INQUIRY_CREATED",
-      "user": "Public Customer",
-      "details": "Party inquiry #pty_1795162746204 for 40 guests on 2026-11-20",
-      "timestamp": "2026-11-20T08:19:06.206Z"
-    },
-    {
-      "id": "aud_1795162746199_mncd",
-      "action": "BOOKING_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Booking #HST-TB-2610-4141 status updated to confirmed",
-      "timestamp": "2026-11-20T08:19:06.199Z"
-    },
-    {
-      "id": "aud_1795162746191_c702",
-      "action": "TABLE_BOOKING_REQUESTED",
-      "user": "Public Customer",
-      "details": "Reservation inquiry #HST-TB-2610-4141 (tb_1795162746189) by Tarun Saxena for 2026-10-30 08:00 PM",
-      "timestamp": "2026-11-20T08:19:06.191Z"
-    },
-    {
-      "id": "aud_1795162746180_0ua1",
-      "action": "PAYMENT_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Order HST-2026-1009 payment marked as paid",
-      "timestamp": "2026-11-20T08:19:06.180Z"
-    },
-    {
-      "id": "aud_1795162746170_uvk9",
-      "action": "ORDER_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Order HST-2026-1009 status changed to confirmed",
-      "timestamp": "2026-11-20T08:19:06.170Z"
-    },
-    {
-      "id": "aud_1795162746160_2z4h",
-      "action": "ORDER_PLACED",
-      "user": "Customer",
-      "details": "Order HST-2026-1009 placed for ₹882 by Rohit Aggarwal",
-      "timestamp": "2026-11-20T08:19:06.160Z"
-    },
-    {
-      "id": "aud_1795162746151_szh6",
-      "action": "TOGGLE_DISH_AVAILABILITY",
-      "user": "admin",
-      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
-      "timestamp": "2026-11-20T08:19:06.151Z"
-    },
-    {
-      "id": "aud_1795162746143_ikdg",
-      "action": "CREATE_FOOD_ITEM",
-      "user": "admin",
-      "details": "Created food item: Awadhi Korma Platter (₹380)",
-      "timestamp": "2026-11-20T08:19:06.143Z"
-    },
-    {
-      "id": "aud_1795162746081_s5yy",
-      "action": "ADMIN_LOGIN",
-      "user": "admin",
-      "details": "Successful login by Hestiia Administrator (superadmin)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:06.081Z"
-    },
-    {
-      "id": "aud_1795162745982_egzi",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "admin",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:19:05.982Z"
-    },
-    {
-      "id": "aud_1795161828822_re8b",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795161828062",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:03:48.822Z"
-    },
-    {
-      "id": "aud_1795161828818_rwev",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795161828062",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:03:48.818Z"
-    },
-    {
-      "id": "aud_1795161828814_qn3c",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795161828062",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:03:48.814Z"
-    },
-    {
-      "id": "aud_1795161828809_ko3b",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795161828062",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:03:48.809Z"
-    },
-    {
-      "id": "aud_1795161828805_kyby",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795161828062",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:03:48.805Z"
-    },
-    {
-      "id": "aud_1795161828800_do2v",
-      "action": "ADMIN_LOGOUT",
-      "user": "test_staff_1795161828062",
       "details": "User logged out",
-      "timestamp": "2026-11-20T08:03:48.800Z"
+      "timestamp": "2026-11-21T07:17:12.075Z"
     },
     {
-      "id": "aud_1795161828797_n1r0",
-      "action": "ADMIN_LOGIN",
-      "user": "test_staff_1795161828062",
-      "details": "Successful login by Test Staff Member (staff)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:03:48.797Z"
-    },
-    {
-      "id": "aud_1795161828719_dkp1",
-      "action": "PASSWORD_CHANGED",
-      "user": "test_staff_1795161828062",
-      "details": "Password updated successfully",
-      "timestamp": "2026-11-20T08:03:48.719Z"
-    },
-    {
-      "id": "aud_1795161828572_rnrc",
-      "action": "ADMIN_LOGIN",
-      "user": "test_staff_1795161828062",
-      "details": "Successful login by Test Staff Member (staff)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:03:48.572Z"
-    },
-    {
-      "id": "aud_1795161828500_c4sy",
-      "action": "USER_CREATED",
-      "user": "admin",
-      "details": "Created user test_staff_1795161828062 (staff)",
-      "timestamp": "2026-11-20T08:03:48.500Z"
-    },
-    {
-      "id": "aud_1795161828417_fsn3",
+      "id": "aud_1795202059886_169r",
       "action": "REVIEW_APPROVAL_TOGGLE",
       "user": "admin",
-      "details": "Review #rev_1795161828411 set to approved=true",
-      "timestamp": "2026-11-20T08:03:48.417Z"
+      "details": "Review #rev_2 set to approved=true",
+      "timestamp": "2026-11-20T19:14:19.886Z"
     },
     {
-      "id": "aud_1795161828413_9a2m",
-      "action": "CUSTOMER_FEEDBACK_SUBMITTED",
-      "user": "Public Customer",
-      "details": "Feedback received from Kunal Singhal (5★)",
-      "timestamp": "2026-11-20T08:03:48.413Z"
-    },
-    {
-      "id": "aud_1795161828408_em6l",
-      "action": "PARTY_INQUIRY_CREATED",
-      "user": "Public Customer",
-      "details": "Party inquiry #pty_1795161828407 for 40 guests on 2026-11-20",
-      "timestamp": "2026-11-20T08:03:48.408Z"
-    },
-    {
-      "id": "aud_1795161828403_do6a",
-      "action": "BOOKING_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Booking #HST-TB-2610-3857 status updated to confirmed",
-      "timestamp": "2026-11-20T08:03:48.403Z"
-    },
-    {
-      "id": "aud_1795161828397_gj3u",
-      "action": "TABLE_BOOKING_REQUESTED",
-      "user": "Public Customer",
-      "details": "Reservation inquiry #HST-TB-2610-3857 (tb_1795161828396) by Tarun Saxena for 2026-10-30 08:00 PM",
-      "timestamp": "2026-11-20T08:03:48.397Z"
-    },
-    {
-      "id": "aud_1795161828388_0xp3",
-      "action": "PAYMENT_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Order HST-2026-1008 payment marked as paid",
-      "timestamp": "2026-11-20T08:03:48.388Z"
-    },
-    {
-      "id": "aud_1795161828381_l4gg",
-      "action": "ORDER_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Order HST-2026-1008 status changed to confirmed",
-      "timestamp": "2026-11-20T08:03:48.381Z"
-    },
-    {
-      "id": "aud_1795161828373_d8l3",
-      "action": "ORDER_PLACED",
-      "user": "Customer",
-      "details": "Order HST-2026-1008 placed for ₹882 by Rohit Aggarwal",
-      "timestamp": "2026-11-20T08:03:48.373Z"
-    },
-    {
-      "id": "aud_1795161828367_kgro",
-      "action": "TOGGLE_DISH_AVAILABILITY",
-      "user": "admin",
-      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
-      "timestamp": "2026-11-20T08:03:48.367Z"
-    },
-    {
-      "id": "aud_1795161828361_hn9m",
-      "action": "CREATE_FOOD_ITEM",
-      "user": "admin",
-      "details": "Created food item: Awadhi Korma Platter (₹380)",
-      "timestamp": "2026-11-20T08:03:48.361Z"
-    },
-    {
-      "id": "aud_1795161828319_ko0b",
-      "action": "ADMIN_LOGIN",
-      "user": "admin",
-      "details": "Successful login by Hestiia Administrator (superadmin)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:03:48.319Z"
-    },
-    {
-      "id": "aud_1795161828231_odgn",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "admin",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T08:03:48.231Z"
-    },
-    {
-      "id": "aud_1795159787079_kw3f",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795159786294",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:29:47.079Z"
-    },
-    {
-      "id": "aud_1795159787076_7sp9",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795159786294",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:29:47.076Z"
-    },
-    {
-      "id": "aud_1795159787073_2r2p",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795159786294",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:29:47.073Z"
-    },
-    {
-      "id": "aud_1795159787071_yk3e",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795159786294",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:29:47.071Z"
-    },
-    {
-      "id": "aud_1795159787068_ad6q",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "bruteforce_probe_1795159786294",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:29:47.068Z"
-    },
-    {
-      "id": "aud_1795159787064_8cmj",
-      "action": "ADMIN_LOGOUT",
-      "user": "test_staff_1795159786294",
-      "details": "User logged out",
-      "timestamp": "2026-11-20T07:29:47.064Z"
-    },
-    {
-      "id": "aud_1795159787062_ftiv",
-      "action": "ADMIN_LOGIN",
-      "user": "test_staff_1795159786294",
-      "details": "Successful login by Test Staff Member (staff)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:29:47.062Z"
-    },
-    {
-      "id": "aud_1795159786994_30j0",
-      "action": "PASSWORD_CHANGED",
-      "user": "test_staff_1795159786294",
-      "details": "Password updated successfully",
-      "timestamp": "2026-11-20T07:29:46.994Z"
-    },
-    {
-      "id": "aud_1795159786863_9zh7",
-      "action": "ADMIN_LOGIN",
-      "user": "test_staff_1795159786294",
-      "details": "Successful login by Test Staff Member (staff)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:29:46.863Z"
-    },
-    {
-      "id": "aud_1795159786795_2h6m",
-      "action": "USER_CREATED",
-      "user": "admin",
-      "details": "Created user test_staff_1795159786294 (staff)",
-      "timestamp": "2026-11-20T07:29:46.795Z"
-    },
-    {
-      "id": "aud_1795159786726_7inj",
-      "action": "USER_CREATED",
-      "user": "admin",
-      "details": "Created user weak_pwd_user (staff)",
-      "timestamp": "2026-11-20T07:29:46.726Z"
-    },
-    {
-      "id": "aud_1795159786657_0ho9",
-      "action": "USER_CREATED",
-      "user": "admin",
-      "details": "Created user bad_role_user (owner)",
-      "timestamp": "2026-11-20T07:29:46.657Z"
-    },
-    {
-      "id": "aud_1795159786582_htef",
+      "id": "aud_1795202056529_ag2u",
       "action": "REVIEW_APPROVAL_TOGGLE",
       "user": "admin",
-      "details": "Review #rev_1795159786578 set to approved=true",
-      "timestamp": "2026-11-20T07:29:46.582Z"
+      "details": "Review #rev_2 set to approved=false",
+      "timestamp": "2026-11-20T19:14:16.529Z"
     },
     {
-      "id": "aud_1795159786578_48uy",
-      "action": "CUSTOMER_FEEDBACK_SUBMITTED",
-      "user": "Public Customer",
-      "details": "Feedback received from Kunal Singhal (5★)",
-      "timestamp": "2026-11-20T07:29:46.579Z"
+      "id": "aud_1795200450631_6v4x",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-11-20T18:47:30.631Z"
     },
     {
-      "id": "aud_1795159786575_m5q0",
-      "action": "PARTY_INQUIRY_CREATED",
-      "user": "Public Customer",
-      "details": "Party inquiry #pty_1795159786575 for 40 guests on 2026-11-20",
-      "timestamp": "2026-11-20T07:29:46.575Z"
-    },
-    {
-      "id": "aud_1795159786572_pttc",
+      "id": "aud_1795190456252_cfzt",
       "action": "BOOKING_STATUS_CHANGED",
       "user": "Hestiia Administrator",
-      "details": "Booking #HST-TB-2610-6073 status updated to confirmed",
-      "timestamp": "2026-11-20T07:29:46.572Z"
+      "details": "Booking #tb_1793016413516 status updated to confirmed",
+      "timestamp": "2026-11-20T16:00:56.252Z"
     },
     {
-      "id": "aud_1795159786567_hwgb",
-      "action": "TABLE_BOOKING_REQUESTED",
-      "user": "Public Customer",
-      "details": "Reservation inquiry #HST-TB-2610-6073 (tb_1795159786566) by Tarun Saxena for 2026-10-30 08:00 PM",
-      "timestamp": "2026-11-20T07:29:46.567Z"
-    },
-    {
-      "id": "aud_1795159786560_m4h3",
-      "action": "PAYMENT_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Order HST-2026-1007 payment marked as paid",
-      "timestamp": "2026-11-20T07:29:46.560Z"
-    },
-    {
-      "id": "aud_1795159786555_p25j",
-      "action": "ORDER_STATUS_CHANGED",
-      "user": "Hestiia Administrator",
-      "details": "Order HST-2026-1007 status changed to confirmed",
-      "timestamp": "2026-11-20T07:29:46.555Z"
-    },
-    {
-      "id": "aud_1795159786549_7ha0",
-      "action": "ORDER_PLACED",
-      "user": "Customer",
-      "details": "Order HST-2026-1007 placed for ₹882 by Rohit Aggarwal",
-      "timestamp": "2026-11-20T07:29:46.549Z"
-    },
-    {
-      "id": "aud_1795159786544_14z8",
-      "action": "TOGGLE_DISH_AVAILABILITY",
-      "user": "admin",
-      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
-      "timestamp": "2026-11-20T07:29:46.544Z"
-    },
-    {
-      "id": "aud_1795159786540_3vtc",
-      "action": "CREATE_FOOD_ITEM",
-      "user": "admin",
-      "details": "Created food item: Awadhi Korma Platter (₹380)",
-      "timestamp": "2026-11-20T07:29:46.540Z"
-    },
-    {
-      "id": "aud_1795159786508_2d74",
+      "id": "aud_1795190052635_6555",
       "action": "ADMIN_LOGIN",
       "user": "admin",
       "details": "Successful login by Hestiia Administrator (superadmin)",
       "ip": "::1",
-      "timestamp": "2026-11-20T07:29:46.508Z"
-    },
-    {
-      "id": "aud_1795159786431_jc5f",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "admin",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:29:46.431Z"
-    },
-    {
-      "id": "aud_1795159734358_abjt",
-      "action": "TOGGLE_DISH_AVAILABILITY",
-      "user": "admin",
-      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
-      "timestamp": "2026-11-20T07:28:54.358Z"
-    },
-    {
-      "id": "aud_1795159734353_jc7a",
-      "action": "CREATE_FOOD_ITEM",
-      "user": "admin",
-      "details": "Created food item: Awadhi Korma Platter (₹380)",
-      "timestamp": "2026-11-20T07:28:54.353Z"
-    },
-    {
-      "id": "aud_1795159734320_hrev",
-      "action": "ADMIN_LOGIN",
-      "user": "admin",
-      "details": "Successful login by Hestiia Administrator (superadmin)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:28:54.320Z"
-    },
-    {
-      "id": "aud_1795159734243_zib2",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "admin",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:28:54.243Z"
-    },
-    {
-      "id": "aud_1795159702472_xhvw",
-      "action": "TOGGLE_DISH_AVAILABILITY",
-      "user": "admin",
-      "details": "Awadhi Korma Platter set to Unavailable (86’d)",
-      "timestamp": "2026-11-20T07:28:22.472Z"
-    },
-    {
-      "id": "aud_1795159702467_bw2p",
-      "action": "CREATE_FOOD_ITEM",
-      "user": "admin",
-      "details": "Created food item: Awadhi Korma Platter (₹380)",
-      "timestamp": "2026-11-20T07:28:22.467Z"
-    },
-    {
-      "id": "aud_1795159702428_dze6",
-      "action": "ADMIN_LOGIN",
-      "user": "admin",
-      "details": "Successful login by Hestiia Administrator (superadmin)",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:28:22.428Z"
-    },
-    {
-      "id": "aud_1795159702346_kvqf",
-      "action": "FAILED_LOGIN_ATTEMPT",
-      "user": "admin",
-      "details": "Failed login attempt from IP ::1",
-      "ip": "::1",
-      "timestamp": "2026-11-20T07:28:22.346Z"
+      "timestamp": "2026-11-20T15:54:12.635Z"
     },
     {
       "id": "aud_1793086493906_z7lz",

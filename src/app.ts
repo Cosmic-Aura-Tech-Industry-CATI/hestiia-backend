@@ -1,0 +1,64 @@
+import express, { Request, Response, NextFunction } from 'express';
+import helmet from 'helmet';
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import hpp from 'hpp';
+import path from 'path';
+
+import { ENV } from './config/env.js';
+import { corsConfig } from './config/cors.js';
+import { authLimiter } from './middleware/rateLimiter.middleware.js';
+import { errorHandler } from './middleware/error.middleware.js';
+import { AppError } from './shared/errors/index.js';
+import mainRouter from './routes/index.js';
+
+export const app = express();
+
+// 1. Security & Core Middlewares
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+app.use(corsConfig);
+app.use(compression());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser());
+app.use(hpp());
+
+// 2. Rate Limiting for Sensitive Auth Routes
+app.use(['/api/auth/login', '/api/admin/auth/login', '/api/v1/admin/auth/login'], authLimiter);
+
+// 3. Static Assets
+app.use('/uploads', express.static(ENV.UPLOADS_DIR));
+app.use('/menu', express.static(path.resolve(process.cwd(), 'public', 'uploads', 'menu')));
+
+// 4. System Healthcheck
+app.get('/api/health', (_req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'healthy',
+    system: 'DIMISI Restaurant Management Platform',
+    restaurant: 'HESTIIA RESTAURANT',
+    architecture: 'Modular Monolith v1.0 (Enterprise Standard)',
+    timestamp: new Date().toISOString(),
+  });
+});
+
+app.get('/api/v1/health', (_req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'healthy',
+    version: 'v1.0',
+    system: 'Hestiia Modular Monolith API',
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// 5. Mount Unified Routes
+app.use(mainRouter);
+
+// 6. 404 Handler
+app.use((req: Request, _res: Response, next: NextFunction) => {
+  next(new AppError(`Cannot find endpoint ${req.originalUrl} on this server.`, 404));
+});
+
+// 7. Global Error Handler
+app.use(errorHandler);
+
+export default app;
