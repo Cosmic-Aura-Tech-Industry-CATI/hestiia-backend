@@ -25,3 +25,9 @@ public/uploads/*
 # System files
 .DS_Store
 Thumbs.db
+
+# Data & Temp files
+data/
+*.tmp
+db.json
+*.backup.json

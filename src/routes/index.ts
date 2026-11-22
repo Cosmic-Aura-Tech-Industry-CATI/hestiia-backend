@@ -31,7 +31,7 @@ mainRouter.use('/api/v1/staff', staffRouter);
 mainRouter.use('/api/v1/webhooks', webhooksRouter);
 
 // Backward Compatible Routes (Mounts existing endpoints without breaking existing Dashboard or Web UI)
-mainRouter.use(['/api/auth', '/api/admin/auth'], authRouter);
+mainRouter.use(['/api/auth', '/api/admin/auth', '/api/v1/auth', '/auth'], authRouter);
 mainRouter.use('/api/admin/dashboard', dashboardRouter);
 mainRouter.use(['/api/menu', '/api/admin/menu'], menuRouter);
 mainRouter.use(['/api/categories', '/api/admin/categories'], categoriesRouter);

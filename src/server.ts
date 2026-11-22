@@ -4,12 +4,21 @@ import { ENV } from './config/env.js';
 import { connectDatabase } from './config/database.js';
 import { initializeSockets } from './sockets/socketServer.js';
 import { logger } from './config/logger.js';
+import { authService } from './modules/auth/auth.service.js';
 
 const httpServer = http.createServer(app);
 export const io = initializeSockets(httpServer);
 
 export async function startServer() {
   await connectDatabase();
+
+  if (typeof authService.bootstrapSuperadmin === 'function') {
+    try {
+      await authService.bootstrapSuperadmin();
+    } catch (err: any) {
+      logger.warn(`[Bootstrap] Superadmin bootstrap bypassed: ${err?.message}`);
+    }
+  }
 
   return new Promise((resolve) => {
     const server = httpServer.listen(ENV.PORT, () => {
