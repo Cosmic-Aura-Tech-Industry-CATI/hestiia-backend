@@ -96,7 +96,7 @@ app.use(['/api/customers', '/api/admin/customers'], customersRouter);
 app.use('/api/admin/payments', paymentsRouter);
 app.use('/api/admin/invoices', invoicesRouter);
 app.use(['/api/bookings', '/api/admin/bookings'], bookingsRouter);
-app.use(['/api/party-inquiries', '/api/admin/party-inquiries'], partyRouter);
+app.use(['/api/party', '/api/admin/party', '/api/party-inquiries', '/api/admin/party-inquiries'], partyRouter);
 app.use(['/api/promotions', '/api/admin/promotions'], promotionsRouter);
 app.use(['/api/gallery', '/api/admin/gallery'], galleryRouter);
 app.use(['/api/reviews', '/api/admin/reviews'], reviewsRouter);

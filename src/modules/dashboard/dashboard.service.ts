@@ -2,6 +2,7 @@ import { db } from '../../shared/config/db.js';
 import { Customer } from '../customers/customer.model.js';
 import { MenuItem } from '../menu/menu.model.js';
 import { Order } from '../orders/order.model.js';
+import { PartyInquiry } from '../party/party.model.js';
 
 export const dashboardService = {
   async getOverview() {
@@ -84,10 +85,11 @@ export const dashboardService = {
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 5);
 
-    const [totalCustomersCount, totalDishesCount, unavailableDishesCount] = await Promise.all([
+    const [totalCustomersCount, totalDishesCount, unavailableDishesCount, pendingPartiesCount] = await Promise.all([
       Customer.countDocuments().catch(() => state.customers.length),
       MenuItem.countDocuments().catch(() => state.dishes.length),
       MenuItem.countDocuments({ available: false }).catch(() => state.dishes.filter((d) => !d.available).length),
+      PartyInquiry.countDocuments({ status: { $in: ['new', 'contacted'] } }).catch(() => state.partyInquiries.filter((p) => ['new', 'contacted'].includes(p.status)).length),
     ]);
 
     return {
@@ -102,7 +104,7 @@ export const dashboardService = {
         totalDishesCount: totalDishesCount,
         unavailableDishesCount: unavailableDishesCount,
         pendingBookingsCount: pendingBookings.length,
-        pendingPartiesCount: pendingParties.length,
+        pendingPartiesCount: pendingPartiesCount,
       },
       salesTrend,
       statusDistribution,
