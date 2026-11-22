@@ -92,7 +92,7 @@ app.use('/api/admin/dashboard', dashboardRouter);
 app.use(['/api/menu', '/api/admin/menu'], menuRouter);
 app.use(['/api/categories', '/api/admin/categories'], categoriesRouter);
 app.use(['/api/orders', '/api/admin/orders'], ordersRouter);
-app.use('/api/admin/customers', customersRouter);
+app.use(['/api/customers', '/api/admin/customers'], customersRouter);
 app.use('/api/admin/payments', paymentsRouter);
 app.use('/api/admin/invoices', invoicesRouter);
 app.use(['/api/bookings', '/api/admin/bookings'], bookingsRouter);

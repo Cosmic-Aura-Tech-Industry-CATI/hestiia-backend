@@ -1,4 +1,6 @@
 import { db } from '../../shared/config/db.js';
+import { Customer } from '../customers/customer.model.js';
+import { MenuItem } from '../menu/menu.model.js';
 
 export const dashboardService = {
   async getOverview() {
@@ -81,6 +83,12 @@ export const dashboardService = {
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 5);
 
+    const [totalCustomersCount, totalDishesCount, unavailableDishesCount] = await Promise.all([
+      Customer.countDocuments().catch(() => state.customers.length),
+      MenuItem.countDocuments().catch(() => state.dishes.length),
+      MenuItem.countDocuments({ available: false }).catch(() => state.dishes.filter((d) => !d.available).length),
+    ]);
+
     return {
       metrics: {
         todayOrdersCount: todayOrders.length,
@@ -89,9 +97,9 @@ export const dashboardService = {
         completedOrdersCount: completedOrders.length,
         todayRevenue,
         totalVerifiedRevenue,
-        totalCustomers: state.customers.length,
-        totalDishesCount: state.dishes.length,
-        unavailableDishesCount: state.dishes.filter((d) => !d.available).length,
+        totalCustomers: totalCustomersCount,
+        totalDishesCount: totalDishesCount,
+        unavailableDishesCount: unavailableDishesCount,
         pendingBookingsCount: pendingBookings.length,
         pendingPartiesCount: pendingParties.length,
       },

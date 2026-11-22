@@ -1,5 +1,6 @@
 import { db, Order, OrderItem, Invoice, Payment, Customer } from '../../shared/config/db.js';
 import { AppError } from '../../shared/utils/appError.js';
+import { customersService } from '../customers/customers.service.js';
 
 const VALID_STATUSES = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'completed', 'cancelled'] as const;
 const VALID_PAYMENTS = ['pending', 'authorized', 'paid', 'failed', 'refunded'] as const;
@@ -170,6 +171,17 @@ export const ordersService = {
     });
 
     db.logAudit('ORDER_PLACED', 'Customer', `Order ${orderNumber} placed for ₹${grandTotal} by ${customerName}`);
+
+    // Synchronize customer profile directly in MongoDB Atlas
+    customersService
+      .recordOrderForCustomer({
+        name: newOrder.customerName,
+        phone: newOrder.customerPhone,
+        email: newOrder.customerEmail,
+        address: newOrder.deliveryAddress,
+        orderTotal: grandTotal,
+      })
+      .catch(() => {});
 
     return { order: newOrder, invoice: newInvoice };
   },
