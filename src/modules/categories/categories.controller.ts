@@ -13,6 +13,11 @@ export const getAdminCategories = catchAsync(async (_req: AuthenticatedRequest, 
   res.status(200).json({ success: true, categories });
 });
 
+export const getCategoryById = catchAsync(async (req: Request, res: Response) => {
+  const category = await categoriesService.getCategoryById(String(req.params.id));
+  res.status(200).json({ success: true, category });
+});
+
 export const createCategory = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const category = await categoriesService.createCategory(req.body, req.user?.username);
   res.status(201).json({

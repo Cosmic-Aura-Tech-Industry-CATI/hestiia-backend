@@ -65,11 +65,12 @@ export const resendOtp = catchAsync(async (req: AuthenticatedRequest, res: Respo
  * Refresh Access Token using Refresh Token with token rotation
  */
 export const refresh = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const token = req.body.refreshToken || req.cookies?.refreshToken;
+  // Safely extract token from HttpOnly cookies or request body using optional chaining
+  const token = req.cookies?.refreshToken || req.body?.refreshToken;
   const ip = req.ip || req.socket.remoteAddress || 'unknown';
 
   if (!token) {
-    throw new AppError('Refresh token is required.', 401);
+    throw new AppError('Refresh token is required. Please provide it via cookies or request body.', 401);
   }
 
   const result = await defaultAuthService.refreshTokens(token, ip);
@@ -78,7 +79,8 @@ export const refresh = catchAsync(async (req: AuthenticatedRequest, res: Respons
   res.status(200).json(result);
 });
 
-// Alias for compatibility
+// Aliases for compatibility
+export const refreshToken = refresh;
 export const refreshAccessToken = refresh;
 
 /**

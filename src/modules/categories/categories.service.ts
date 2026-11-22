@@ -1,119 +1,251 @@
-import { db, FoodCategory } from '../../shared/config/db.js';
+import mongoose from 'mongoose';
+import { Category, type ICategoryDocument } from './category.model.js';
+import { db } from '../../shared/config/store.js';
 import { AppError } from '../../shared/utils/appError.js';
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
 export const categoriesService = {
-  async getPublicCategories() {
-    const categories = [...db.getState().categories]
-      .filter((c) => c.isActive)
-      .sort((a, b) => a.displayOrder - b.displayOrder);
-    return categories;
+  /**
+   * Format document with clean string ID and timestamps
+   */
+  formatCategory(doc: any) {
+    const id = doc?._id ? doc._id.toString() : (doc?.id || '');
+    return {
+      id,
+      _id: doc?._id || id,
+      name: doc?.name || '',
+      description: doc?.description || '',
+      displayOrder: doc?.displayOrder ?? 0,
+      isActive: doc?.isActive ?? true,
+      createdAt: doc?.createdAt,
+      updatedAt: doc?.updatedAt,
+    };
   },
 
-  async getAdminCategories() {
-    const state = db.getState();
-    const categoriesWithCount = state.categories.map((cat) => {
-      const itemCount = state.dishes.filter((d) => d.category.toLowerCase() === cat.name.toLowerCase()).length;
-      return { ...cat, itemCount };
+  /**
+   * Fast lookup helper for category by ID or name
+   */
+  async findCategoryDoc(idOrName: string) {
+    if (mongoose.Types.ObjectId.isValid(idOrName)) {
+      const doc = await Category.findById(idOrName);
+      if (doc) return doc;
+    }
+    return Category.findOne({
+      name: { $regex: new RegExp(`^${idOrName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
     });
-
-    categoriesWithCount.sort((a, b) => a.displayOrder - b.displayOrder);
-    return categoriesWithCount;
   },
 
-  async createCategory(data: { name?: string; description?: string; displayOrder?: number; isActive?: boolean }, username = 'admin') {
+  /**
+   * Get single category by ID
+   */
+  async getCategoryById(id: string) {
+    const category = await this.findCategoryDoc(id);
+    if (!category) {
+      throw new AppError('Category not found.', 404);
+    }
+    return this.formatCategory(category);
+  },
+
+  /**
+   * 1. Public Categories (Optimized query: active only, sorted by displayOrder asc, lean execution)
+   */
+  async getPublicCategories() {
+    const categories = await Category.find({ isActive: true })
+      .select('name description displayOrder isActive createdAt updatedAt')
+      .sort({ displayOrder: 1, createdAt: 1 })
+      .lean();
+
+    return categories.map((c) => this.formatCategory(c));
+  },
+
+  /**
+   * 2. Admin Categories (Optimized query: all categories with associated dish count, lean execution)
+   */
+  async getAdminCategories() {
+    const categories = await Category.find()
+      .select('name description displayOrder isActive createdAt updatedAt')
+      .sort({ displayOrder: 1, createdAt: 1 })
+      .lean();
+
+    // Map dishes from memory/DB to compute real-time dish count per category
+    const dishes = db.getState().dishes || [];
+
+    return categories.map((cat: any) => {
+      const catIdStr = cat._id.toString();
+      const catNameLow = (cat.name || '').toLowerCase();
+
+      const itemCount = dishes.filter(
+        (d) =>
+          (d.category && d.category.toLowerCase() === catNameLow) ||
+          (d as any).categoryId === catIdStr
+      ).length;
+
+      return {
+        ...this.formatCategory(cat),
+        itemCount,
+      };
+    });
+  },
+
+  /**
+   * 3. Create Category (Direct MongoDB Atlas insertion with optimized duplicate checking)
+   */
+  async createCategory(
+    data: { name?: string; description?: string; displayOrder?: number; isActive?: boolean },
+    username = 'admin'
+  ) {
     const { name, description, displayOrder, isActive = true } = data;
 
     if (!name || !name.trim()) {
       throw new AppError('Category name is required.', 400);
     }
 
-    const state = db.getState();
-    if (state.categories.some((c) => c.name.toLowerCase() === name.trim().toLowerCase())) {
-      throw new AppError('A category with this name already exists.', 400);
+    const cleanName = name.trim();
+
+    // Optimized check: verify duplicate name using case-insensitive collation or regex index
+    const exists = await Category.findOne({
+      name: { $regex: new RegExp(`^${cleanName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
+    })
+      .select('_id')
+      .lean();
+
+    if (exists) {
+      throw new AppError(`A category named '${cleanName}' already exists in the database.`, 409);
     }
 
-    const newCat: FoodCategory = {
-      id: 'cat-' + slugify(name),
-      name: name.trim(),
-      slug: slugify(name),
-      description: (description || '').trim(),
-      displayOrder: displayOrder !== undefined ? Number(displayOrder) : state.categories.length + 1,
-      isActive: Boolean(isActive),
-    };
+    // Auto-calculate next displayOrder if not provided
+    let order = displayOrder;
+    if (order === undefined || order === null) {
+      const highest = await Category.findOne()
+        .sort({ displayOrder: -1 })
+        .select('displayOrder')
+        .lean();
+      order = highest ? (highest.displayOrder ?? 0) + 1 : 1;
+    } else {
+      const num = Number(order);
+      if (isNaN(num) || num < 0) {
+        throw new AppError('displayOrder must be a non-negative number.', 400);
+      }
+      order = num;
+    }
 
-    db.updateState((s) => s.categories.push(newCat));
-    db.logAudit('CREATE_CATEGORY', username, `Created food category: ${newCat.name}`);
+    try {
+      const category = await Category.create({
+        name: cleanName,
+        description: (description || '').trim(),
+        displayOrder: Number(order),
+        isActive: Boolean(isActive),
+      });
 
-    return newCat;
+      db.logAudit('CREATE_CATEGORY', username, `Created category in database: ${category.name}`);
+      return this.formatCategory(category.toJSON());
+    } catch (err: any) {
+      if (err.code === 11000) {
+        throw new AppError(`A category with this name already exists.`, 409);
+      }
+      throw err;
+    }
   },
 
+  /**
+   * 4. Update Category (Optimized findByIdAndUpdate in MongoDB Atlas)
+   */
   async updateCategory(catId: string, data: any, username = 'admin') {
     const { name, description, displayOrder, isActive } = data;
 
-    let updated: FoodCategory | null = null;
-    let oldName = '';
-
-    db.updateState((s) => {
-      const target = s.categories.find((c) => c.id === catId);
-      if (target) {
-        oldName = target.name;
-        if (name) {
-          target.name = name.trim();
-          target.slug = slugify(name);
-        }
-        if (description !== undefined) target.description = description.trim();
-        if (displayOrder !== undefined) target.displayOrder = Number(displayOrder);
-        if (isActive !== undefined) target.isActive = Boolean(isActive);
-        updated = { ...target };
-
-        if (name && oldName && oldName.toLowerCase() !== name.trim().toLowerCase()) {
-          s.dishes.forEach((d) => {
-            if (d.category.toLowerCase() === oldName.toLowerCase()) {
-              d.category = name.trim();
-            }
-          });
-        }
-      }
-    });
-
-    if (!updated) {
+    const category = await this.findCategoryDoc(catId);
+    if (!category) {
       throw new AppError('Category not found.', 404);
     }
 
-    db.logAudit('UPDATE_CATEGORY', username, `Updated category: ${(updated as FoodCategory).name}`);
-    return updated;
+    const updateFields: any = {};
+
+    if (name !== undefined) {
+      const cleanName = name.trim();
+      if (!cleanName) {
+        throw new AppError('Category name cannot be empty.', 400);
+      }
+
+      const duplicate = await Category.findOne({
+        _id: { $ne: category._id },
+        name: { $regex: new RegExp(`^${cleanName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
+      })
+        .select('_id')
+        .lean();
+
+      if (duplicate) {
+        throw new AppError(`A category named '${cleanName}' already exists.`, 409);
+      }
+
+      updateFields.name = cleanName;
+    }
+
+    if (description !== undefined) {
+      updateFields.description = description.trim();
+    }
+
+    if (displayOrder !== undefined) {
+      const num = Number(displayOrder);
+      if (isNaN(num) || num < 0) {
+        throw new AppError('displayOrder must be a non-negative number.', 400);
+      }
+      updateFields.displayOrder = num;
+    }
+
+    if (isActive !== undefined) {
+      updateFields.isActive = Boolean(isActive);
+    }
+
+    try {
+      const updated = await Category.findByIdAndUpdate(
+        category._id,
+        { $set: updateFields },
+        { returnDocument: 'after', runValidators: true }
+      ).lean();
+
+      if (!updated) {
+        throw new AppError('Failed to update category.', 500);
+      }
+
+      db.logAudit('UPDATE_CATEGORY', username, `Updated category in database: ${updated.name}`);
+      return this.formatCategory(updated);
+    } catch (err: any) {
+      if (err.code === 11000) {
+        throw new AppError(`A category with this name already exists.`, 409);
+      }
+      throw err;
+    }
   },
 
+  /**
+   * 5. Delete Category (Guards against deleting if dishes exist, then executes direct MongoDB delete)
+   */
   async deleteCategory(catId: string, username = 'admin') {
-    const state = db.getState();
-    const target = state.categories.find((c) => c.id === catId);
-
-    if (!target) {
+    const category = await this.findCategoryDoc(catId);
+    if (!category) {
       throw new AppError('Category not found.', 404);
     }
 
-    const activeDishes = state.dishes.filter((d) => d.category.toLowerCase() === target.name.toLowerCase());
+    const targetName = category.name;
+    const catIdStr = category._id.toString();
+
+    // Check if dishes are currently associated with this category
+    const dishes = db.getState().dishes || [];
+    const activeDishes = dishes.filter(
+      (d) =>
+        (d.category && d.category.toLowerCase() === targetName.toLowerCase()) ||
+        (d as any).categoryId === catIdStr
+    );
+
     if (activeDishes.length > 0) {
       throw new AppError(
-        `Cannot delete '${target.name}' because it contains ${activeDishes.length} menu item(s). Reassign or remove these items first.`,
+        `Cannot delete '${targetName}' because it contains ${activeDishes.length} menu item(s). Reassign or remove these items first.`,
         400
       );
     }
 
-    db.updateState((s) => {
-      s.categories = s.categories.filter((c) => c.id !== catId);
-    });
+    await Category.findByIdAndDelete(category._id).lean();
 
-    db.logAudit('DELETE_CATEGORY', username, `Deleted empty category: ${target.name}`);
-    return { name: target.name };
+    db.logAudit('DELETE_CATEGORY', username, `Deleted category from database: ${targetName}`);
+    return { id: catIdStr, name: targetName };
   },
 };

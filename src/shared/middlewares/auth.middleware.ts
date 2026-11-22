@@ -191,7 +191,7 @@ export const setAuthCookies = (res: Response, accessToken: string, refreshToken?
       httpOnly: true,
       secure: isProduction,
       sameSite,
-      path: '/auth',
+      path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
   }
@@ -204,9 +204,9 @@ export const clearAuthCookies = (res: Response): void => {
   const isProduction = COOKIE_SECURE;
   const sameSite = COOKIE_SAME_SITE;
 
-  res.clearCookie('accessToken', { httpOnly: true, secure: isProduction, sameSite });
-  res.clearCookie('admin_token', { httpOnly: true, secure: isProduction, sameSite });
-  res.clearCookie('refreshToken', { httpOnly: true, secure: isProduction, sameSite, path: '/auth' });
+  res.clearCookie('accessToken', { httpOnly: true, secure: isProduction, sameSite, path: '/' });
+  res.clearCookie('admin_token', { httpOnly: true, secure: isProduction, sameSite, path: '/' });
+  res.clearCookie('refreshToken', { httpOnly: true, secure: isProduction, sameSite, path: '/' });
 };
 
 // Aliases for backward compatibility across modules

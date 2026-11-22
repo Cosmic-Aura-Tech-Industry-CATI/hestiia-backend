@@ -5,12 +5,17 @@ import * as categoriesController from './categories.controller.js';
 const router = Router();
 
 // Public
-router.get('/', categoriesController.getPublicCategories);
+router.get('/public', categoriesController.getPublicCategories);
 
 // Admin
-router.get('/admin/all', protect, categoriesController.getAdminCategories);
-router.post('/admin', protect, restrictTo('superadmin', 'manager'), categoriesController.createCategory);
-router.put('/admin/:id', protect, restrictTo('superadmin', 'manager'), categoriesController.updateCategory);
-router.delete('/admin/:id', protect, restrictTo('superadmin'), categoriesController.deleteCategory);
+router.get('/admin', protect, restrictTo('SUPERADMIN', 'MANAGER'), categoriesController.getAdminCategories);
+
+router.get('/admin/:id', protect, restrictTo('SUPERADMIN', 'MANAGER'), categoriesController.getCategoryById);
+
+router.post('/admin', protect, restrictTo('SUPERADMIN', 'MANAGER'), categoriesController.createCategory);
+
+router.patch('/admin/:id', protect, restrictTo('SUPERADMIN', 'MANAGER'), categoriesController.updateCategory);
+
+router.delete('/admin/:id', protect, restrictTo('SUPERADMIN'), categoriesController.deleteCategory);
 
 export default router;

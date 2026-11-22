@@ -4,7 +4,7 @@ import { BCRYPT_SALT_ROUNDS } from '../../shared/config/utils.js';
 import { IUserDocument, UserRole, UserStatus } from './user.interface.js';
 
 export type { IUserDocument } from './user.interface.js';
-export interface IUserModel extends Model<IUserDocument> {}
+export interface IUserModel extends Model<IUserDocument> { }
 
 const userSchema = new Schema<IUserDocument>(
   {
