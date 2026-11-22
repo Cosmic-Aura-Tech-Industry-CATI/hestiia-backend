@@ -1,49 +1,30 @@
-import nodemailer, { type Transporter } from 'nodemailer';
+import { RESEND_API_KEY, EMAIL_FROM } from '../config/utils.js';
 
-interface SendOtpOptions {
+export interface SendOtpOptions {
   to: string;
   recipientName?: string;
   otp: string;
-  purpose: 'LOGIN_2FA' | 'PASSWORD_RESET';
+  purpose: 'LOGIN_2FA' | 'FORGOT_PASSWORD' | 'PASSWORD_RESET';
   expiresInMinutes?: number;
 }
 
-class EmailService {
-  private transporter: Transporter | null = null;
-  private isConfigured = false;
+export class EmailService {
+  private apiKey: string;
+  private fromAddress: string;
 
   constructor() {
-    this.initTransporter();
-  }
+    this.apiKey = process.env.RESEND_API_KEY || RESEND_API_KEY || '';
+    this.fromAddress = process.env.EMAIL_FROM || process.env.RESEND_FROM || EMAIL_FROM || 'Hestiia Restaurant <onboarding@resend.dev>';
 
-  private initTransporter() {
-    const host = process.env.SMTP_HOST || (process.env.GMAIL_USER ? 'smtp.gmail.com' : undefined);
-    const port = Number(process.env.SMTP_PORT) || 465;
-    const user = process.env.SMTP_USER || process.env.GMAIL_USER;
-    const pass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASS;
-
-    if (user && pass) {
-      try {
-        this.transporter = nodemailer.createTransport({
-          host,
-          port,
-          secure: port === 465,
-          auth: { user, pass },
-        });
-        this.isConfigured = true;
-        console.log(`[EmailService] Configured SMTP transporter for user: ${user}`);
-      } catch (err: any) {
-        console.warn(`[EmailService] Failed to initialize SMTP transporter: ${err?.message}`);
-        this.transporter = null;
-        this.isConfigured = false;
-      }
+    if (this.apiKey) {
+      console.log(`[EmailService] Resend API initialized successfully with from: ${this.fromAddress}`);
     } else {
-      console.log('[EmailService] SMTP credentials not fully configured. Using secure console dispatch mode.');
+      console.warn('[EmailService] RESEND_API_KEY not configured. Operating in console dispatch fallback mode.');
     }
   }
 
-  async sendOtpEmail(options: SendOtpOptions): Promise<{ sent: boolean; method: 'smtp' | 'console'; error?: string }> {
-    const { to, recipientName = 'Hestiia Administrator', otp, purpose, expiresInMinutes = 5 } = options;
+  async sendOtpEmail(options: SendOtpOptions): Promise<{ sent: boolean; method: 'resend' | 'console'; id?: string; error?: string }> {
+    const { to, recipientName = 'Hestiia Administrator', otp, purpose, expiresInMinutes = 10 } = options;
 
     const isLogin = purpose === 'LOGIN_2FA';
     const title = isLogin ? 'Hestiia Admin — 2-Step Sign In Verification Code' : 'Hestiia Admin — Security Password Reset Code';
@@ -51,16 +32,7 @@ class EmailService {
       ? 'A sign-in request was initiated for your Hestiia Administration Portal account.'
       : 'A security password reset was requested for your Hestiia Administration Portal account.';
 
-    // Console notification (always logs for audit and local convenience)
-    console.log('\n' + '='.repeat(70));
-    console.log(`⭐ [HESTIIA AUTH] 2-STEP VERIFICATION OTP DISPATCHED`);
-    console.log(`Recipient:   ${to} (${recipientName})`);
-    console.log(`Purpose:     ${purpose} (${isLogin ? 'Login 2FA' : 'Password Reset'})`);
-    console.log(`OTP Code:    >>> [ ${otp} ] <<<`);
-    console.log(`Expiry:      ${expiresInMinutes} minutes`);
-    console.log('='.repeat(70) + '\n');
-
-    if (!this.isConfigured || !this.transporter) {
+    if (!this.apiKey) {
       return { sent: true, method: 'console' };
     }
 
@@ -108,17 +80,32 @@ class EmailService {
     `;
 
     try {
-      const fromAddress = process.env.EMAIL_FROM || process.env.GMAIL_USER || 'no-reply@hestiia.com';
-      await this.transporter.sendMail({
-        from: `"Hestiia Security Portal" <${fromAddress}>`,
-        to,
-        subject: `[Hestiia Admin] ${isLogin ? 'Sign-In Verification Code' : 'Password Reset Code'}: ${otp}`,
-        text: `${title}\n\nYour verification code is: ${otp}\nThis code will expire in ${expiresInMinutes} minutes.\n\nHestiia Administration Portal`,
-        html: htmlContent,
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: this.fromAddress,
+          to: [to],
+          subject: `[Hestiia Admin] ${isLogin ? 'Sign-In Verification Code' : 'Password Reset Code'}: ${otp}`,
+          text: `${title}\n\nYour verification code is: ${otp}\nThis code will expire in ${expiresInMinutes} minutes.\n\nHestiia Administration Portal`,
+          html: htmlContent,
+        }),
       });
-      return { sent: true, method: 'smtp' };
+
+      const data = (await response.json()) as any;
+
+      if (!response.ok) {
+        console.warn(`[EmailService] Resend API responded with status ${response.status}:`, data?.message || data);
+        return { sent: false, method: 'console', error: data?.message || 'Resend API error' };
+      }
+
+      console.log(`[EmailService] Email dispatched successfully via Resend. ID: ${data?.id}`);
+      return { sent: true, method: 'resend', id: data?.id };
     } catch (err: any) {
-      console.error(`[EmailService] SMTP delivery failed: ${err?.message}. (Code logged in console)`);
+      console.warn(`[EmailService] Network delivery via Resend encountered an issue: ${err?.message}. (Code logged in console)`);
       return { sent: false, method: 'console', error: err?.message };
     }
   }

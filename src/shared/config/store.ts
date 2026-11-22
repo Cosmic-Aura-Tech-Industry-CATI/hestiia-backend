@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcryptjs';
-import { DATA_DIR, UPLOADS_DIR } from './utils.js';
+import { UPLOADS_DIR } from './utils.js';
 
 export interface AdminUser {
   id: string;
@@ -258,61 +258,27 @@ export interface DatabaseState {
   auditLogs: AuditLog[];
 }
 
-const DB_FILE = path.join(DATA_DIR, 'db.json');
-
 class JSONDatabase {
   private state: DatabaseState;
 
   constructor() {
     this.ensureDirs();
-    this.state = this.load();
+    this.state = this.getSeedData();
   }
 
   private ensureDirs() {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
     if (!fs.existsSync(UPLOADS_DIR)) {
-      fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-    }
-  }
-
-  private load(): DatabaseState {
-    if (fs.existsSync(DB_FILE)) {
       try {
-        const raw = fs.readFileSync(DB_FILE, 'utf-8');
-        const parsed = JSON.parse(raw);
-        if (parsed && parsed.users && Array.isArray(parsed.users)) {
-          parsed.users.forEach((u: any) => {
-            if (typeof u.tokenVersion !== 'number') {
-              u.tokenVersion = 0;
-            }
-          });
-        }
-        return parsed;
-      } catch (err) {
-        console.error('Error reading db.json, initializing fresh store:', err);
+        fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+      } catch {
+        // ignore if cannot create in some environments
       }
     }
-    const fresh = this.getSeedData();
-    this.save(fresh);
-    return fresh;
   }
 
   private save(data?: DatabaseState) {
     if (data) this.state = data;
-    try {
-      const tmpFile = `${DB_FILE}.${Date.now()}-${Math.random().toString(36).substring(2, 6)}.tmp`;
-      fs.writeFileSync(tmpFile, JSON.stringify(this.state, null, 2), 'utf-8');
-      try {
-        fs.renameSync(tmpFile, DB_FILE);
-      } catch {
-        fs.copyFileSync(tmpFile, DB_FILE);
-        fs.unlinkSync(tmpFile);
-      }
-    } catch (err) {
-      console.error('Failed to write db.json:', err);
-    }
+    // In-memory state only - no local db.json created or saved
   }
 
   public getState(): DatabaseState {
@@ -342,33 +308,7 @@ class JSONDatabase {
   }
 
   private getSeedData(): DatabaseState {
-    const salt = bcrypt.genSaltSync(10);
-    const passwordHash = bcrypt.hashSync('Admin@Hestiia2026', salt);
-
-    const initialUsers: AdminUser[] = [
-      {
-        id: 'usr_admin_1',
-        name: 'Hestiia Administrator',
-        email: 'admin@hestiia.com',
-        username: 'admin',
-        passwordHash,
-        role: 'superadmin',
-        active: true,
-        tokenVersion: 0,
-        createdAt: '2026-10-01T10:00:00.000Z',
-      },
-      {
-        id: 'usr_manager_1',
-        name: 'Floor Manager (Shyam Nagar)',
-        email: 'manager@hestiia.com',
-        username: 'manager',
-        passwordHash: bcrypt.hashSync('Manager@Hestiia2026', salt),
-        role: 'manager',
-        active: true,
-        tokenVersion: 0,
-        createdAt: '2026-10-05T10:00:00.000Z',
-      },
-    ];
+    const initialUsers: AdminUser[] = [];
 
     const initialSettings: RestaurantSettings = {
       restaurantName: 'HESTIIA RESTAURANT',

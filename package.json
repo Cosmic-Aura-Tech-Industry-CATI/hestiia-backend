@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx src/server.ts",
     "start": "tsx src/server.ts",
-    "test": "tsx tests/api.test.ts"
+    "test": "tsx tests/api.test.ts",
+    "create:superadmin": "tsx scripts/create-superadmin.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

@@ -10,6 +10,7 @@ import { PORT, UPLOADS_DIR, MENU_DIR, NODE_ENV } from './shared/config/utils.js'
 import { connectDB } from './shared/config/db.js';
 import { globalErrorHandler } from './shared/middlewares/error.middleware.js';
 import { AppError } from './shared/utils/appError.js';
+import { authService } from './modules/auth/auth.service.js';
 
 // Module Routers
 import authRouter from './modules/auth/auth.router.js';
@@ -86,7 +87,7 @@ app.get('/api/health', (_req: Request, res: Response) => {
 });
 
 // 9. Mount Domain Modules (Backward-Compatible Routing)
-app.use(['/api/auth', '/api/admin/auth'], authRouter);
+app.use(['/api/auth', '/api/admin/auth', '/api/v1/auth', '/auth'], authRouter);
 app.use('/api/admin/dashboard', dashboardRouter);
 app.use(['/api/menu', '/api/admin/menu'], menuRouter);
 app.use(['/api/categories', '/api/admin/categories'], categoriesRouter);
@@ -114,14 +115,12 @@ app.use(globalErrorHandler);
 // 12. Server Startup
 export async function startServer() {
   await connectDB();
+  await authService.bootstrapSuperadmin();
 
   return new Promise((resolve) => {
     const server = app.listen(PORT, () => {
-      console.log(`=======================================================`);
-      console.log(`🍽️  HESTIIA RESTAURANT ADMIN SERVER (DIMISI-OPS STANDARD)`);
       console.log(`🚀 Server listening on http://localhost:${PORT}`);
       console.log(`🛡️  Admin API ready: http://localhost:${PORT}/api/health`);
-      console.log(`=======================================================`);
       resolve(server);
     });
   });
