@@ -1,2 +1,18 @@
-// Shared Canonical Module: gallery
-export * from './gallery.service.js';
+export * from './interfaces/gallery.interface.js';
+export * from './models/media.model.js';
+export * from './models/gallerySection.model.js';
+export * from './models/mediaModeration.model.js';
+export * from './services/gallery.service.js';
+export * from './services/customerUpload.service.js';
+export * from './services/storage.service.js';
+export * from './services/mediaValidation.service.js';
+export * from './services/mediaCategory.service.js';
+export * from './services/mediaModeration.service.js';
+export * from './controllers/gallery.controller.js';
+export * from './controllers/customerUpload.controller.js';
+export * from './controllers/mediaCategory.controller.js';
+export * from './controllers/mediaModeration.controller.js';
+export * from './routes/customerGallery.routes.js';
+export * from './routes/adminGallery.routes.js';
+export * from './gallery.router.js';
+export { default } from './gallery.router.js';

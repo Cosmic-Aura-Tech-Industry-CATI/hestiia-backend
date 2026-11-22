@@ -9,6 +9,10 @@ import { reviewsService } from '../../modules/reviews/reviews.service.js';
 import { conversationsService } from '../../modules/conversations/conversations.service.js';
 import { invoicesService } from '../../modules/invoices/invoices.service.js';
 import { restaurantService } from '../../modules/restaurant/restaurant.service.js';
+import { publicEventsRouter } from '../../modules/events/routes/event.routes.js';
+import { publicInquiryRouter } from '../../modules/events/routes/eventInquiry.routes.js';
+import wishlistRouter from '../../modules/wishlist/routes/wishlist.routes.js';
+import { customerGalleryRouter } from '../../modules/gallery/gallery.router.js';
 import { catchAsync } from '../../shared/utils/index.js';
 import { sendSuccess } from '../../shared/responses/index.js';
 
@@ -113,5 +117,15 @@ router.post('/reviews', catchAsync(async (req: Request, res: Response) => {
   const review = await reviewsService.submitReview(req.body);
   sendSuccess(res, { review }, 201, 'Review submitted for moderation');
 }));
+
+// 9. Events & Event Inquiries
+router.use('/events', publicEventsRouter);
+router.use('/event-inquiries', publicInquiryRouter);
+
+// 10. Guest Wishlist
+router.use('/wishlist', wishlistRouter);
+
+// 11. Public Gallery & Guest Customer Uploads
+router.use('/gallery', customerGalleryRouter);
 
 export default router;

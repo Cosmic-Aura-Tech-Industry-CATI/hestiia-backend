@@ -33,8 +33,11 @@ export interface AuthenticatedRequest extends Request {
  * Extract JWT token from Authorization header or signed/unsigned cookies
  */
 export const extractToken = (req: Request): string | undefined => {
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-    return req.headers.authorization.substring(7).trim();
+  if (req.headers.authorization) {
+    const match = req.headers.authorization.match(/^Bearer\s+(.+)$/i);
+    if (match) {
+      return match[1].trim();
+    }
   }
   if (req.cookies?.accessToken) {
     return req.cookies.accessToken;
@@ -51,13 +54,18 @@ export const extractToken = (req: Request): string | undefined => {
  */
 export const requireAuth = catchAsync(
   async (req: AuthenticatedRequest, _res: Response, next: NextFunction) => {
+    // If request was already authenticated by parent router, skip redundant verification
+    if (req.user) {
+      return next();
+    }
+
     const token = extractToken(req);
 
     if (!token) {
       return next(new AppError('Authentication required. Please provide a valid authorization token.', 401));
     }
 
-    let decoded: { id: string; role: string; email?: string; tokenVersion?: number };
+    let decoded: { id: string; role: string; email?: string; username?: string; tokenVersion?: number };
     try {
       decoded = jwt.verify(token, JWT_ACCESS_SECRET) as any;
     } catch (err: any) {
@@ -71,9 +79,12 @@ export const requireAuth = catchAsync(
 
     // 1. Fetch user from MongoDB Atlas
     let dbUser = null;
-    if (mongoose.connection.readyState === 1) {
+    if (mongoose.connection.readyState === 1 && decoded.id) {
       try {
         dbUser = await userRepository.findById(decoded.id);
+        if (!dbUser && decoded.email) {
+          dbUser = await userRepository.findByEmail(decoded.email);
+        }
       } catch {
         dbUser = null;
       }
@@ -93,14 +104,19 @@ export const requireAuth = catchAsync(
         tokenVersion: dbUser.tokenVersion,
       };
     } else {
-      const storeUser = db.getState().users.find((u) => u.id === decoded.id);
+      const storeUser = db.getState().users.find(
+        (u) =>
+          u.id === decoded.id ||
+          (decoded.email && u.email.toLowerCase() === decoded.email.toLowerCase()) ||
+          (decoded.username && u.username.toLowerCase() === decoded.username.toLowerCase())
+      );
       if (storeUser) {
         matchedUser = {
           id: storeUser.id,
           name: storeUser.name,
           email: storeUser.email,
           username: storeUser.username,
-          role: storeUser.role === 'manager' ? 'MANAGER' : 'SUPERADMIN',
+          role: (storeUser.role || '').toUpperCase() === 'MANAGER' ? 'MANAGER' : 'SUPERADMIN',
           status: storeUser.active ? 'ACTIVE' : 'INACTIVE',
           tokenVersion: storeUser.tokenVersion || 0,
         };
@@ -118,8 +134,7 @@ export const requireAuth = catchAsync(
 
     // 3. Reject revoked tokens (password change or logout increments tokenVersion)
     const currentTokenVersion = matchedUser.tokenVersion || 0;
-    const tokenVersionInJwt = decoded.tokenVersion || 0;
-    if (tokenVersionInJwt !== currentTokenVersion) {
+    if (typeof decoded.tokenVersion === 'number' && decoded.tokenVersion < currentTokenVersion) {
       return next(new AppError('Session has been revoked or invalidated. Please sign in again.', 401));
     }
 

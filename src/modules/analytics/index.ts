@@ -1,2 +1,10 @@
-// Shared Canonical Module: analytics
-export * from './analytics.service.js';
+export * from './types/analytics.types.js';
+export * from './utils/date-filter.util.js';
+export * from './repositories/analytics.repository.js';
+export * from './services/analytics-overview.service.js';
+export * from './services/analytics-revenue.service.js';
+export * from './services/analytics-orders.service.js';
+export * from './services/analytics-products.service.js';
+export * from './services/analytics-customers.service.js';
+export * from './services/analytics-payments.service.js';
+export { default as analyticsRouter } from './routes/analytics.routes.js';

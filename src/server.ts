@@ -20,7 +20,16 @@ export async function startServer() {
     }
   }
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    httpServer.once('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        logger.error(`Port ${ENV.PORT} already in use. Terminate existing process or set different PORT in .env.`);
+      } else {
+        logger.error('HTTP server error:', err);
+      }
+      reject(err);
+    });
+
     const server = httpServer.listen(ENV.PORT, () => {
       logger.info('=======================================================');
       logger.info('🍽️  HESTIIA RESTAURANT PLATFORM (MODULAR MONOLITH V1.0)');

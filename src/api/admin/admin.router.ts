@@ -11,11 +11,14 @@ import invoicesRouter from '../../modules/invoices/invoices.router.js';
 import bookingsRouter from '../../modules/bookings/bookings.router.js';
 import partyRouter from '../../modules/party/party.router.js';
 import promotionsRouter from '../../modules/promotions/promotions.router.js';
-import galleryRouter from '../../modules/gallery/gallery.router.js';
+import { adminGalleryRouter } from '../../modules/gallery/gallery.router.js';
 import reviewsRouter from '../../modules/reviews/reviews.router.js';
 import settingsRouter from '../../modules/settings/settings.router.js';
 import reportsRouter from '../../modules/reports/reports.router.js';
 import uploadRouter from '../../modules/upload/upload.router.js';
+import analyticsRouter from '../../modules/analytics/routes/analytics.routes.js';
+import { adminEventsRouter } from '../../modules/events/routes/event.routes.js';
+import { adminInquiryRouter } from '../../modules/events/routes/eventInquiry.routes.js';
 import tablesRouter from '../../modules/tables/tables.service.js';
 import conversationsRouter from '../../modules/conversations/conversations.service.js';
 import { catchAsync } from '../../shared/utils/index.js';
@@ -37,13 +40,16 @@ router.use('/customers', customersRouter);
 router.use('/payments', paymentsRouter);
 router.use('/invoices', invoicesRouter);
 router.use('/bookings', bookingsRouter);
-router.use('/party', partyRouter);
+router.use(['/party', '/party-inquiries'], partyRouter);
 router.use('/promotions', promotionsRouter);
-router.use('/gallery', galleryRouter);
+router.use('/gallery', adminGalleryRouter);
 router.use('/reviews', reviewsRouter);
 router.use('/settings', settingsRouter);
 router.use('/reports', reportsRouter);
+router.use('/analytics', analyticsRouter);
 router.use('/upload', uploadRouter);
+router.use('/events', adminEventsRouter);
+router.use('/event-inquiries', adminInquiryRouter);
 
 // Tables
 router.get('/tables', catchAsync(async (_req: Request, res: Response) => {

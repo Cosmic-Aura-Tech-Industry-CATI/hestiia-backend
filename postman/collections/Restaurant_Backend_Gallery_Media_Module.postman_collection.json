@@ -1,0 +1,360 @@
+{
+  "info": {
+    "_postman_id": "7d97edaa-gal-47f9-bb29-5f1967395232",
+    "name": "Restaurant Backend - Gallery & Media Module",
+    "description": "Production Postman test collection for Hestiia Restaurant Gallery & Media Module. Covers Public Gallery, Guest Customer Uploads with HttpOnly cookie identity, Admin Official Photo Management, Section CRUD, and Customer Photo Moderation.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Customer - Public Gallery",
+      "item": [
+        {
+          "name": "Get Public Gallery Sections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/gallery/sections",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "gallery", "sections"]
+            }
+          }
+        },
+        {
+          "name": "Get Published Gallery Photos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/gallery/photos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "gallery", "photos"]
+            }
+          }
+        },
+        {
+          "name": "Get Individual Public Photo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/gallery/photos/{{photoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "gallery", "photos", "{{photoId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customer - Guest Uploads",
+      "item": [
+        {
+          "name": "Submit Guest Photo (Multipart)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "caption",
+                  "value": "Celebrating my birthday at Hestiia!",
+                  "type": "text"
+                },
+                {
+                  "key": "sectionId",
+                  "value": "{{sectionId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/gallery/uploads",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "gallery", "uploads"]
+            }
+          }
+        },
+        {
+          "name": "Get My Uploads (Guest Session)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/gallery/my-uploads",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "gallery", "my-uploads"]
+            }
+          }
+        },
+        {
+          "name": "Delete My Upload (Guest Session)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/gallery/my-uploads/{{photoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "gallery", "my-uploads", "{{photoId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Official Gallery",
+      "item": [
+        {
+          "name": "Upload Official Photo (Multipart)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "title",
+                  "value": "Main Dining Chandelier Hall",
+                  "type": "text"
+                },
+                {
+                  "key": "caption",
+                  "value": "Royal Awadhi Dining Hall",
+                  "type": "text"
+                },
+                {
+                  "key": "sectionId",
+                  "value": "{{sectionId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/photos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "photos"]
+            }
+          }
+        },
+        {
+          "name": "Get Admin Photos List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/photos",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "photos"]
+            }
+          }
+        },
+        {
+          "name": "Update Photo Metadata",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Dining Ambience\",\n  \"caption\": \"Fine evening lighting and chandeliers\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/photos/{{photoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "photos", "{{photoId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Photo Status (Publish / Archive)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"published\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/photos/{{photoId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "photos", "{{photoId}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Delete Photo (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/photos/{{photoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "photos", "{{photoId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Gallery Sections",
+      "item": [
+        {
+          "name": "Create Gallery Section",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rooftop Garden\",\n  \"description\": \"Open sky evening dining under fairy lights\",\n  \"displayOrder\": 8\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/sections",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "sections"]
+            }
+          }
+        },
+        {
+          "name": "Get Admin Gallery Sections",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/sections",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "sections"]
+            }
+          }
+        },
+        {
+          "name": "Delete Section",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/sections/{{sectionId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "sections", "{{sectionId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Moderation",
+      "item": [
+        {
+          "name": "List Customer Submissions for Moderation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/customer-uploads?moderationStatus=pending",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "customer-uploads"],
+              "query": [
+                {
+                  "key": "moderationStatus",
+                  "value": "pending"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Moderate Customer Photo (Approve / Reject)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"approved\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/gallery/customer-uploads/{{photoId}}/moderate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "gallery", "customer-uploads", "{{photoId}}", "moderate"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

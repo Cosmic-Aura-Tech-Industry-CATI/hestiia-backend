@@ -1,0 +1,438 @@
+{
+  "info": {
+    "_postman_id": "7d97edaa-wsh-47f9-bb29-5f1967395232",
+    "name": "Restaurant Backend - Guest Wishlist API",
+    "description": "Production Postman test collection for Hestiia Restaurant Guest Wishlist Module. Covers guest initialization, 30-day HttpOnly cookie lifecycle, item addition, duplicate prevention, item retrieval, deletion, clear, status checks, and method rejection.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Guest Session",
+      "item": [
+        {
+          "name": "Initialize Guest Session (New Cookie)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/session",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "session"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Returns valid guest session', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.success).to.be.true;",
+                  "    pm.expect(json.guestId).to.be.a('string');",
+                  "    pm.expect(json.guestId).to.match(/^gst_[a-f0-9]{32}$/i);",
+                  "    pm.environment.set('guest_id', json.guestId);",
+                  "});",
+                  "pm.test('Set-Cookie header contains hestiia_guest_id', function () {",
+                  "    var cookies = pm.response.headers.get('set-cookie') || '';",
+                  "    pm.expect(cookies).to.include('hestiia_guest_id=');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify Existing Guest Cookie Reuse",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/session",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "session"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Reuses existing guest ID', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.guestId).to.eql(pm.environment.get('guest_id'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "POST Operations",
+      "item": [
+        {
+          "name": "Add Menu Item to Wishlist",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/items/{{valid_menu_item_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "items", "{{valid_menu_item_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201 Created or 200 if existing', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "pm.test('Item successfully added to wishlist', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.success).to.be.true;",
+                  "    pm.expect(json.item.menu_item_id).to.eql(pm.environment.get('valid_menu_item_id'));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Duplicate Item (Idempotency Check)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/items/{{valid_menu_item_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "items", "{{valid_menu_item_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200 OK for duplicate', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('alreadyExists flag is true', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.alreadyExists).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Non-Existent Menu Item (404 Error)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/items/{{invalid_menu_item_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "items", "{{invalid_menu_item_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404 Not Found', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Error message identifies missing item', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.success).to.be.false;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GET Operations",
+      "item": [
+        {
+          "name": "Retrieve Populated Wishlist",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Wishlist contains items and populated fields', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.success).to.be.true;",
+                  "    pm.expect(json.totalItems).to.be.above(0);",
+                  "    pm.expect(json.items[0]).to.have.property('name');",
+                  "    pm.expect(json.items[0]).to.have.property('price');",
+                  "    pm.expect(json.items[0]).to.have.property('available');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Check Item Wishlist Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/items/{{valid_menu_item_id}}/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "items", "{{valid_menu_item_id}}", "status"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Item is marked as wishlisted', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.isWishlisted).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DELETE Operations",
+      "item": [
+        {
+          "name": "Remove Item from Wishlist",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/items/{{valid_menu_item_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "items", "{{valid_menu_item_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Removal confirmed', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.success).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remove Non-Saved Item (404 Error)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/items/{{valid_menu_item_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "items", "{{valid_menu_item_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404 Not Found', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Clear Entire Wishlist",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Wishlist empty after clear', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.totalItems).to.eql(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Security & Method Rejection",
+      "item": [
+        {
+          "name": "Reject Unsupported PUT Method",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/items/{{valid_menu_item_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "items", "{{valid_menu_item_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 405 Method Not Allowed', function () {",
+                  "    pm.response.to.have.status(405);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reject Unsupported PATCH Method",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Cookie",
+                "value": "hestiia_guest_id={{guest_id}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/wishlist/items/{{valid_menu_item_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "wishlist", "items", "{{valid_menu_item_id}}"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 405 Method Not Allowed', function () {",
+                  "    pm.response.to.have.status(405);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

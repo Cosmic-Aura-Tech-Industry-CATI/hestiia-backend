@@ -1,10 +1,3 @@
-import { db } from '../../shared/config/store.js';
-import { logger } from '../../config/logger.js';
-
-export const eventsService = {
-  async getStatus() {
-    return { module: 'events', status: 'operational', timestamp: new Date().toISOString() };
-  },
-};
-
-export default eventsService;
+export { eventService, default as eventsService } from './services/event.service.js';
+export { eventMediaService } from './services/eventMedia.service.js';
+export { eventInquiryService } from './services/eventInquiry.service.js';

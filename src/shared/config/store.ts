@@ -278,6 +278,13 @@ export interface DatabaseState {
   gallery: GalleryPhoto[];
   reviews: ReviewItem[];
   auditLogs: AuditLog[];
+  events?: any[];
+  eventMedia?: any[];
+  eventInquiries?: any[];
+  wishlists?: any[];
+  media?: any[];
+  gallerySections?: any[];
+  mediaModerations?: any[];
 }
 
 const DB_FILE = path.join(DATA_DIR, 'db.json');
@@ -311,6 +318,13 @@ class JSONDatabase {
             }
           });
         }
+        if (!parsed.events) parsed.events = [];
+        if (!parsed.eventMedia) parsed.eventMedia = [];
+        if (!parsed.eventInquiries) parsed.eventInquiries = [];
+        if (!parsed.wishlists) parsed.wishlists = [];
+        if (!parsed.media) parsed.media = [];
+        if (!parsed.gallerySections) parsed.gallerySections = [];
+        if (!parsed.mediaModerations) parsed.mediaModerations = [];
         return parsed;
       } catch (err) {
         console.error('Error reading db.json, initializing fresh store:', err);

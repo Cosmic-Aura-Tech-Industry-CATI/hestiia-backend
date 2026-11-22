@@ -53,6 +53,9 @@ export const authService = {
    * Does NOT overwrite existing records.
    */
   async bootstrapSuperadmin(): Promise<void> {
+    if (mongoose.connection.readyState !== 1) {
+      return;
+    }
     try {
       const saltRounds = Number(BCRYPT_SALT_ROUNDS) || 12;
       const defaults = [
@@ -121,8 +124,15 @@ export const authService = {
       );
     }
 
-    // 1. Fetch user from MongoDB Atlas
-    let user = await userRepository.findByUsernameOrEmail(cleanInput, true);
+    // 1. Fetch user from MongoDB Atlas (if connection active)
+    let user = null;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        user = await userRepository.findByUsernameOrEmail(cleanInput, true);
+      } catch {
+        user = null;
+      }
+    }
 
     // Fallback sync with local store
     if (!user) {
@@ -136,7 +146,7 @@ export const authService = {
           email: storeUser.email,
           username: storeUser.username,
           passwordHash: storeUser.passwordHash,
-          role: storeUser.role === 'manager' ? 'MANAGER' : 'SUPERADMIN',
+          role: (storeUser.role || '').toUpperCase() === 'MANAGER' ? 'MANAGER' : 'SUPERADMIN',
           status: storeUser.active ? 'ACTIVE' : 'INACTIVE',
           tokenVersion: storeUser.tokenVersion || 0,
         });
