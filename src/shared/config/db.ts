@@ -2,20 +2,28 @@ import mongoose from 'mongoose';
 import { MONGODB_URI } from './utils.js';
 import { db } from './store.js';
 
+let isConnected = false;
+
 export async function connectDB(): Promise<boolean> {
   if (!MONGODB_URI) {
-    console.log('[Database] No MONGODB_URI configured. Running in high-performance local persistent store mode.');
+    console.log('[Database] No MONGODB_URI configured. Running in persistent local store mode.');
     return false;
+  }
+
+  if (isConnected && mongoose.connection.readyState === 1) {
+    return true;
   }
 
   try {
     await mongoose.connect(MONGODB_URI, {
-      serverSelectionTimeoutMS: 2500,
+      serverSelectionTimeoutMS: 5000,
     });
-    console.log('[Database] Successfully connected to MongoDB Atlas / Server:', mongoose.connection.host);
+
+    isConnected = true;
+    console.log(`[Database] Live connection established to MongoDB Atlas: ${mongoose.connection.host}`);
     return true;
   } catch (err: any) {
-    console.warn(`[Database] MongoDB connection bypassed (${err?.message || 'Host unreachable'}). Operating on persistent local database.`);
+    console.warn(`[Database] MongoDB connection bypassed (${err?.message || 'Host unreachable'}). Operating on high-performance local database.`);
     return false;
   }
 }
