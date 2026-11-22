@@ -1,6 +1,7 @@
 import { db } from '../../shared/config/db.js';
 import { Customer } from '../customers/customer.model.js';
 import { MenuItem } from '../menu/menu.model.js';
+import { Order } from '../orders/order.model.js';
 
 export const dashboardService = {
   async getOverview() {

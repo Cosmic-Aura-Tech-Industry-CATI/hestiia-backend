@@ -1,19 +1,77 @@
-import { db, Order, OrderItem, Invoice, Payment, Customer } from '../../shared/config/db.js';
-import { AppError } from '../../shared/utils/appError.js';
+import mongoose from 'mongoose';
+import { Order, type IOrderDocument } from './order.model.js';
+import { MenuItem } from '../menu/menu.model.js';
 import { customersService } from '../customers/customers.service.js';
+import { db, type Invoice, type Payment } from '../../shared/config/db.js';
+import { AppError } from '../../shared/utils/appError.js';
+import type { IOrderItem } from './orders.interface.js';
 
 const VALID_STATUSES = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'completed', 'cancelled'] as const;
 const VALID_PAYMENTS = ['pending', 'authorized', 'paid', 'failed', 'refunded'] as const;
 
-function generateOrderNumber(): { orderNumber: string; invoiceNumber: string } {
-  const currentYear = new Date().getFullYear();
-  const existingCount = db.getState().orders.length + 1001;
-  const orderNumber = `HST-${currentYear}-${existingCount}`;
-  const invoiceNumber = `HST-INV-${existingCount}`;
-  return { orderNumber, invoiceNumber };
-}
-
 export const ordersService = {
+  /**
+   * Format order document for clean API response
+   */
+  formatOrder(doc: any) {
+    const id = doc?._id ? doc._id.toString() : (doc?.id || '');
+    return {
+      id,
+      _id: doc?._id || id,
+      orderNumber: doc?.orderNumber || '',
+      customerName: doc?.customerName || '',
+      customerPhone: doc?.customerPhone || '',
+      customerEmail: doc?.customerEmail || undefined,
+      deliveryAddress: doc?.deliveryAddress || '',
+      fulfillmentType: doc?.fulfillmentType || 'delivery',
+      items: (doc?.items || []).map((item: any) => ({
+        dishId: item?.dishId ? item.dishId.toString() : '',
+        name: item?.name || '',
+        price: item?.price ?? 0,
+        quantity: item?.quantity ?? 1,
+        total: item?.total ?? 0,
+        image: item?.image || '/uploads/menu/default-dish.webp',
+      })),
+      subtotal: doc?.subtotal ?? 0,
+      taxAmount: doc?.taxAmount ?? 0,
+      deliveryCharge: doc?.deliveryCharge ?? 0,
+      discountAmount: doc?.discountAmount ?? 0,
+      grandTotal: doc?.grandTotal ?? 0,
+      paymentMethod: doc?.paymentMethod || 'cod',
+      paymentStatus: doc?.paymentStatus || 'pending',
+      orderStatus: doc?.orderStatus || 'pending',
+      notes: doc?.notes || '',
+      statusHistory: (doc?.statusHistory || []).map((sh: any) => ({
+        status: sh?.status || '',
+        timestamp: sh?.timestamp || new Date(),
+        actor: sh?.actor || 'System',
+        note: sh?.note || '',
+      })),
+      invoiceNumber: doc?.invoiceNumber || '',
+      createdAt: doc?.createdAt || new Date(),
+      updatedAt: doc?.updatedAt || new Date(),
+    };
+  },
+
+  /**
+   * Helper to lookup order document by MongoDB ObjectId or orderNumber
+   */
+  async findOrderDoc(idOrNumber: string) {
+    if (mongoose.Types.ObjectId.isValid(idOrNumber)) {
+      const byId = await Order.findById(idOrNumber);
+      if (byId) return byId;
+    }
+    return Order.findOne({
+      $or: [
+        { orderNumber: idOrNumber.trim() },
+        { invoiceNumber: idOrNumber.trim() },
+      ],
+    });
+  },
+
+  /**
+   * 1. Place New Order (Direct MongoDB Atlas insertion with real-time dish price verification)
+   */
   async createOrder(data: any) {
     const {
       customerName,
@@ -36,31 +94,48 @@ export const ordersService = {
       throw new AppError('We are currently not accepting new online orders. Please call our front desk directly.', 403);
     }
 
-    const verifiedItems: OrderItem[] = [];
+    const verifiedItems: IOrderItem[] = [];
     let calculatedSubtotal = 0;
 
+    // Verify dishes and pricing directly from MongoDB Atlas MenuItem collection
     for (const requestedItem of items) {
-      const dish = state.dishes.find(
-        (d) => d.id === requestedItem.dishId || d.id === requestedItem.id || d.slug === requestedItem.dishId || d.slug === requestedItem.id
-      );
+      const itemId = String(requestedItem.dishId || requestedItem.id || '').trim();
+      if (!itemId) {
+        throw new AppError('Invalid dish ID in order items.', 400);
+      }
+
+      let dish: any = null;
+      if (mongoose.Types.ObjectId.isValid(itemId)) {
+        dish = await MenuItem.findById(itemId).lean();
+      }
+
       if (!dish) {
-        throw new AppError(`Dish with ID '${requestedItem.dishId || requestedItem.id}' not found in active menu.`, 400);
+        dish = await MenuItem.findOne({
+          $or: [
+            { slug: itemId },
+            { name: { $regex: new RegExp(`^${itemId.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } },
+          ],
+        }).lean();
+      }
+
+      if (!dish) {
+        throw new AppError(`Dish with identifier '${itemId}' not found in active restaurant menu.`, 400);
       }
       if (!dish.available) {
         throw new AppError(`'${dish.name}' is currently sold out and unavailable. Please update your tray.`, 400);
       }
 
-      const qty = Math.max(1, parseInt(requestedItem.quantity, 10) || 1);
+      const qty = Math.max(1, parseInt(String(requestedItem.quantity), 10) || 1);
       const itemTotal = dish.price * qty;
       calculatedSubtotal += itemTotal;
 
       verifiedItems.push({
-        dishId: dish.id,
+        dishId: dish._id ? dish._id.toString() : dish.id,
         name: dish.name,
         price: dish.price,
         quantity: qty,
         total: itemTotal,
-        image: dish.image,
+        image: dish.image || '/uploads/menu/default-dish.webp',
       });
     }
 
@@ -77,17 +152,21 @@ export const ordersService = {
     const discountAmount = 0;
     const grandTotal = calculatedSubtotal + taxAmount + deliveryCharge - discountAmount;
 
-    const { orderNumber, invoiceNumber } = generateOrderNumber();
-    const now = new Date().toISOString();
-    const orderId = 'ord_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+    // Auto-generate unique order number based on database count
+    const currentYear = new Date().getFullYear();
+    const totalOrderCount = await Order.countDocuments();
+    const sequence = totalOrderCount + 1001;
+    const orderNumber = `HST-${currentYear}-${sequence}`;
+    const invoiceNumber = `HST-INV-${sequence}`;
+    const now = new Date();
     const initialPaymentStatus = paymentMethod === 'online' ? 'paid' : 'pending';
 
-    const newOrder: Order = {
-      id: orderId,
+    // 1. Persist directly in MongoDB Atlas
+    const createdOrder = await Order.create({
       orderNumber,
       customerName: customerName.trim(),
       customerPhone: customerPhone.trim(),
-      customerEmail: customerEmail ? customerEmail.trim() : undefined,
+      customerEmail: customerEmail ? customerEmail.trim().toLowerCase() : undefined,
       deliveryAddress: deliveryAddress ? deliveryAddress.trim() : fulfillmentType === 'dine-in' ? 'Dine-In Table' : 'Pickup Counter',
       fulfillmentType: ['dine-in', 'pickup', 'delivery'].includes(fulfillmentType) ? fulfillmentType : 'delivery',
       items: verifiedItems,
@@ -99,7 +178,7 @@ export const ordersService = {
       paymentMethod: ['online', 'cod', 'upi'].includes(paymentMethod) ? paymentMethod : 'cod',
       paymentStatus: initialPaymentStatus,
       orderStatus: 'pending',
-      notes: notes ? notes.trim() : undefined,
+      notes: notes ? String(notes).trim() : '',
       statusHistory: [
         {
           status: 'pending',
@@ -109,83 +188,67 @@ export const ordersService = {
         },
       ],
       invoiceNumber,
-      createdAt: now,
-      updatedAt: now,
-    };
+    });
 
+    const formattedOrder = this.formatOrder(createdOrder.toJSON());
+
+    // 2. Synchronize customer profile directly in MongoDB Atlas Customer collection
+    customersService
+      .recordOrderForCustomer({
+        name: formattedOrder.customerName,
+        phone: formattedOrder.customerPhone,
+        email: formattedOrder.customerEmail,
+        address: formattedOrder.deliveryAddress,
+        orderTotal: grandTotal,
+      })
+      .catch(() => {});
+
+    // 3. Keep in-memory store synchronized for legacy modules (invoices, payments, dashboard)
     const newInvoice: Invoice = {
       id: 'inv_' + Date.now(),
       invoiceNumber,
-      orderId,
+      orderId: formattedOrder.id,
       orderNumber,
-      customerName: newOrder.customerName,
-      customerPhone: newOrder.customerPhone,
-      customerAddress: newOrder.deliveryAddress,
+      customerName: formattedOrder.customerName,
+      customerPhone: formattedOrder.customerPhone,
+      customerAddress: formattedOrder.deliveryAddress,
       items: verifiedItems,
       subtotal: calculatedSubtotal,
       taxAmount,
       deliveryCharge,
       discountAmount,
       grandTotal,
-      paymentMethod: newOrder.paymentMethod,
+      paymentMethod: formattedOrder.paymentMethod,
       paymentStatus: initialPaymentStatus,
-      issuedAt: now,
+      issuedAt: now.toISOString(),
     };
 
     const newPayment: Payment = {
       id: 'pay_' + Date.now(),
       paymentReference: `PAY_${orderNumber}`,
-      orderId,
+      orderId: formattedOrder.id,
       orderNumber,
       amount: grandTotal,
-      paymentMethod: newOrder.paymentMethod,
+      paymentMethod: formattedOrder.paymentMethod,
       paymentStatus: initialPaymentStatus,
-      transactionDate: now,
+      transactionDate: now.toISOString(),
       gatewayTransactionReference: paymentMethod === 'online' ? `razor_${Date.now()}` : undefined,
     };
 
     db.updateState((s) => {
-      s.orders.unshift(newOrder);
+      s.orders.unshift(formattedOrder as any);
       s.invoices.unshift(newInvoice);
       s.payments.unshift(newPayment);
-
-      const existingCust = s.customers.find((c) => c.phone.replace(/\D/g, '') === customerPhone.replace(/\D/g, ''));
-      if (existingCust) {
-        existingCust.totalOrders += 1;
-        existingCust.totalSpent += grandTotal;
-        existingCust.lastOrderDate = now;
-        if (!existingCust.email && customerEmail) existingCust.email = customerEmail;
-      } else {
-        const newCust: Customer = {
-          id: 'cust_' + Date.now(),
-          name: customerName.trim(),
-          phone: customerPhone.trim(),
-          email: customerEmail ? customerEmail.trim() : undefined,
-          totalOrders: 1,
-          totalSpent: grandTotal,
-          lastOrderDate: now,
-          createdAt: now,
-        };
-        s.customers.unshift(newCust);
-      }
     });
 
     db.logAudit('ORDER_PLACED', 'Customer', `Order ${orderNumber} placed for ₹${grandTotal} by ${customerName}`);
 
-    // Synchronize customer profile directly in MongoDB Atlas
-    customersService
-      .recordOrderForCustomer({
-        name: newOrder.customerName,
-        phone: newOrder.customerPhone,
-        email: newOrder.customerEmail,
-        address: newOrder.deliveryAddress,
-        orderTotal: grandTotal,
-      })
-      .catch(() => {});
-
-    return { order: newOrder, invoice: newInvoice };
+    return { order: formattedOrder, invoice: newInvoice };
   },
 
+  /**
+   * 2. Get Admin Orders (Optimized lean query with filtering, search & pagination)
+   */
   async getAdminOrders(query: any) {
     const {
       search,
@@ -198,110 +261,161 @@ export const ordersService = {
       limit = '20',
     } = query;
 
-    let orders = [...db.getState().orders];
+    const filter: any = {};
 
-    if (search) {
-      const q = String(search).toLowerCase();
-      orders = orders.filter(
-        (o) =>
-          o.orderNumber.toLowerCase().includes(q) ||
-          o.customerName.toLowerCase().includes(q) ||
-          o.customerPhone.includes(q) ||
-          o.invoiceNumber.toLowerCase().includes(q)
-      );
+    if (search && String(search).trim()) {
+      const q = String(search).trim().replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+      filter.$or = [
+        { orderNumber: { $regex: q, $options: 'i' } },
+        { customerName: { $regex: q, $options: 'i' } },
+        { customerPhone: { $regex: q, $options: 'i' } },
+        { invoiceNumber: { $regex: q, $options: 'i' } },
+      ];
     }
 
     if (orderStatus && orderStatus !== 'all') {
-      orders = orders.filter((o) => o.orderStatus === orderStatus);
+      filter.orderStatus = orderStatus;
     }
 
     if (paymentStatus && paymentStatus !== 'all') {
-      orders = orders.filter((o) => o.paymentStatus === paymentStatus);
+      filter.paymentStatus = paymentStatus;
     }
 
     if (fulfillmentType && fulfillmentType !== 'all') {
-      orders = orders.filter((o) => o.fulfillmentType === fulfillmentType);
+      filter.fulfillmentType = fulfillmentType;
     }
 
-    if (startDate) {
-      orders = orders.filter((o) => o.createdAt >= String(startDate));
+    if (startDate || endDate) {
+      filter.createdAt = {};
+      if (startDate) filter.createdAt.$gte = new Date(startDate);
+      if (endDate) filter.createdAt.$lte = new Date(`${endDate}T23:59:59.999Z`);
     }
 
-    if (endDate) {
-      orders = orders.filter((o) => o.createdAt <= String(endDate) + 'T23:59:59.999Z');
-    }
+    const pageNum = Math.max(1, parseInt(String(page), 10) || 1);
+    const limitNum = Math.min(100, Math.max(1, parseInt(String(limit), 10) || 20));
+    const skip = (pageNum - 1) * limitNum;
 
-    orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-    const pageNum = parseInt(String(page), 10) || 1;
-    const limitNum = parseInt(String(limit), 10) || 20;
-    const startIndex = (pageNum - 1) * limitNum;
-    const paginated = orders.slice(startIndex, startIndex + limitNum);
+    const [total, orders] = await Promise.all([
+      Order.countDocuments(filter),
+      Order.find(filter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum)
+        .lean(),
+    ]);
 
     return {
-      total: orders.length,
+      total,
       page: pageNum,
-      totalPages: Math.ceil(orders.length / limitNum),
-      orders: paginated,
+      totalPages: Math.ceil(total / limitNum) || 1,
+      orders: orders.map((o) => this.formatOrder(o)),
     };
   },
 
+  /**
+   * 3. Get Single Order Details (with payment & invoice synchronization)
+   */
   async getOrderDetails(id: string) {
-    const state = db.getState();
-    const order = state.orders.find((o) => o.id === id || o.orderNumber === id);
-    if (!order) {
+    const orderDoc = await this.findOrderDoc(id);
+    if (!orderDoc) {
       throw new AppError('Order not found.', 404);
     }
-    const payment = state.payments.find((p) => p.orderId === order.id);
-    const invoice = state.invoices.find((i) => i.orderId === order.id);
 
-    return { order, payment, invoice };
+    const formattedOrder = this.formatOrder(orderDoc);
+    const state = db.getState();
+    const payment = state.payments.find((p) => p.orderId === formattedOrder.id || p.orderNumber === formattedOrder.orderNumber);
+    const invoice = state.invoices.find((i) => i.orderId === formattedOrder.id || i.orderNumber === formattedOrder.orderNumber);
+
+    return {
+      order: formattedOrder,
+      payment: payment || null,
+      invoice: invoice || null,
+    };
   },
 
+  /**
+   * 4. Update Order Status
+   */
   async updateOrderStatus(orderId: string, status: string, note?: string, actor = 'Staff') {
     if (!status || !VALID_STATUSES.includes(status as any)) {
-      throw new AppError(`Invalid order status. Allowed: ${VALID_STATUSES.join(', ')}`, 400);
+      throw new AppError(`Invalid order status. Allowed values: ${VALID_STATUSES.join(', ')}`, 400);
     }
 
-    const now = new Date().toISOString();
-    let updatedOrder: Order | null = null;
+    const orderDoc = await this.findOrderDoc(orderId);
+    if (!orderDoc) {
+      throw new AppError('Order not found.', 404);
+    }
 
+    const now = new Date();
+    const newStatusEntry = {
+      status,
+      timestamp: now,
+      actor,
+      note: note ? String(note).trim() : `Status changed to ${status.toUpperCase()}`,
+    };
+
+    const updated = await Order.findByIdAndUpdate(
+      orderDoc._id,
+      {
+        $set: { orderStatus: status },
+        $push: { statusHistory: newStatusEntry },
+      },
+      { new: true }
+    ).lean();
+
+    if (!updated) {
+      throw new AppError('Order update failed.', 500);
+    }
+
+    const formatted = this.formatOrder(updated);
+
+    // Sync in-memory store
     db.updateState((s) => {
-      const target = s.orders.find((o) => o.id === orderId);
+      const target = s.orders.find((o) => o.id === formatted.id || o.orderNumber === formatted.orderNumber);
       if (target) {
         target.orderStatus = status as any;
-        target.updatedAt = now;
-        target.statusHistory.push({
-          status,
-          timestamp: now,
-          actor,
-          note: note ? String(note).trim() : `Status changed to ${status.toUpperCase()}`,
-        });
-        updatedOrder = { ...target };
+        target.updatedAt = now.toISOString();
+        target.statusHistory.push(newStatusEntry as any);
       }
     });
 
-    if (!updatedOrder) {
+    db.logAudit('ORDER_STATUS_CHANGED', actor, `Order ${formatted.orderNumber} status changed to ${status}`);
+    return formatted;
+  },
+
+  /**
+   * 5. Update Order Payment Status
+   */
+  async updateOrderPayment(orderId: string, paymentStatus: string, collectedBy?: string, actor = 'Staff') {
+    if (!paymentStatus || !VALID_PAYMENTS.includes(paymentStatus as any)) {
+      throw new AppError(`Invalid payment status. Allowed values: ${VALID_PAYMENTS.join(', ')}`, 400);
+    }
+
+    const orderDoc = await this.findOrderDoc(orderId);
+    if (!orderDoc) {
       throw new AppError('Order not found.', 404);
     }
 
-    db.logAudit('ORDER_STATUS_CHANGED', actor, `Order ${(updatedOrder as Order).orderNumber} status changed to ${status}`);
-    return updatedOrder;
-  },
+    const updated = await Order.findByIdAndUpdate(
+      orderDoc._id,
+      {
+        $set: { paymentStatus },
+      },
+      { new: true }
+    ).lean();
 
-  async updateOrderPayment(orderId: string, paymentStatus: string, collectedBy?: string, actor = 'Staff') {
-    if (!paymentStatus || !VALID_PAYMENTS.includes(paymentStatus as any)) {
-      throw new AppError(`Invalid payment status. Allowed: ${VALID_PAYMENTS.join(', ')}`, 400);
+    if (!updated) {
+      throw new AppError('Order payment update failed.', 500);
     }
 
-    let updatedOrder: Order | null = null;
+    const formatted = this.formatOrder(updated);
 
+    // Sync in-memory state
     db.updateState((s) => {
-      const target = s.orders.find((o) => o.id === orderId);
+      const target = s.orders.find((o) => o.id === formatted.id || o.orderNumber === formatted.orderNumber);
       if (target) {
         target.paymentStatus = paymentStatus as any;
         target.updatedAt = new Date().toISOString();
-        updatedOrder = { ...target };
 
         const payment = s.payments.find((p) => p.orderId === target.id);
         if (payment) {
@@ -315,11 +429,18 @@ export const ordersService = {
       }
     });
 
-    if (!updatedOrder) {
-      throw new AppError('Order not found.', 404);
-    }
+    db.logAudit('PAYMENT_STATUS_CHANGED', actor, `Order ${formatted.orderNumber} payment marked as ${paymentStatus}`);
+    return formatted;
+  },
 
-    db.logAudit('PAYMENT_STATUS_CHANGED', actor, `Order ${(updatedOrder as Order).orderNumber} payment marked as ${paymentStatus}`);
-    return updatedOrder;
+  /**
+   * 6. Track Order (Public customer lookup by order number)
+   */
+  async trackOrder(orderNumber: string) {
+    const orderDoc = await this.findOrderDoc(orderNumber);
+    if (!orderDoc) {
+      throw new AppError(`No order found matching '${orderNumber}'.`, 404);
+    }
+    return this.formatOrder(orderDoc);
   },
 };
