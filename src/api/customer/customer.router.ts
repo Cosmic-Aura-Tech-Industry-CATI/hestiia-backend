@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { menuService } from '../../modules/menu/menu.service.js';
 import { categoriesService } from '../../modules/categories/categories.service.js';
 import { ordersService } from '../../modules/orders/orders.service.js';
+import { paymentsService } from '../../modules/payments/payments.service.js';
 import { bookingsService } from '../../modules/bookings/bookings.service.js';
 import { partyService } from '../../modules/party/party.service.js';
 import { reviewsService } from '../../modules/reviews/reviews.service.js';
@@ -40,6 +41,27 @@ router.get('/orders/:id', catchAsync(async (req: Request, res: Response) => {
   const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
   const result = await ordersService.getOrderDetails(id);
   sendSuccess(res, result);
+}));
+
+router.post('/orders/initiate-payment', catchAsync(async (req: Request, res: Response) => {
+  const result = await paymentsService.createPaymentIntent(req.body);
+  sendSuccess(res, result, 200, 'Payment intent created');
+}));
+
+router.post('/orders/verify-payment', catchAsync(async (req: Request, res: Response) => {
+  const payment = await paymentsService.verifyOnlinePayment(req.body);
+  sendSuccess(res, { payment }, 200, 'Payment verified successfully');
+}));
+
+router.post('/orders/submit-upi', catchAsync(async (req: Request, res: Response) => {
+  const payment = await paymentsService.submitManualUpiReference(req.body);
+  sendSuccess(res, { payment }, 200, 'UPI reference submitted for verification');
+}));
+
+router.post('/orders/:id/cancel', catchAsync(async (req: Request, res: Response) => {
+  const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  const order = await ordersService.cancelOrder(id, req.body.reason, 'Customer', true);
+  sendSuccess(res, { order }, 200, 'Order cancelled successfully');
 }));
 
 // 4. Invoices

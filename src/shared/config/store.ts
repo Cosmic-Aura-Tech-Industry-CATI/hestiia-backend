@@ -52,8 +52,10 @@ export interface OrderItem {
   dishId: string;
   name: string;
   price: number;
+  priceInPaise?: number;
   quantity: number;
   total: number;
+  totalInPaise?: number;
   image?: string;
 }
 
@@ -67,6 +69,7 @@ export interface OrderStatusHistoryItem {
 export interface Order {
   id: string;
   orderNumber: string;
+  idempotencyKey?: string;
   customerName: string;
   customerPhone: string;
   customerEmail?: string;
@@ -74,13 +77,21 @@ export interface Order {
   fulfillmentType: 'dine-in' | 'pickup' | 'delivery';
   items: OrderItem[];
   subtotal: number;
+  subtotalInPaise?: number;
   taxAmount: number;
+  taxInPaise?: number;
   deliveryCharge: number;
+  deliveryInPaise?: number;
   discountAmount: number;
+  discountInPaise?: number;
   grandTotal: number;
+  grandTotalInPaise?: number;
   paymentMethod: 'online' | 'cod' | 'upi';
-  paymentStatus: 'pending' | 'authorized' | 'paid' | 'failed' | 'refunded';
+  paymentStatus: 'pending' | 'authorized' | 'paid' | 'failed' | 'refunded' | 'awaiting_verification';
   orderStatus: 'pending' | 'confirmed' | 'preparing' | 'ready_for_pickup' | 'out_for_delivery' | 'completed' | 'cancelled';
+  cancellationReason?: string;
+  cancelledAt?: string;
+  cancelledBy?: string;
   notes?: string;
   statusHistory: OrderStatusHistoryItem[];
   invoiceNumber: string;
@@ -105,12 +116,23 @@ export interface Payment {
   orderId: string;
   orderNumber: string;
   amount: number;
+  amountInPaise?: number;
   paymentMethod: 'online' | 'cod' | 'upi';
-  paymentStatus: 'pending' | 'authorized' | 'paid' | 'failed' | 'refunded';
+  paymentStatus: 'pending' | 'authorized' | 'paid' | 'failed' | 'refunded' | 'awaiting_verification';
   transactionDate: string;
+  gatewayOrderId?: string;
   gatewayTransactionReference?: string;
   gatewaySignature?: string;
+  upiUtr?: string;
+  upiSubmittedAt?: string;
+  upiVerifiedAt?: string;
+  upiVerifiedBy?: string;
+  refundReference?: string;
+  refundAmount?: number;
+  refundReason?: string;
+  refundedAt?: string;
   collectedBy?: string;
+  idempotencyKey?: string;
 }
 
 export interface Invoice {

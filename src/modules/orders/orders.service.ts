@@ -1,8 +1,9 @@
 import { db, Order, OrderItem, Invoice, Payment, Customer } from '../../shared/config/db.js';
 import { AppError } from '../../shared/utils/appError.js';
+import { eventBus, DOMAIN_EVENTS } from '../../events/eventBus.js';
 
 const VALID_STATUSES = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'completed', 'cancelled'] as const;
-const VALID_PAYMENTS = ['pending', 'authorized', 'paid', 'failed', 'refunded'] as const;
+const VALID_PAYMENTS = ['pending', 'authorized', 'paid', 'failed', 'refunded', 'awaiting_verification'] as const;
 
 function generateOrderNumber(): { orderNumber: string; invoiceNumber: string } {
   const currentYear = new Date().getFullYear();
@@ -23,6 +24,7 @@ export const ordersService = {
       items,
       paymentMethod = 'cod',
       notes,
+      idempotencyKey,
     } = data;
 
     if (!customerName || !customerPhone || !items || !Array.isArray(items) || items.length === 0) {
@@ -31,12 +33,23 @@ export const ordersService = {
 
     const state = db.getState();
 
+    // 1. Idempotency Check: Prevent duplicate orders on network retries
+    if (idempotencyKey) {
+      const existingOrder = state.orders.find((o) => o.idempotencyKey === idempotencyKey);
+      if (existingOrder) {
+        const existingInvoice = state.invoices.find((i) => i.orderId === existingOrder.id);
+        const existingPayment = state.payments.find((p) => p.orderId === existingOrder.id);
+        return { order: existingOrder, invoice: existingInvoice, payment: existingPayment, isIdempotentReplay: true };
+      }
+    }
+
     if (!state.settings.orderAcceptanceEnabled) {
       throw new AppError('We are currently not accepting new online orders. Please call our front desk directly.', 403);
     }
 
+    // 2. Strict Menu Verification & Integer Paise Snapshot
     const verifiedItems: OrderItem[] = [];
-    let calculatedSubtotal = 0;
+    let calculatedSubtotalPaise = 0;
 
     for (const requestedItem of items) {
       const dish = state.dishes.find(
@@ -50,18 +63,23 @@ export const ordersService = {
       }
 
       const qty = Math.max(1, parseInt(requestedItem.quantity, 10) || 1);
-      const itemTotal = dish.price * qty;
-      calculatedSubtotal += itemTotal;
+      const priceInPaise = Math.round(dish.price * 100);
+      const itemTotalPaise = priceInPaise * qty;
+      calculatedSubtotalPaise += itemTotalPaise;
 
       verifiedItems.push({
         dishId: dish.id,
         name: dish.name,
         price: dish.price,
+        priceInPaise,
         quantity: qty,
-        total: itemTotal,
+        total: itemTotalPaise / 100,
+        totalInPaise: itemTotalPaise,
         image: dish.image,
       });
     }
+
+    const calculatedSubtotal = calculatedSubtotalPaise / 100;
 
     if (fulfillmentType === 'delivery' && calculatedSubtotal < state.settings.minOrderValue) {
       throw new AppError(
@@ -70,20 +88,31 @@ export const ordersService = {
       );
     }
 
-    const taxRate = state.settings.taxRatePercent / 100;
-    const taxAmount = Math.round(calculatedSubtotal * taxRate);
-    const deliveryCharge = fulfillmentType === 'delivery' ? state.settings.deliveryFee : 0;
+    // 3. Integer Arithmetic for Financial Integrity (paise)
+    const taxRatePercent = state.settings.taxRatePercent || 5;
+    const taxInPaise = Math.round((calculatedSubtotalPaise * taxRatePercent) / 100);
+    const taxAmount = taxInPaise / 100;
+
+    const deliveryInPaise = fulfillmentType === 'delivery' ? Math.round((state.settings.deliveryFee || 0) * 100) : 0;
+    const deliveryCharge = deliveryInPaise / 100;
+
+    const discountInPaise = 0;
     const discountAmount = 0;
-    const grandTotal = calculatedSubtotal + taxAmount + deliveryCharge - discountAmount;
+
+    const grandTotalPaise = calculatedSubtotalPaise + taxInPaise + deliveryInPaise - discountInPaise;
+    const grandTotal = grandTotalPaise / 100;
 
     const { orderNumber, invoiceNumber } = generateOrderNumber();
     const now = new Date().toISOString();
     const orderId = 'ord_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
-    const initialPaymentStatus = paymentMethod === 'online' ? 'paid' : 'pending';
+
+    // 4. Server-Side Payment Rule: Online and UPI payments ALWAYS start as 'pending'
+    const initialPaymentStatus = 'pending';
 
     const newOrder: Order = {
       id: orderId,
       orderNumber,
+      idempotencyKey,
       customerName: customerName.trim(),
       customerPhone: customerPhone.trim(),
       customerEmail: customerEmail ? customerEmail.trim() : undefined,
@@ -91,10 +120,15 @@ export const ordersService = {
       fulfillmentType: ['dine-in', 'pickup', 'delivery'].includes(fulfillmentType) ? fulfillmentType : 'delivery',
       items: verifiedItems,
       subtotal: calculatedSubtotal,
+      subtotalInPaise: calculatedSubtotalPaise,
       taxAmount,
+      taxInPaise,
       deliveryCharge,
+      deliveryInPaise,
       discountAmount,
+      discountInPaise,
       grandTotal,
+      grandTotalInPaise: grandTotalPaise,
       paymentMethod: ['online', 'cod', 'upi'].includes(paymentMethod) ? paymentMethod : 'cod',
       paymentStatus: initialPaymentStatus,
       orderStatus: 'pending',
@@ -104,7 +138,7 @@ export const ordersService = {
           status: 'pending',
           timestamp: now,
           actor: 'Customer Order Portal',
-          note: `Order placed via ${fulfillmentType.toUpperCase()} with ${paymentMethod.toUpperCase()}`,
+          note: `Order placed via ${fulfillmentType.toUpperCase()} with payment method ${paymentMethod.toUpperCase()}`,
         },
       ],
       invoiceNumber,
@@ -137,10 +171,11 @@ export const ordersService = {
       orderId,
       orderNumber,
       amount: grandTotal,
+      amountInPaise: grandTotalPaise,
       paymentMethod: newOrder.paymentMethod,
       paymentStatus: initialPaymentStatus,
       transactionDate: now,
-      gatewayTransactionReference: paymentMethod === 'online' ? `razor_${Date.now()}` : undefined,
+      idempotencyKey,
     };
 
     db.updateState((s) => {
@@ -171,7 +206,14 @@ export const ordersService = {
 
     db.logAudit('ORDER_PLACED', 'Customer', `Order ${orderNumber} placed for ₹${grandTotal} by ${customerName}`);
 
-    return { order: newOrder, invoice: newInvoice };
+    // Emit domain event for order creation
+    eventBus.emitEvent(DOMAIN_EVENTS.ORDER_CREATED, {
+      order: newOrder,
+      invoice: newInvoice,
+      payment: newPayment,
+    });
+
+    return { order: newOrder, invoice: newInvoice, payment: newPayment };
   },
 
   async getAdminOrders(query: any) {
@@ -251,11 +293,26 @@ export const ordersService = {
       throw new AppError(`Invalid order status. Allowed: ${VALID_STATUSES.join(', ')}`, 400);
     }
 
+    const state = db.getState();
+    const existing = state.orders.find((o) => o.id === orderId || o.orderNumber === orderId);
+    if (!existing) {
+      throw new AppError('Order not found.', 404);
+    }
+
+    if (existing.orderStatus === 'cancelled') {
+      throw new AppError('Cannot update status of an already cancelled order.', 400);
+    }
+
+    if (existing.orderStatus === 'completed') {
+      throw new AppError('Cannot update status of an already completed order.', 400);
+    }
+
+    const previousStatus = existing.orderStatus;
     const now = new Date().toISOString();
     let updatedOrder: Order | null = null;
 
     db.updateState((s) => {
-      const target = s.orders.find((o) => o.id === orderId);
+      const target = s.orders.find((o) => o.id === existing.id);
       if (target) {
         target.orderStatus = status as any;
         target.updatedAt = now;
@@ -269,11 +326,117 @@ export const ordersService = {
       }
     });
 
-    if (!updatedOrder) {
+    db.logAudit('ORDER_STATUS_CHANGED', actor, `Order ${existing.orderNumber} status changed from ${previousStatus} to ${status}`);
+
+    eventBus.emitEvent(DOMAIN_EVENTS.ORDER_STATUS_CHANGED, {
+      order: updatedOrder,
+      previousStatus,
+      newStatus: status,
+      actor,
+    });
+
+    return updatedOrder;
+  },
+
+  async cancelOrder(orderId: string, reason: string, actor = 'Customer', isCustomer = true) {
+    const state = db.getState();
+    const targetOrder = state.orders.find((o) => o.id === orderId || o.orderNumber === orderId);
+
+    if (!targetOrder) {
       throw new AppError('Order not found.', 404);
     }
 
-    db.logAudit('ORDER_STATUS_CHANGED', actor, `Order ${(updatedOrder as Order).orderNumber} status changed to ${status}`);
+    if (targetOrder.orderStatus === 'cancelled') {
+      throw new AppError('This order is already cancelled.', 400);
+    }
+
+    if (targetOrder.orderStatus === 'completed') {
+      throw new AppError('Delivered or completed orders cannot be cancelled.', 400);
+    }
+
+    // Customer cancellation grace period check: only allowed during pending or confirmed
+    if (isCustomer && ['preparing', 'ready_for_pickup', 'out_for_delivery'].includes(targetOrder.orderStatus)) {
+      throw new AppError(
+        'Cancellation unavailable. Kitchen has already started preparing your food. Please contact front desk.',
+        400
+      );
+    }
+
+    const now = new Date().toISOString();
+    let cancelledOrder: Order | null = null;
+
+    db.updateState((s) => {
+      const target = s.orders.find((o) => o.id === targetOrder.id);
+      if (target) {
+        target.orderStatus = 'cancelled';
+        target.cancellationReason = reason || 'Customer requested cancellation';
+        target.cancelledAt = now;
+        target.cancelledBy = actor;
+        target.updatedAt = now;
+        target.statusHistory.push({
+          status: 'cancelled',
+          timestamp: now,
+          actor,
+          note: `Order cancelled. Reason: ${target.cancellationReason}`,
+        });
+        cancelledOrder = { ...target };
+      }
+    });
+
+    db.logAudit('ORDER_CANCELLED', actor, `Order ${targetOrder.orderNumber} cancelled. Reason: ${reason}`);
+
+    eventBus.emitEvent(DOMAIN_EVENTS.ORDER_CANCELLED, {
+      order: cancelledOrder,
+      actor,
+      reason,
+    });
+
+    return cancelledOrder;
+  },
+
+  async handlePaymentPaidEvent(payload: { payment: Payment; actor?: string; gatewayTxn?: string }): Promise<Order | null> {
+    const { payment, actor = 'Payment Gateway' } = payload;
+    const now = new Date().toISOString();
+    let updatedOrder: Order | null = null;
+
+    db.updateState((s) => {
+      const order = s.orders.find((o) => o.id === payment.orderId || o.orderNumber === payment.orderNumber);
+      if (order) {
+        const previousStatus = order.orderStatus;
+        order.paymentStatus = 'paid';
+        order.updatedAt = now;
+
+        // Auto-advance online/UPI pending orders to confirmed upon payment capture
+        if (order.orderStatus === 'pending') {
+          order.orderStatus = 'confirmed';
+        }
+
+        order.statusHistory.push({
+          status: order.orderStatus,
+          timestamp: now,
+          actor,
+          note: `Payment of ₹${payment.amount} verified and captured. Order confirmed and sent to kitchen.`,
+        });
+
+        updatedOrder = { ...order };
+
+        // Synchronize invoice
+        const invoice = s.invoices.find((i) => i.orderId === order.id);
+        if (invoice) {
+          invoice.paymentStatus = 'paid';
+        }
+      }
+    });
+
+    if (updatedOrder) {
+      eventBus.emitEvent(DOMAIN_EVENTS.ORDER_STATUS_CHANGED, {
+        order: updatedOrder,
+        previousStatus: 'pending',
+        newStatus: (updatedOrder as Order).orderStatus,
+        actor,
+      });
+    }
+
     return updatedOrder;
   },
 
@@ -283,12 +446,13 @@ export const ordersService = {
     }
 
     let updatedOrder: Order | null = null;
+    const now = new Date().toISOString();
 
     db.updateState((s) => {
-      const target = s.orders.find((o) => o.id === orderId);
+      const target = s.orders.find((o) => o.id === orderId || o.orderNumber === orderId);
       if (target) {
         target.paymentStatus = paymentStatus as any;
-        target.updatedAt = new Date().toISOString();
+        target.updatedAt = now;
         updatedOrder = { ...target };
 
         const payment = s.payments.find((p) => p.orderId === target.id);

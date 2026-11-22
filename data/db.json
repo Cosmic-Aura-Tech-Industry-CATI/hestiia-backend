@@ -9,7 +9,7 @@
       "role": "superadmin",
       "active": true,
       "createdAt": "2026-10-01T10:00:00.000Z",
-      "lastLogin": "2026-11-21T08:33:55.414Z",
+      "lastLogin": "2026-11-22T09:19:19.344Z",
       "tokenVersion": 1
     },
     {
@@ -21,7 +21,8 @@
       "role": "manager",
       "active": true,
       "createdAt": "2026-10-05T10:00:00.000Z",
-      "lastLogin": "2026-10-25T10:04:32.659Z"
+      "lastLogin": "2026-10-25T10:04:32.659Z",
+      "tokenVersion": 0
     },
     {
       "id": "usr_1792922813633",
@@ -32,7 +33,8 @@
       "role": "staff",
       "active": true,
       "createdAt": "2026-10-25T10:06:53.866Z",
-      "lastLogin": "2026-10-25T10:08:58.075Z"
+      "lastLogin": "2026-10-25T10:08:58.075Z",
+      "tokenVersion": 0
     }
   ],
   "settings": {
@@ -565,6 +567,1050 @@
   ],
   "orders": [
     {
+      "id": "ord_1795282939853_pvbp",
+      "orderNumber": "HST-2026-1026",
+      "customerName": "Rohan Gupta",
+      "customerPhone": "9777766666",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "orderStatus": "preparing",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:42:19.853Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method COD"
+        },
+        {
+          "status": "preparing",
+          "timestamp": "2026-11-21T17:42:19.856Z",
+          "actor": "Kitchen Chef",
+          "note": "Chef started cooking"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1026",
+      "createdAt": "2026-11-21T17:42:19.853Z",
+      "updatedAt": "2026-11-21T17:42:19.856Z"
+    },
+    {
+      "id": "ord_1795282939836_gw8i",
+      "orderNumber": "HST-2026-1025",
+      "customerName": "Neha Verma",
+      "customerPhone": "9888877777",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:42:19.836Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method ONLINE"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:42:19.843Z",
+          "actor": "Razorpay Webhook",
+          "note": "Payment of ₹322.45 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1025",
+      "createdAt": "2026-11-21T17:42:19.836Z",
+      "updatedAt": "2026-11-21T17:42:19.843Z"
+    },
+    {
+      "id": "ord_1795282939832_3vhx",
+      "orderNumber": "HST-2026-1024",
+      "customerName": "Fraud Attempt",
+      "customerPhone": "9000000000",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "orderStatus": "pending",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:42:19.832Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method UPI"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1024",
+      "createdAt": "2026-11-21T17:42:19.832Z",
+      "updatedAt": "2026-11-21T17:42:19.832Z"
+    },
+    {
+      "id": "ord_1795282939820_5fx8",
+      "orderNumber": "HST-2026-1023",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9123456780",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "pickup",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 0,
+      "deliveryInPaise": 0,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 282.45,
+      "grandTotalInPaise": 28245,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:42:19.820Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via PICKUP with payment method UPI"
+        },
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:42:19.823Z",
+          "actor": "Customer",
+          "note": "Submitted manual UPI UTR: UTR_1795282939823. Awaiting cashier/manager credit verification."
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:42:19.831Z",
+          "actor": "Staff Verification (Manager Bob)",
+          "note": "Payment of ₹282.45 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1023",
+      "createdAt": "2026-11-21T17:42:19.820Z",
+      "updatedAt": "2026-11-21T17:42:19.831Z"
+    },
+    {
+      "id": "ord_1795282939801_kc0j",
+      "orderNumber": "HST-2026-1022",
+      "idempotencyKey": "test_key_1795282939801",
+      "customerName": "Aarav Patel",
+      "customerPhone": "9876543210",
+      "customerEmail": "aarav@example.com",
+      "deliveryAddress": "Flat 402, Royal Palms, Pune",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "subtotalInPaise": 53800,
+      "taxAmount": 26.9,
+      "taxInPaise": 2690,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 604.9,
+      "grandTotalInPaise": 60490,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "orderStatus": "cancelled",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:42:19.801Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method ONLINE"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:42:19.818Z",
+          "actor": "Razorpay Gateway Verification",
+          "note": "Payment of ₹604.9 verified and captured. Order confirmed and sent to kitchen."
+        },
+        {
+          "status": "cancelled",
+          "timestamp": "2026-11-21T17:42:19.845Z",
+          "actor": "Customer",
+          "note": "Order cancelled. Reason: Customer changed their mind before food prep"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1022",
+      "createdAt": "2026-11-21T17:42:19.801Z",
+      "updatedAt": "2026-11-21T17:42:19.845Z",
+      "cancellationReason": "Customer changed their mind before food prep",
+      "cancelledAt": "2026-11-21T17:42:19.845Z",
+      "cancelledBy": "Customer"
+    },
+    {
+      "id": "ord_1795280766260_ag83",
+      "orderNumber": "HST-2026-1021",
+      "customerName": "Rohan Gupta",
+      "customerPhone": "9777766666",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "orderStatus": "preparing",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:06:06.260Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method COD"
+        },
+        {
+          "status": "preparing",
+          "timestamp": "2026-11-21T17:06:06.266Z",
+          "actor": "Kitchen Chef",
+          "note": "Chef started cooking"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1021",
+      "createdAt": "2026-11-21T17:06:06.260Z",
+      "updatedAt": "2026-11-21T17:06:06.266Z"
+    },
+    {
+      "id": "ord_1795280766231_hw8s",
+      "orderNumber": "HST-2026-1020",
+      "customerName": "Neha Verma",
+      "customerPhone": "9888877777",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:06:06.231Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method ONLINE"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:06:06.242Z",
+          "actor": "Razorpay Webhook",
+          "note": "Payment of ₹322.45 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1020",
+      "createdAt": "2026-11-21T17:06:06.231Z",
+      "updatedAt": "2026-11-21T17:06:06.242Z"
+    },
+    {
+      "id": "ord_1795280766225_ge1p",
+      "orderNumber": "HST-2026-1019",
+      "customerName": "Fraud Attempt",
+      "customerPhone": "9000000000",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "orderStatus": "pending",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:06:06.225Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method UPI"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1019",
+      "createdAt": "2026-11-21T17:06:06.225Z",
+      "updatedAt": "2026-11-21T17:06:06.225Z"
+    },
+    {
+      "id": "ord_1795280766204_k7xz",
+      "orderNumber": "HST-2026-1018",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9123456780",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "pickup",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 0,
+      "deliveryInPaise": 0,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 282.45,
+      "grandTotalInPaise": 28245,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:06:06.204Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via PICKUP with payment method UPI"
+        },
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:06:06.210Z",
+          "actor": "Customer",
+          "note": "Submitted manual UPI UTR: UTR_1795280766210. Awaiting cashier/manager credit verification."
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:06:06.222Z",
+          "actor": "Staff Verification (Manager Bob)",
+          "note": "Payment of ₹282.45 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1018",
+      "createdAt": "2026-11-21T17:06:06.204Z",
+      "updatedAt": "2026-11-21T17:06:06.222Z"
+    },
+    {
+      "id": "ord_1795280766177_7ijl",
+      "orderNumber": "HST-2026-1017",
+      "idempotencyKey": "test_key_1795280766177",
+      "customerName": "Aarav Patel",
+      "customerPhone": "9876543210",
+      "customerEmail": "aarav@example.com",
+      "deliveryAddress": "Flat 402, Royal Palms, Pune",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "subtotalInPaise": 53800,
+      "taxAmount": 26.9,
+      "taxInPaise": 2690,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 604.9,
+      "grandTotalInPaise": 60490,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "orderStatus": "cancelled",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:06:06.177Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method ONLINE"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:06:06.200Z",
+          "actor": "Razorpay Gateway Verification",
+          "note": "Payment of ₹604.9 verified and captured. Order confirmed and sent to kitchen."
+        },
+        {
+          "status": "cancelled",
+          "timestamp": "2026-11-21T17:06:06.245Z",
+          "actor": "Customer",
+          "note": "Order cancelled. Reason: Customer changed their mind before food prep"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1017",
+      "createdAt": "2026-11-21T17:06:06.177Z",
+      "updatedAt": "2026-11-21T17:06:06.245Z",
+      "cancellationReason": "Customer changed their mind before food prep",
+      "cancelledAt": "2026-11-21T17:06:06.245Z",
+      "cancelledBy": "Customer"
+    },
+    {
+      "id": "ord_1795280719679_ux03",
+      "orderNumber": "HST-2026-1016",
+      "customerName": "Rohan Gupta",
+      "customerPhone": "9777766666",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "orderStatus": "preparing",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:05:19.679Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method COD"
+        },
+        {
+          "status": "preparing",
+          "timestamp": "2026-11-21T17:05:19.691Z",
+          "actor": "Kitchen Chef",
+          "note": "Chef started cooking"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1016",
+      "createdAt": "2026-11-21T17:05:19.679Z",
+      "updatedAt": "2026-11-21T17:05:19.691Z"
+    },
+    {
+      "id": "ord_1795280719590_2vj4",
+      "orderNumber": "HST-2026-1015",
+      "customerName": "Neha Verma",
+      "customerPhone": "9888877777",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:05:19.590Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method ONLINE"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:05:19.628Z",
+          "actor": "Razorpay Webhook",
+          "note": "Payment of ₹322.45 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1015",
+      "createdAt": "2026-11-21T17:05:19.590Z",
+      "updatedAt": "2026-11-21T17:05:19.628Z"
+    },
+    {
+      "id": "ord_1795280719582_qrem",
+      "orderNumber": "HST-2026-1014",
+      "customerName": "Fraud Attempt",
+      "customerPhone": "9000000000",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "orderStatus": "pending",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:05:19.582Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method UPI"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1014",
+      "createdAt": "2026-11-21T17:05:19.582Z",
+      "updatedAt": "2026-11-21T17:05:19.582Z"
+    },
+    {
+      "id": "ord_1795280719549_km34",
+      "orderNumber": "HST-2026-1013",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9123456780",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "pickup",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 0,
+      "deliveryInPaise": 0,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 282.45,
+      "grandTotalInPaise": 28245,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:05:19.549Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via PICKUP with payment method UPI"
+        },
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:05:19.558Z",
+          "actor": "Customer",
+          "note": "Submitted manual UPI UTR: UTR_1795280719558. Awaiting cashier/manager credit verification."
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:05:19.575Z",
+          "actor": "Staff Verification (Manager Bob)",
+          "note": "Payment of ₹282.45 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1013",
+      "createdAt": "2026-11-21T17:05:19.549Z",
+      "updatedAt": "2026-11-21T17:05:19.575Z"
+    },
+    {
+      "id": "ord_1795280719520_6v2r",
+      "orderNumber": "HST-2026-1012",
+      "idempotencyKey": "test_key_1795280719520",
+      "customerName": "Aarav Patel",
+      "customerPhone": "9876543210",
+      "customerEmail": "aarav@example.com",
+      "deliveryAddress": "Flat 402, Royal Palms, Pune",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "subtotalInPaise": 53800,
+      "taxAmount": 26.9,
+      "taxInPaise": 2690,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 604.9,
+      "grandTotalInPaise": 60490,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "orderStatus": "cancelled",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:05:19.520Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method ONLINE"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:05:19.546Z",
+          "actor": "Razorpay Gateway Verification",
+          "note": "Payment of ₹604.9 verified and captured. Order confirmed and sent to kitchen."
+        },
+        {
+          "status": "cancelled",
+          "timestamp": "2026-11-21T17:05:19.637Z",
+          "actor": "Customer",
+          "note": "Order cancelled. Reason: Customer changed their mind before food prep"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1012",
+      "createdAt": "2026-11-21T17:05:19.520Z",
+      "updatedAt": "2026-11-21T17:05:19.637Z",
+      "cancellationReason": "Customer changed their mind before food prep",
+      "cancelledAt": "2026-11-21T17:05:19.637Z",
+      "cancelledBy": "Customer"
+    },
+    {
+      "id": "ord_1795280651777_hfsk",
+      "orderNumber": "HST-2026-1011",
+      "customerName": "Rohan Gupta",
+      "customerPhone": "9777766666",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "orderStatus": "preparing",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:04:11.777Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method COD"
+        },
+        {
+          "status": "preparing",
+          "timestamp": "2026-11-21T17:04:11.802Z",
+          "actor": "Kitchen Chef",
+          "note": "Chef started cooking"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1011",
+      "createdAt": "2026-11-21T17:04:11.777Z",
+      "updatedAt": "2026-11-21T17:04:11.802Z"
+    },
+    {
+      "id": "ord_1795280651683_9ymc",
+      "orderNumber": "HST-2026-1010",
+      "customerName": "Neha Verma",
+      "customerPhone": "9888877777",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:04:11.683Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method ONLINE"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:04:11.731Z",
+          "actor": "Razorpay Webhook",
+          "note": "Payment of ₹322.45 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1010",
+      "createdAt": "2026-11-21T17:04:11.683Z",
+      "updatedAt": "2026-11-21T17:04:11.731Z"
+    },
+    {
+      "id": "ord_1795280651657_hhbf",
+      "orderNumber": "HST-2026-1009",
+      "customerName": "Fraud Attempt",
+      "customerPhone": "9000000000",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 322.45,
+      "grandTotalInPaise": 32245,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "orderStatus": "pending",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:04:11.657Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method UPI"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1009",
+      "createdAt": "2026-11-21T17:04:11.657Z",
+      "updatedAt": "2026-11-21T17:04:11.657Z"
+    },
+    {
+      "id": "ord_1795280651589_zzz2",
+      "orderNumber": "HST-2026-1008",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9123456780",
+      "deliveryAddress": "Pickup Counter",
+      "fulfillmentType": "pickup",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "subtotalInPaise": 26900,
+      "taxAmount": 13.45,
+      "taxInPaise": 1345,
+      "deliveryCharge": 0,
+      "deliveryInPaise": 0,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 282.45,
+      "grandTotalInPaise": 28245,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:04:11.589Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via PICKUP with payment method UPI"
+        },
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:04:11.613Z",
+          "actor": "Customer",
+          "note": "Submitted manual UPI UTR: UTR_1795280651613. Awaiting cashier/manager credit verification."
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:04:11.648Z",
+          "actor": "Staff Verification (Manager Bob)",
+          "note": "Payment of ₹282.45 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1008",
+      "createdAt": "2026-11-21T17:04:11.589Z",
+      "updatedAt": "2026-11-21T17:04:11.648Z"
+    },
+    {
+      "id": "ord_1795280651511_u5qq",
+      "orderNumber": "HST-2026-1007",
+      "idempotencyKey": "test_key_1795280651510",
+      "customerName": "Aarav Patel",
+      "customerPhone": "9876543210",
+      "customerEmail": "aarav@example.com",
+      "deliveryAddress": "Flat 402, Royal Palms, Pune",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "subtotalInPaise": 53800,
+      "taxAmount": 26.9,
+      "taxInPaise": 2690,
+      "deliveryCharge": 40,
+      "deliveryInPaise": 4000,
+      "discountAmount": 0,
+      "discountInPaise": 0,
+      "grandTotal": 604.9,
+      "grandTotalInPaise": 60490,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "orderStatus": "cancelled",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-21T17:04:11.511Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DELIVERY with payment method ONLINE"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-21T17:04:11.574Z",
+          "actor": "Razorpay Gateway Verification",
+          "note": "Payment of ₹604.9 verified and captured. Order confirmed and sent to kitchen."
+        },
+        {
+          "status": "cancelled",
+          "timestamp": "2026-11-21T17:04:11.743Z",
+          "actor": "Customer",
+          "note": "Order cancelled. Reason: Customer changed their mind before food prep"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1007",
+      "createdAt": "2026-11-21T17:04:11.511Z",
+      "updatedAt": "2026-11-21T17:04:11.743Z",
+      "cancellationReason": "Customer changed their mind before food prep",
+      "cancelledAt": "2026-11-21T17:04:11.743Z",
+      "cancelledBy": "Customer"
+    },
+    {
       "id": "ord_1792946811669_o6e9",
       "orderNumber": "HST-2026-1006",
       "customerName": "Rohit Aggarwal",
@@ -888,6 +1934,52 @@
   ],
   "customers": [
     {
+      "id": "cust_1795280651777",
+      "name": "Rohan Gupta",
+      "phone": "9777766666",
+      "totalOrders": 4,
+      "totalSpent": 1289.8,
+      "lastOrderDate": "2026-11-21T17:42:19.853Z",
+      "createdAt": "2026-11-21T17:04:11.777Z"
+    },
+    {
+      "id": "cust_1795280651683",
+      "name": "Neha Verma",
+      "phone": "9888877777",
+      "totalOrders": 4,
+      "totalSpent": 1289.8,
+      "lastOrderDate": "2026-11-21T17:42:19.836Z",
+      "createdAt": "2026-11-21T17:04:11.683Z"
+    },
+    {
+      "id": "cust_1795280651657",
+      "name": "Fraud Attempt",
+      "phone": "9000000000",
+      "totalOrders": 4,
+      "totalSpent": 1289.8,
+      "lastOrderDate": "2026-11-21T17:42:19.832Z",
+      "createdAt": "2026-11-21T17:04:11.657Z"
+    },
+    {
+      "id": "cust_1795280651589",
+      "name": "Priya Sharma",
+      "phone": "9123456780",
+      "totalOrders": 4,
+      "totalSpent": 1129.8,
+      "lastOrderDate": "2026-11-21T17:42:19.820Z",
+      "createdAt": "2026-11-21T17:04:11.589Z"
+    },
+    {
+      "id": "cust_1795280651511",
+      "name": "Aarav Patel",
+      "phone": "9876543210",
+      "email": "aarav@example.com",
+      "totalOrders": 4,
+      "totalSpent": 2419.6,
+      "lastOrderDate": "2026-11-21T17:42:19.801Z",
+      "createdAt": "2026-11-21T17:04:11.511Z"
+    },
+    {
       "id": "cust_1792919706650",
       "name": "Rohit Aggarwal",
       "phone": "+91 98390 99881",
@@ -928,6 +2020,278 @@
     }
   ],
   "payments": [
+    {
+      "id": "pay_1795282939853",
+      "paymentReference": "PAY_HST-2026-1026",
+      "orderId": "ord_1795282939853_pvbp",
+      "orderNumber": "HST-2026-1026",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-21T17:42:19.853Z"
+    },
+    {
+      "id": "pay_1795282939836",
+      "paymentReference": "PAY_HST-2026-1025",
+      "orderId": "ord_1795282939836_gw8i",
+      "orderNumber": "HST-2026-1025",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-11-21T17:42:19.839Z",
+      "gatewayTransactionReference": "pay_wh_1795282939839"
+    },
+    {
+      "id": "pay_1795282939832",
+      "paymentReference": "PAY_HST-2026-1024",
+      "orderId": "ord_1795282939832_3vhx",
+      "orderNumber": "HST-2026-1024",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-21T17:42:19.832Z"
+    },
+    {
+      "id": "pay_1795282939820",
+      "paymentReference": "PAY_HST-2026-1023",
+      "orderId": "ord_1795282939820_5fx8",
+      "orderNumber": "HST-2026-1023",
+      "amount": 282.45,
+      "amountInPaise": 28245,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-11-21T17:42:19.820Z",
+      "upiUtr": "UTR_1795282939823",
+      "upiSubmittedAt": "2026-11-21T17:42:19.823Z",
+      "upiVerifiedAt": "2026-11-21T17:42:19.827Z",
+      "upiVerifiedBy": "Manager Bob"
+    },
+    {
+      "id": "pay_1795282939801",
+      "paymentReference": "PAY_HST-2026-1022",
+      "orderId": "ord_1795282939801_kc0j",
+      "orderNumber": "HST-2026-1022",
+      "amount": 604.9,
+      "amountInPaise": 60490,
+      "paymentMethod": "online",
+      "paymentStatus": "refunded",
+      "transactionDate": "2026-11-21T17:42:19.810Z",
+      "idempotencyKey": "intent_key_ord_1795282939801_kc0j",
+      "gatewayOrderId": "order_hst_HST20261022_1795282939808",
+      "gatewayTransactionReference": "pay_mock_1795282939810",
+      "gatewaySignature": "4b25b06fa5c38f6cccfe795fbba1c28977f7e56e51c1f60d68dbfbaaace95610",
+      "refundReference": "RFD_1795282939849",
+      "refundAmount": 604.9,
+      "refundReason": "Order cancelled by Customer: Customer changed their mind before food prep",
+      "refundedAt": "2026-11-21T17:42:19.849Z"
+    },
+    {
+      "id": "pay_1795280766260",
+      "paymentReference": "PAY_HST-2026-1021",
+      "orderId": "ord_1795280766260_ag83",
+      "orderNumber": "HST-2026-1021",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-21T17:06:06.260Z"
+    },
+    {
+      "id": "pay_1795280766231",
+      "paymentReference": "PAY_HST-2026-1020",
+      "orderId": "ord_1795280766231_hw8s",
+      "orderNumber": "HST-2026-1020",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-11-21T17:06:06.237Z",
+      "gatewayTransactionReference": "pay_wh_1795280766237"
+    },
+    {
+      "id": "pay_1795280766225",
+      "paymentReference": "PAY_HST-2026-1019",
+      "orderId": "ord_1795280766225_ge1p",
+      "orderNumber": "HST-2026-1019",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-21T17:06:06.225Z"
+    },
+    {
+      "id": "pay_1795280766204",
+      "paymentReference": "PAY_HST-2026-1018",
+      "orderId": "ord_1795280766204_k7xz",
+      "orderNumber": "HST-2026-1018",
+      "amount": 282.45,
+      "amountInPaise": 28245,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-11-21T17:06:06.204Z",
+      "upiUtr": "UTR_1795280766210",
+      "upiSubmittedAt": "2026-11-21T17:06:06.210Z",
+      "upiVerifiedAt": "2026-11-21T17:06:06.216Z",
+      "upiVerifiedBy": "Manager Bob"
+    },
+    {
+      "id": "pay_1795280766177",
+      "paymentReference": "PAY_HST-2026-1017",
+      "orderId": "ord_1795280766177_7ijl",
+      "orderNumber": "HST-2026-1017",
+      "amount": 604.9,
+      "amountInPaise": 60490,
+      "paymentMethod": "online",
+      "paymentStatus": "refunded",
+      "transactionDate": "2026-11-21T17:06:06.191Z",
+      "idempotencyKey": "intent_key_ord_1795280766177_7ijl",
+      "gatewayOrderId": "order_hst_HST20261017_1795280766187",
+      "gatewayTransactionReference": "pay_mock_1795280766190",
+      "gatewaySignature": "f2dc73d5d1b600754fcf6937533aea77608be5f6e18240e448bab12a28220bf5",
+      "refundReference": "RFD_1795280766252",
+      "refundAmount": 604.9,
+      "refundReason": "Order cancelled by Customer: Customer changed their mind before food prep",
+      "refundedAt": "2026-11-21T17:06:06.252Z"
+    },
+    {
+      "id": "pay_1795280719679",
+      "paymentReference": "PAY_HST-2026-1016",
+      "orderId": "ord_1795280719679_ux03",
+      "orderNumber": "HST-2026-1016",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-21T17:05:19.679Z"
+    },
+    {
+      "id": "pay_1795280719590",
+      "paymentReference": "PAY_HST-2026-1015",
+      "orderId": "ord_1795280719590_2vj4",
+      "orderNumber": "HST-2026-1015",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-11-21T17:05:19.611Z",
+      "gatewayTransactionReference": "pay_wh_1795280719611"
+    },
+    {
+      "id": "pay_1795280719582",
+      "paymentReference": "PAY_HST-2026-1014",
+      "orderId": "ord_1795280719582_qrem",
+      "orderNumber": "HST-2026-1014",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-21T17:05:19.582Z"
+    },
+    {
+      "id": "pay_1795280719549",
+      "paymentReference": "PAY_HST-2026-1013",
+      "orderId": "ord_1795280719549_km34",
+      "orderNumber": "HST-2026-1013",
+      "amount": 282.45,
+      "amountInPaise": 28245,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-11-21T17:05:19.549Z",
+      "upiUtr": "UTR_1795280719558",
+      "upiSubmittedAt": "2026-11-21T17:05:19.558Z",
+      "upiVerifiedAt": "2026-11-21T17:05:19.567Z",
+      "upiVerifiedBy": "Manager Bob"
+    },
+    {
+      "id": "pay_1795280719521",
+      "paymentReference": "PAY_HST-2026-1012",
+      "orderId": "ord_1795280719520_6v2r",
+      "orderNumber": "HST-2026-1012",
+      "amount": 604.9,
+      "amountInPaise": 60490,
+      "paymentMethod": "online",
+      "paymentStatus": "refunded",
+      "transactionDate": "2026-11-21T17:05:19.539Z",
+      "idempotencyKey": "intent_key_ord_1795280719520_6v2r",
+      "gatewayOrderId": "order_hst_HST20261012_1795280719535",
+      "gatewayTransactionReference": "pay_mock_1795280719538",
+      "gatewaySignature": "a564f5e220b068e1a45a4c1c67c5e328b0c091091758a496dadb5f51660d9433",
+      "refundReference": "RFD_1795280719659",
+      "refundAmount": 604.9,
+      "refundReason": "Order cancelled by Customer: Customer changed their mind before food prep",
+      "refundedAt": "2026-11-21T17:05:19.659Z"
+    },
+    {
+      "id": "pay_1795280651777",
+      "paymentReference": "PAY_HST-2026-1011",
+      "orderId": "ord_1795280651777_hfsk",
+      "orderNumber": "HST-2026-1011",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-21T17:04:11.777Z"
+    },
+    {
+      "id": "pay_1795280651683",
+      "paymentReference": "PAY_HST-2026-1010",
+      "orderId": "ord_1795280651683_9ymc",
+      "orderNumber": "HST-2026-1010",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-11-21T17:04:11.707Z",
+      "gatewayTransactionReference": "pay_wh_1795280651707"
+    },
+    {
+      "id": "pay_1795280651657",
+      "paymentReference": "PAY_HST-2026-1009",
+      "orderId": "ord_1795280651657_hhbf",
+      "orderNumber": "HST-2026-1009",
+      "amount": 322.45,
+      "amountInPaise": 32245,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-21T17:04:11.657Z"
+    },
+    {
+      "id": "pay_1795280651589",
+      "paymentReference": "PAY_HST-2026-1008",
+      "orderId": "ord_1795280651589_zzz2",
+      "orderNumber": "HST-2026-1008",
+      "amount": 282.45,
+      "amountInPaise": 28245,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "transactionDate": "2026-11-21T17:04:11.589Z",
+      "upiUtr": "UTR_1795280651613",
+      "upiSubmittedAt": "2026-11-21T17:04:11.613Z",
+      "upiVerifiedAt": "2026-11-21T17:04:11.631Z",
+      "upiVerifiedBy": "Manager Bob"
+    },
+    {
+      "id": "pay_1795280651511",
+      "paymentReference": "PAY_HST-2026-1007",
+      "orderId": "ord_1795280651511_u5qq",
+      "orderNumber": "HST-2026-1007",
+      "amount": 604.9,
+      "amountInPaise": 60490,
+      "paymentMethod": "online",
+      "paymentStatus": "refunded",
+      "transactionDate": "2026-11-21T17:04:11.550Z",
+      "idempotencyKey": "intent_key_ord_1795280651511_u5qq",
+      "gatewayOrderId": "order_hst_HST20261007_1795280651533",
+      "gatewayTransactionReference": "pay_mock_1795280651547",
+      "gatewaySignature": "9179196b87af60a04371d0a70314a322602dc9d03439ed38438ae4cf7582c765",
+      "refundReference": "RFD_1795280651760",
+      "refundAmount": 604.9,
+      "refundReason": "Order cancelled by Customer: Customer changed their mind before food prep",
+      "refundedAt": "2026-11-21T17:04:11.760Z"
+    },
     {
       "id": "pay_1792946811670",
       "paymentReference": "PAY_HST-2026-1006",
@@ -997,6 +2361,586 @@
     }
   ],
   "invoices": [
+    {
+      "id": "inv_1795282939853",
+      "invoiceNumber": "HST-INV-1026",
+      "orderId": "ord_1795282939853_pvbp",
+      "orderNumber": "HST-2026-1026",
+      "customerName": "Rohan Gupta",
+      "customerPhone": "9777766666",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-21T17:42:19.853Z"
+    },
+    {
+      "id": "inv_1795282939836",
+      "invoiceNumber": "HST-INV-1025",
+      "orderId": "ord_1795282939836_gw8i",
+      "orderNumber": "HST-2026-1025",
+      "customerName": "Neha Verma",
+      "customerPhone": "9888877777",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-21T17:42:19.836Z"
+    },
+    {
+      "id": "inv_1795282939832",
+      "invoiceNumber": "HST-INV-1024",
+      "orderId": "ord_1795282939832_3vhx",
+      "orderNumber": "HST-2026-1024",
+      "customerName": "Fraud Attempt",
+      "customerPhone": "9000000000",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-21T17:42:19.832Z"
+    },
+    {
+      "id": "inv_1795282939820",
+      "invoiceNumber": "HST-INV-1023",
+      "orderId": "ord_1795282939820_5fx8",
+      "orderNumber": "HST-2026-1023",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9123456780",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 0,
+      "discountAmount": 0,
+      "grandTotal": 282.45,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-21T17:42:19.820Z"
+    },
+    {
+      "id": "inv_1795282939801",
+      "invoiceNumber": "HST-INV-1022",
+      "orderId": "ord_1795282939801_kc0j",
+      "orderNumber": "HST-2026-1022",
+      "customerName": "Aarav Patel",
+      "customerPhone": "9876543210",
+      "customerAddress": "Flat 402, Royal Palms, Pune",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "taxAmount": 26.9,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 604.9,
+      "paymentMethod": "online",
+      "paymentStatus": "refunded",
+      "issuedAt": "2026-11-21T17:42:19.801Z"
+    },
+    {
+      "id": "inv_1795280766260",
+      "invoiceNumber": "HST-INV-1021",
+      "orderId": "ord_1795280766260_ag83",
+      "orderNumber": "HST-2026-1021",
+      "customerName": "Rohan Gupta",
+      "customerPhone": "9777766666",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-21T17:06:06.260Z"
+    },
+    {
+      "id": "inv_1795280766231",
+      "invoiceNumber": "HST-INV-1020",
+      "orderId": "ord_1795280766231_hw8s",
+      "orderNumber": "HST-2026-1020",
+      "customerName": "Neha Verma",
+      "customerPhone": "9888877777",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-21T17:06:06.231Z"
+    },
+    {
+      "id": "inv_1795280766225",
+      "invoiceNumber": "HST-INV-1019",
+      "orderId": "ord_1795280766225_ge1p",
+      "orderNumber": "HST-2026-1019",
+      "customerName": "Fraud Attempt",
+      "customerPhone": "9000000000",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-21T17:06:06.225Z"
+    },
+    {
+      "id": "inv_1795280766204",
+      "invoiceNumber": "HST-INV-1018",
+      "orderId": "ord_1795280766204_k7xz",
+      "orderNumber": "HST-2026-1018",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9123456780",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 0,
+      "discountAmount": 0,
+      "grandTotal": 282.45,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-21T17:06:06.204Z"
+    },
+    {
+      "id": "inv_1795280766177",
+      "invoiceNumber": "HST-INV-1017",
+      "orderId": "ord_1795280766177_7ijl",
+      "orderNumber": "HST-2026-1017",
+      "customerName": "Aarav Patel",
+      "customerPhone": "9876543210",
+      "customerAddress": "Flat 402, Royal Palms, Pune",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "taxAmount": 26.9,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 604.9,
+      "paymentMethod": "online",
+      "paymentStatus": "refunded",
+      "issuedAt": "2026-11-21T17:06:06.177Z"
+    },
+    {
+      "id": "inv_1795280719679",
+      "invoiceNumber": "HST-INV-1016",
+      "orderId": "ord_1795280719679_ux03",
+      "orderNumber": "HST-2026-1016",
+      "customerName": "Rohan Gupta",
+      "customerPhone": "9777766666",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-21T17:05:19.679Z"
+    },
+    {
+      "id": "inv_1795280719590",
+      "invoiceNumber": "HST-INV-1015",
+      "orderId": "ord_1795280719590_2vj4",
+      "orderNumber": "HST-2026-1015",
+      "customerName": "Neha Verma",
+      "customerPhone": "9888877777",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-21T17:05:19.590Z"
+    },
+    {
+      "id": "inv_1795280719582",
+      "invoiceNumber": "HST-INV-1014",
+      "orderId": "ord_1795280719582_qrem",
+      "orderNumber": "HST-2026-1014",
+      "customerName": "Fraud Attempt",
+      "customerPhone": "9000000000",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-21T17:05:19.582Z"
+    },
+    {
+      "id": "inv_1795280719549",
+      "invoiceNumber": "HST-INV-1013",
+      "orderId": "ord_1795280719549_km34",
+      "orderNumber": "HST-2026-1013",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9123456780",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 0,
+      "discountAmount": 0,
+      "grandTotal": 282.45,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-21T17:05:19.549Z"
+    },
+    {
+      "id": "inv_1795280719521",
+      "invoiceNumber": "HST-INV-1012",
+      "orderId": "ord_1795280719520_6v2r",
+      "orderNumber": "HST-2026-1012",
+      "customerName": "Aarav Patel",
+      "customerPhone": "9876543210",
+      "customerAddress": "Flat 402, Royal Palms, Pune",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "taxAmount": 26.9,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 604.9,
+      "paymentMethod": "online",
+      "paymentStatus": "refunded",
+      "issuedAt": "2026-11-21T17:05:19.520Z"
+    },
+    {
+      "id": "inv_1795280651777",
+      "invoiceNumber": "HST-INV-1011",
+      "orderId": "ord_1795280651777_hfsk",
+      "orderNumber": "HST-2026-1011",
+      "customerName": "Rohan Gupta",
+      "customerPhone": "9777766666",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "cod",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-21T17:04:11.777Z"
+    },
+    {
+      "id": "inv_1795280651683",
+      "invoiceNumber": "HST-INV-1010",
+      "orderId": "ord_1795280651683_9ymc",
+      "orderNumber": "HST-2026-1010",
+      "customerName": "Neha Verma",
+      "customerPhone": "9888877777",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "online",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-21T17:04:11.683Z"
+    },
+    {
+      "id": "inv_1795280651657",
+      "invoiceNumber": "HST-INV-1009",
+      "orderId": "ord_1795280651657_hhbf",
+      "orderNumber": "HST-2026-1009",
+      "customerName": "Fraud Attempt",
+      "customerPhone": "9000000000",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 322.45,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-21T17:04:11.657Z"
+    },
+    {
+      "id": "inv_1795280651589",
+      "invoiceNumber": "HST-INV-1008",
+      "orderId": "ord_1795280651589_zzz2",
+      "orderNumber": "HST-2026-1008",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9123456780",
+      "customerAddress": "Pickup Counter",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 1,
+          "total": 269,
+          "totalInPaise": 26900,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 269,
+      "taxAmount": 13.45,
+      "deliveryCharge": 0,
+      "discountAmount": 0,
+      "grandTotal": 282.45,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-21T17:04:11.589Z"
+    },
+    {
+      "id": "inv_1795280651511",
+      "invoiceNumber": "HST-INV-1007",
+      "orderId": "ord_1795280651511_u5qq",
+      "orderNumber": "HST-2026-1007",
+      "customerName": "Aarav Patel",
+      "customerPhone": "9876543210",
+      "customerAddress": "Flat 402, Royal Palms, Pune",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "taxAmount": 26.9,
+      "deliveryCharge": 40,
+      "discountAmount": 0,
+      "grandTotal": 604.9,
+      "paymentMethod": "online",
+      "paymentStatus": "refunded",
+      "issuedAt": "2026-11-21T17:04:11.511Z"
+    },
     {
       "id": "inv_1792946811669",
       "invoiceNumber": "HST-INV-1006",
@@ -1645,6 +3589,470 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "aud_1795339159350_u5sg",
+      "action": "ADMIN_LOGIN",
+      "user": "admin",
+      "details": "Successful 2-Step login by Hestiia Administrator (superadmin)",
+      "ip": "::1",
+      "timestamp": "2026-11-22T09:19:19.350Z"
+    },
+    {
+      "id": "aud_1795339150874_iozu",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-22T09:19:10.874Z"
+    },
+    {
+      "id": "aud_1795339133165_tl08",
+      "action": "FAILED_LOGIN_ATTEMPT",
+      "user": "admin",
+      "details": "Failed login attempt from IP ::1",
+      "ip": "::1",
+      "timestamp": "2026-11-22T09:18:53.165Z"
+    },
+    {
+      "id": "aud_1795339094651_feqc",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-22T09:18:14.651Z"
+    },
+    {
+      "id": "aud_1795338679214_h1rk",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-22T09:11:19.214Z"
+    },
+    {
+      "id": "aud_1795338670043_k1zd",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-22T09:11:10.043Z"
+    },
+    {
+      "id": "aud_1795338645436_s7b1",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-22T09:10:45.436Z"
+    },
+    {
+      "id": "aud_1795338643672_1loq",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-22T09:10:43.672Z"
+    },
+    {
+      "id": "aud_1795292997542_g4ou",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-21T20:29:57.543Z"
+    },
+    {
+      "id": "aud_1795292995378_3m5y",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "manager",
+      "details": "2FA OTP dispatched to ma****r@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-21T20:29:55.378Z"
+    },
+    {
+      "id": "aud_1795292993054_ijsn",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-21T20:29:53.054Z"
+    },
+    {
+      "id": "aud_1795292824816_3s7y",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-21T20:27:04.816Z"
+    },
+    {
+      "id": "aud_1795292661918_j3zj",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-21T20:24:21.918Z"
+    },
+    {
+      "id": "aud_1795291635586_xrgw",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-21T20:07:15.586Z"
+    },
+    {
+      "id": "aud_1795291613973_8g37",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-21T20:06:53.973Z"
+    },
+    {
+      "id": "aud_1795290593340_tgvd",
+      "action": "LOGIN_2FA_DISPATCHED",
+      "user": "admin",
+      "details": "2FA OTP dispatched to ad**n@hestiia.com",
+      "ip": "::1",
+      "timestamp": "2026-11-21T19:49:53.340Z"
+    },
+    {
+      "id": "aud_1795282939858_tdfs",
+      "action": "ORDER_STATUS_CHANGED",
+      "user": "Kitchen Chef",
+      "details": "Order HST-2026-1026 status changed from pending to preparing",
+      "timestamp": "2026-11-21T17:42:19.858Z"
+    },
+    {
+      "id": "aud_1795282939854_as63",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1026 placed for ₹322.45 by Rohan Gupta",
+      "timestamp": "2026-11-21T17:42:19.854Z"
+    },
+    {
+      "id": "aud_1795282939851_emsb",
+      "action": "PAYMENT_REFUNDED",
+      "user": "Customer",
+      "details": "Refund of ₹604.9 processed for order HST-2026-1022",
+      "timestamp": "2026-11-21T17:42:19.851Z"
+    },
+    {
+      "id": "aud_1795282939847_ani6",
+      "action": "ORDER_CANCELLED",
+      "user": "Customer",
+      "details": "Order HST-2026-1022 cancelled. Reason: Customer changed their mind before food prep",
+      "timestamp": "2026-11-21T17:42:19.847Z"
+    },
+    {
+      "id": "aud_1795282939841_abbi",
+      "action": "WEBHOOK_PAYMENT_CAPTURED",
+      "user": "Razorpay Webhook",
+      "details": "Captured ₹322.45 for HST-2026-1025",
+      "timestamp": "2026-11-21T17:42:19.841Z"
+    },
+    {
+      "id": "aud_1795282939837_63me",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1025 placed for ₹322.45 by Neha Verma",
+      "timestamp": "2026-11-21T17:42:19.837Z"
+    },
+    {
+      "id": "aud_1795282939834_88pa",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1024 placed for ₹322.45 by Fraud Attempt",
+      "timestamp": "2026-11-21T17:42:19.834Z"
+    },
+    {
+      "id": "aud_1795282939829_et1c",
+      "action": "UPI_VERIFIED_SUCCESS",
+      "user": "Manager Bob",
+      "details": "UPI payment verified for order HST-2026-1023",
+      "timestamp": "2026-11-21T17:42:19.829Z"
+    },
+    {
+      "id": "aud_1795282939825_c0lv",
+      "action": "UPI_UTR_SUBMITTED",
+      "user": "Customer",
+      "details": "Order HST-2026-1023 submitted UPI UTR UTR_1795282939823",
+      "timestamp": "2026-11-21T17:42:19.825Z"
+    },
+    {
+      "id": "aud_1795282939821_0fcm",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1023 placed for ₹282.45 by Priya Sharma",
+      "timestamp": "2026-11-21T17:42:19.821Z"
+    },
+    {
+      "id": "aud_1795282939814_sb8y",
+      "action": "PAYMENT_VERIFIED_ONLINE",
+      "user": "Payment Gateway",
+      "details": "Payment PAY_HST-2026-1022 verified online. Gateway Txn: pay_mock_1795282939810",
+      "timestamp": "2026-11-21T17:42:19.814Z"
+    },
+    {
+      "id": "aud_1795282939805_dq97",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1022 placed for ₹604.9 by Aarav Patel",
+      "timestamp": "2026-11-21T17:42:19.805Z"
+    },
+    {
+      "id": "aud_1795280766269_1cuw",
+      "action": "ORDER_STATUS_CHANGED",
+      "user": "Kitchen Chef",
+      "details": "Order HST-2026-1021 status changed from pending to preparing",
+      "timestamp": "2026-11-21T17:06:06.269Z"
+    },
+    {
+      "id": "aud_1795280766263_9ofs",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1021 placed for ₹322.45 by Rohan Gupta",
+      "timestamp": "2026-11-21T17:06:06.263Z"
+    },
+    {
+      "id": "aud_1795280766255_mj08",
+      "action": "PAYMENT_REFUNDED",
+      "user": "Customer",
+      "details": "Refund of ₹604.9 processed for order HST-2026-1017",
+      "timestamp": "2026-11-21T17:06:06.255Z"
+    },
+    {
+      "id": "aud_1795280766248_9qc3",
+      "action": "ORDER_CANCELLED",
+      "user": "Customer",
+      "details": "Order HST-2026-1017 cancelled. Reason: Customer changed their mind before food prep",
+      "timestamp": "2026-11-21T17:06:06.248Z"
+    },
+    {
+      "id": "aud_1795280766239_si4y",
+      "action": "WEBHOOK_PAYMENT_CAPTURED",
+      "user": "Razorpay Webhook",
+      "details": "Captured ₹322.45 for HST-2026-1020",
+      "timestamp": "2026-11-21T17:06:06.239Z"
+    },
+    {
+      "id": "aud_1795280766234_q47h",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1020 placed for ₹322.45 by Neha Verma",
+      "timestamp": "2026-11-21T17:06:06.234Z"
+    },
+    {
+      "id": "aud_1795280766228_des3",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1019 placed for ₹322.45 by Fraud Attempt",
+      "timestamp": "2026-11-21T17:06:06.228Z"
+    },
+    {
+      "id": "aud_1795280766219_l4q0",
+      "action": "UPI_VERIFIED_SUCCESS",
+      "user": "Manager Bob",
+      "details": "UPI payment verified for order HST-2026-1018",
+      "timestamp": "2026-11-21T17:06:06.219Z"
+    },
+    {
+      "id": "aud_1795280766212_z2vy",
+      "action": "UPI_UTR_SUBMITTED",
+      "user": "Customer",
+      "details": "Order HST-2026-1018 submitted UPI UTR UTR_1795280766210",
+      "timestamp": "2026-11-21T17:06:06.212Z"
+    },
+    {
+      "id": "aud_1795280766207_un1p",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1018 placed for ₹282.45 by Priya Sharma",
+      "timestamp": "2026-11-21T17:06:06.207Z"
+    },
+    {
+      "id": "aud_1795280766195_w5wu",
+      "action": "PAYMENT_VERIFIED_ONLINE",
+      "user": "Payment Gateway",
+      "details": "Payment PAY_HST-2026-1017 verified online. Gateway Txn: pay_mock_1795280766190",
+      "timestamp": "2026-11-21T17:06:06.195Z"
+    },
+    {
+      "id": "aud_1795280766181_rmbn",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1017 placed for ₹604.9 by Aarav Patel",
+      "timestamp": "2026-11-21T17:06:06.181Z"
+    },
+    {
+      "id": "aud_1795280719694_19o0",
+      "action": "ORDER_STATUS_CHANGED",
+      "user": "Kitchen Chef",
+      "details": "Order HST-2026-1016 status changed from pending to preparing",
+      "timestamp": "2026-11-21T17:05:19.694Z"
+    },
+    {
+      "id": "aud_1795280719686_qjz4",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1016 placed for ₹322.45 by Rohan Gupta",
+      "timestamp": "2026-11-21T17:05:19.686Z"
+    },
+    {
+      "id": "aud_1795280719669_vfe4",
+      "action": "PAYMENT_REFUNDED",
+      "user": "Customer",
+      "details": "Refund of ₹604.9 processed for order HST-2026-1012",
+      "timestamp": "2026-11-21T17:05:19.669Z"
+    },
+    {
+      "id": "aud_1795280719647_pz8x",
+      "action": "ORDER_CANCELLED",
+      "user": "Customer",
+      "details": "Order HST-2026-1012 cancelled. Reason: Customer changed their mind before food prep",
+      "timestamp": "2026-11-21T17:05:19.647Z"
+    },
+    {
+      "id": "aud_1795280719620_b5w9",
+      "action": "WEBHOOK_PAYMENT_CAPTURED",
+      "user": "Razorpay Webhook",
+      "details": "Captured ₹322.45 for HST-2026-1015",
+      "timestamp": "2026-11-21T17:05:19.620Z"
+    },
+    {
+      "id": "aud_1795280719601_gccv",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1015 placed for ₹322.45 by Neha Verma",
+      "timestamp": "2026-11-21T17:05:19.601Z"
+    },
+    {
+      "id": "aud_1795280719585_i0ge",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1014 placed for ₹322.45 by Fraud Attempt",
+      "timestamp": "2026-11-21T17:05:19.585Z"
+    },
+    {
+      "id": "aud_1795280719570_wy1z",
+      "action": "UPI_VERIFIED_SUCCESS",
+      "user": "Manager Bob",
+      "details": "UPI payment verified for order HST-2026-1013",
+      "timestamp": "2026-11-21T17:05:19.570Z"
+    },
+    {
+      "id": "aud_1795280719562_pjsy",
+      "action": "UPI_UTR_SUBMITTED",
+      "user": "Customer",
+      "details": "Order HST-2026-1013 submitted UPI UTR UTR_1795280719558",
+      "timestamp": "2026-11-21T17:05:19.562Z"
+    },
+    {
+      "id": "aud_1795280719552_5zdh",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1013 placed for ₹282.45 by Priya Sharma",
+      "timestamp": "2026-11-21T17:05:19.552Z"
+    },
+    {
+      "id": "aud_1795280719542_wvks",
+      "action": "PAYMENT_VERIFIED_ONLINE",
+      "user": "Payment Gateway",
+      "details": "Payment PAY_HST-2026-1012 verified online. Gateway Txn: pay_mock_1795280719538",
+      "timestamp": "2026-11-21T17:05:19.542Z"
+    },
+    {
+      "id": "aud_1795280719531_3fq2",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1012 placed for ₹604.9 by Aarav Patel",
+      "timestamp": "2026-11-21T17:05:19.531Z"
+    },
+    {
+      "id": "aud_1795280651812_fgs4",
+      "action": "ORDER_STATUS_CHANGED",
+      "user": "Kitchen Chef",
+      "details": "Order HST-2026-1011 status changed from pending to preparing",
+      "timestamp": "2026-11-21T17:04:11.812Z"
+    },
+    {
+      "id": "aud_1795280651788_1ggt",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1011 placed for ₹322.45 by Rohan Gupta",
+      "timestamp": "2026-11-21T17:04:11.788Z"
+    },
+    {
+      "id": "aud_1795280651769_aujn",
+      "action": "PAYMENT_REFUNDED",
+      "user": "Customer",
+      "details": "Refund of ₹604.9 processed for order HST-2026-1007",
+      "timestamp": "2026-11-21T17:04:11.769Z"
+    },
+    {
+      "id": "aud_1795280651752_ujg1",
+      "action": "ORDER_CANCELLED",
+      "user": "Customer",
+      "details": "Order HST-2026-1007 cancelled. Reason: Customer changed their mind before food prep",
+      "timestamp": "2026-11-21T17:04:11.752Z"
+    },
+    {
+      "id": "aud_1795280651717_7a1r",
+      "action": "WEBHOOK_PAYMENT_CAPTURED",
+      "user": "Razorpay Webhook",
+      "details": "Captured ₹322.45 for HST-2026-1010",
+      "timestamp": "2026-11-21T17:04:11.717Z"
+    },
+    {
+      "id": "aud_1795280651694_cfif",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1010 placed for ₹322.45 by Neha Verma",
+      "timestamp": "2026-11-21T17:04:11.694Z"
+    },
+    {
+      "id": "aud_1795280651670_sivl",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1009 placed for ₹322.45 by Fraud Attempt",
+      "timestamp": "2026-11-21T17:04:11.670Z"
+    },
+    {
+      "id": "aud_1795280651639_1l5z",
+      "action": "UPI_VERIFIED_SUCCESS",
+      "user": "Manager Bob",
+      "details": "UPI payment verified for order HST-2026-1008",
+      "timestamp": "2026-11-21T17:04:11.639Z"
+    },
+    {
+      "id": "aud_1795280651622_dhba",
+      "action": "UPI_UTR_SUBMITTED",
+      "user": "Customer",
+      "details": "Order HST-2026-1008 submitted UPI UTR UTR_1795280651613",
+      "timestamp": "2026-11-21T17:04:11.622Z"
+    },
+    {
+      "id": "aud_1795280651602_fdv2",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1008 placed for ₹282.45 by Priya Sharma",
+      "timestamp": "2026-11-21T17:04:11.602Z"
+    },
+    {
+      "id": "aud_1795280651562_pche",
+      "action": "PAYMENT_VERIFIED_ONLINE",
+      "user": "Payment Gateway",
+      "details": "Payment PAY_HST-2026-1007 verified online. Gateway Txn: pay_mock_1795280651547",
+      "timestamp": "2026-11-21T17:04:11.562Z"
+    },
+    {
+      "id": "aud_1795280651520_61zj",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1007 placed for ₹604.9 by Aarav Patel",
+      "timestamp": "2026-11-21T17:04:11.520Z"
+    },
     {
       "id": "aud_1795253637956_q0s6",
       "action": "ADD_GALLERY_PHOTO",

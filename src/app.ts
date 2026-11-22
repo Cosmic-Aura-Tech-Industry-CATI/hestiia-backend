@@ -9,8 +9,9 @@ import { ENV } from './config/env.js';
 import { corsConfig } from './config/cors.js';
 import { authLimiter } from './middleware/rateLimiter.middleware.js';
 import { errorHandler } from './middleware/error.middleware.js';
-import { AppError } from './shared/errors/index.js';
+import { AppError, NotFoundError } from './shared/errors/index.js';
 import mainRouter from './routes/index.js';
+import './events/orderEvents.js';
 
 export const app = express();
 
@@ -53,12 +54,12 @@ app.get('/api/v1/health', (_req: Request, res: Response) => {
 // 5. Mount Unified Routes
 app.use(mainRouter);
 
-// 6. 404 Handler
+// 6. Centralized 404 Handler for all Unmatched Endpoints & Methods
 app.use((req: Request, _res: Response, next: NextFunction) => {
-  next(new AppError(`Cannot find endpoint ${req.originalUrl} on this server.`, 404));
+  next(new NotFoundError(`Cannot find ${req.method} ${req.originalUrl} on this server.`));
 });
 
-// 7. Global Error Handler
+// 7. Global Centralized Error Handler
 app.use(errorHandler);
 
 export default app;

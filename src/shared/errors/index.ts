@@ -37,3 +37,9 @@ export class BadRequestError extends AppError {
     super(message, 400, details);
   }
 }
+
+export class MethodNotAllowedError extends AppError {
+  constructor(message = 'HTTP method not allowed on this endpoint') {
+    super(message, 405);
+  }
+}
