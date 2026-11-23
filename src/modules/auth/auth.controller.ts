@@ -20,10 +20,11 @@ import { authService as defaultAuthService } from './auth.service.js';
  * Authenticates credentials and creates an access session
  */
 export const login = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  const { email, username, password } = req.body;
+  const { email, username, identifier, password } = req.body;
   const ip = req.ip || req.socket.remoteAddress || 'unknown';
 
-  const result = await defaultAuthService.login(email || username, password, ip);
+  const userIdentifier = email || username || identifier;
+  const result = await defaultAuthService.login(userIdentifier, password, ip);
 
   setAuthCookies(res, result.accessToken, result.refreshToken);
 

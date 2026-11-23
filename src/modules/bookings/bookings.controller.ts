@@ -29,6 +29,12 @@ export const getAdminBookings = catchAsync(async (req: AuthenticatedRequest, res
   res.status(200).json({ success: true, ...result });
 });
 
+export const getBookingById = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  const booking = await bookingsService.getBookingById(String(id));
+  res.status(200).json({ success: true, booking });
+});
+
 export const updateBookingStatus = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const actor = req.user?.name || req.user?.username || 'Staff';
   const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
@@ -46,5 +52,15 @@ export const updateBookingStatus = catchAsync(async (req: AuthenticatedRequest, 
     success: true,
     booking,
     message: 'Booking status updated successfully.',
+  });
+});
+
+export const deleteBooking = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const actor = req.user?.name || req.user?.username || 'Staff';
+  const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  const result = await bookingsService.deleteBooking(String(id), actor);
+  res.status(200).json({
+    success: true,
+    ...result,
   });
 });

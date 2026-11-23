@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Category, type ICategoryDocument } from './category.model.js';
+import { MenuItem } from '../menu/menu.model.js';
 import { db } from '../../shared/config/store.js';
 import { AppError } from '../../shared/utils/appError.js';
 
@@ -25,13 +26,24 @@ export const categoriesService = {
    * Fast lookup helper for category by ID or name
    */
   async findCategoryDoc(idOrName: string) {
-    if (mongoose.Types.ObjectId.isValid(idOrName)) {
-      const doc = await Category.findById(idOrName);
-      if (doc) return doc;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        if (mongoose.Types.ObjectId.isValid(idOrName)) {
+          const doc = await Category.findById(idOrName);
+          if (doc) return doc;
+        }
+        const docByName = await Category.findOne({
+          name: { $regex: new RegExp(`^${idOrName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
+        });
+        if (docByName) return docByName;
+      } catch {
+        // Fall back to local store
+      }
     }
-    return Category.findOne({
-      name: { $regex: new RegExp(`^${idOrName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
-    });
+    const local = (db.getState().categories || []).find(
+      (c) => c.id === idOrName || (c as any)._id === idOrName || c.name.toLowerCase() === idOrName.toLowerCase()
+    );
+    return local || null;
   },
 
   /**
@@ -49,36 +61,74 @@ export const categoriesService = {
    * 1. Public Categories (Optimized query: active only, sorted by displayOrder asc, lean execution)
    */
   async getPublicCategories() {
-    const categories = await Category.find({ isActive: true })
-      .select('name description displayOrder isActive createdAt updatedAt')
-      .sort({ displayOrder: 1, createdAt: 1 })
-      .lean();
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const categories = await Category.find({ isActive: true })
+          .select('name description displayOrder isActive createdAt updatedAt')
+          .sort({ displayOrder: 1, createdAt: 1 })
+          .lean();
 
-    return categories.map((c) => this.formatCategory(c));
+        if (categories && categories.length > 0) {
+          return categories.map((c) => this.formatCategory(c));
+        }
+      } catch (err) {
+        console.warn('[CategoriesService] Mongoose error, falling back to local store:', err);
+      }
+    }
+
+    const localCategories = (db.getState().categories || []).filter((c) => c.isActive !== false);
+    return localCategories.map((c) => this.formatCategory(c));
   },
 
   /**
    * 2. Admin Categories (Optimized query: all categories with associated dish count, lean execution)
    */
   async getAdminCategories() {
-    const categories = await Category.find()
-      .select('name description displayOrder isActive createdAt updatedAt')
-      .sort({ displayOrder: 1, createdAt: 1 })
-      .lean();
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const categories = await Category.find()
+          .select('name description displayOrder isActive createdAt updatedAt')
+          .sort({ displayOrder: 1, createdAt: 1 })
+          .lean();
 
-    // Map dishes from memory/DB to compute real-time dish count per category
+        const dishCounts = await MenuItem.aggregate([
+          {
+            $group: {
+              _id: { $toLower: '$category' },
+              count: { $sum: 1 },
+            },
+          },
+        ]);
+
+        const countMap = new Map<string, number>();
+        for (const item of dishCounts) {
+          if (item._id) countMap.set(item._id, item.count);
+        }
+
+        if (categories && categories.length > 0) {
+          return categories.map((cat: any) => {
+            const catNameLow = (cat.name || '').toLowerCase();
+            return {
+              ...this.formatCategory(cat),
+              itemCount: countMap.get(catNameLow) || 0,
+            };
+          });
+        }
+      } catch (err) {
+        console.warn('[CategoriesService] Mongoose error, falling back to local store:', err);
+      }
+    }
+
     const dishes = db.getState().dishes || [];
-
-    return categories.map((cat: any) => {
-      const catIdStr = cat._id.toString();
+    const localCategories = db.getState().categories || [];
+    return localCategories.map((cat: any) => {
       const catNameLow = (cat.name || '').toLowerCase();
-
+      const catIdStr = cat._id ? String(cat._id) : cat.id;
       const itemCount = dishes.filter(
         (d) =>
           (d.category && d.category.toLowerCase() === catNameLow) ||
           (d as any).categoryId === catIdStr
       ).length;
-
       return {
         ...this.formatCategory(cat),
         itemCount,
@@ -128,22 +178,50 @@ export const categoriesService = {
       order = num;
     }
 
-    try {
-      const category = await Category.create({
-        name: cleanName,
-        description: (description || '').trim(),
-        displayOrder: Number(order),
-        isActive: Boolean(isActive),
-      });
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const category = await Category.create({
+          name: cleanName,
+          description: (description || '').trim(),
+          displayOrder: Number(order),
+          isActive: Boolean(isActive),
+        });
 
-      db.logAudit('CREATE_CATEGORY', username, `Created category in database: ${category.name}`);
-      return this.formatCategory(category.toJSON());
-    } catch (err: any) {
-      if (err.code === 11000) {
-        throw new AppError(`A category with this name already exists.`, 409);
+        db.updateState((state) => {
+          state.categories.push({
+            id: String(category._id),
+            name: category.name,
+            slug: category.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            description: category.description || '',
+            displayOrder: category.displayOrder,
+            isActive: category.isActive,
+          });
+        });
+
+        db.logAudit('CREATE_CATEGORY', username, `Created category in database: ${category.name}`);
+        return this.formatCategory(category.toJSON());
+      } catch (err: any) {
+        if (err.code === 11000) {
+          throw new AppError(`A category with this name already exists.`, 409);
+        }
+        throw err;
       }
-      throw err;
     }
+
+    // Local store mode
+    const newCat = {
+      id: 'cat_' + Date.now(),
+      name: cleanName,
+      slug: cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      description: (description || '').trim(),
+      displayOrder: Number(order),
+      isActive: Boolean(isActive),
+    };
+    db.updateState((state) => {
+      state.categories.push(newCat);
+    });
+    db.logAudit('CREATE_CATEGORY', username, `Created category in local store: ${newCat.name}`);
+    return this.formatCategory(newCat);
   },
 
   /**
@@ -157,6 +235,7 @@ export const categoriesService = {
       throw new AppError('Category not found.', 404);
     }
 
+    const targetId = (category as any)._id ? String((category as any)._id) : String((category as any).id);
     const updateFields: any = {};
 
     if (name !== undefined) {
@@ -165,15 +244,17 @@ export const categoriesService = {
         throw new AppError('Category name cannot be empty.', 400);
       }
 
-      const duplicate = await Category.findOne({
-        _id: { $ne: category._id },
-        name: { $regex: new RegExp(`^${cleanName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
-      })
-        .select('_id')
-        .lean();
+      if (mongoose.connection.readyState === 1 && (category as any)._id) {
+        const duplicate = await Category.findOne({
+          _id: { $ne: (category as any)._id },
+          name: { $regex: new RegExp(`^${cleanName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
+        })
+          .select('_id')
+          .lean();
 
-      if (duplicate) {
-        throw new AppError(`A category named '${cleanName}' already exists.`, 409);
+        if (duplicate) {
+          throw new AppError(`A category named '${cleanName}' already exists.`, 409);
+        }
       }
 
       updateFields.name = cleanName;
@@ -195,25 +276,50 @@ export const categoriesService = {
       updateFields.isActive = Boolean(isActive);
     }
 
-    try {
-      const updated = await Category.findByIdAndUpdate(
-        category._id,
-        { $set: updateFields },
-        { returnDocument: 'after', runValidators: true }
-      ).lean();
+    if (mongoose.connection.readyState === 1 && (category as any)._id) {
+      try {
+        const updated = await Category.findByIdAndUpdate(
+          (category as any)._id,
+          { $set: updateFields },
+          { returnDocument: 'after', runValidators: true }
+        ).lean();
 
-      if (!updated) {
-        throw new AppError('Failed to update category.', 500);
+        if (updated) {
+          db.updateState((state) => {
+            const idx = state.categories.findIndex((c) => c.id === targetId || (c as any)._id === targetId);
+            if (idx !== -1) {
+              state.categories[idx] = {
+                ...state.categories[idx],
+                ...updateFields,
+              };
+            }
+          });
+          db.logAudit('UPDATE_CATEGORY', username, `Updated category: ${updated.name}`);
+          return this.formatCategory(updated);
+        }
+      } catch (err: any) {
+        if (err.code === 11000) {
+          throw new AppError(`A category with this name already exists.`, 409);
+        }
+        throw err;
       }
-
-      db.logAudit('UPDATE_CATEGORY', username, `Updated category in database: ${updated.name}`);
-      return this.formatCategory(updated);
-    } catch (err: any) {
-      if (err.code === 11000) {
-        throw new AppError(`A category with this name already exists.`, 409);
-      }
-      throw err;
     }
+
+    // Local store mode update
+    let updatedLocal: any;
+    db.updateState((state) => {
+      const idx = state.categories.findIndex((c) => c.id === targetId || (c as any)._id === targetId);
+      if (idx !== -1) {
+        state.categories[idx] = {
+          ...state.categories[idx],
+          ...updateFields,
+        };
+        updatedLocal = state.categories[idx];
+      }
+    });
+    if (!updatedLocal) throw new AppError('Failed to update category.', 500);
+    db.logAudit('UPDATE_CATEGORY', username, `Updated category: ${updatedLocal.name}`);
+    return this.formatCategory(updatedLocal);
   },
 
   /**
@@ -226,26 +332,29 @@ export const categoriesService = {
     }
 
     const targetName = category.name;
-    const catIdStr = category._id.toString();
+    const catIdStr = String((category as any)._id || (category as any).id);
 
-    // Check if dishes are currently associated with this category
-    const dishes = db.getState().dishes || [];
-    const activeDishes = dishes.filter(
-      (d) =>
-        (d.category && d.category.toLowerCase() === targetName.toLowerCase()) ||
-        (d as any).categoryId === catIdStr
-    );
+    // Check if dishes in MongoDB Atlas are currently associated with this category
+    const activeDishesCount = await MenuItem.countDocuments({
+      category: { $regex: new RegExp(`^${targetName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
+    });
 
-    if (activeDishes.length > 0) {
+    if (activeDishesCount > 0) {
       throw new AppError(
-        `Cannot delete '${targetName}' because it contains ${activeDishes.length} menu item(s). Reassign or remove these items first.`,
+        `Cannot delete '${targetName}' because it contains ${activeDishesCount} menu item(s). Reassign or remove these items first.`,
         400
       );
     }
 
-    await Category.findByIdAndDelete(category._id).lean();
+    if (mongoose.connection.readyState === 1 && (category as any)._id) {
+      await Category.findByIdAndDelete((category as any)._id).lean();
+    }
 
-    db.logAudit('DELETE_CATEGORY', username, `Deleted category from database: ${targetName}`);
+    db.updateState((state) => {
+      state.categories = state.categories.filter((c) => c.id !== catIdStr && (c as any)._id !== catIdStr);
+    });
+
+    db.logAudit('DELETE_CATEGORY', username, `Deleted category: ${targetName}`);
     return { id: catIdStr, name: targetName };
   },
 };

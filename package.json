@@ -4,9 +4,9 @@
   "description": "DIMISI Technologies - Hestiia Restaurant Management Backend REST API",
   "type": "module",
   "scripts": {
-    "dev": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
-    "test": "tsx tests/api.test.ts",
+    "test": "tsx tests/route-handling.test.ts && tsx tests/orders-payments.test.ts && tsx tests/analytics-stage1.test.ts && tsx tests/postman-auth-analytics.test.ts && tsx tests/events-module.test.ts && tsx tests/wishlist-module.test.ts && tsx tests/gallery-module.test.ts",
     "create:superadmin": "tsx scripts/create-superadmin.ts"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "mongoose": "^9.11.4",
     "multer": "^2.5.0",
     "nodemailer": "^10.6.1",
+    "socket.io": "^4.8.4",
     "tsx": "^4.23.15"
   },
   "devDependencies": {
@@ -38,6 +39,7 @@
     "@types/multer": "^2.3.0",
     "@types/node": "^20.14.0",
     "@types/nodemailer": "^8.0.2",
+    "@types/socket.io": "^3.0.1",
     "typescript": "^5.5.0"
   }
 }

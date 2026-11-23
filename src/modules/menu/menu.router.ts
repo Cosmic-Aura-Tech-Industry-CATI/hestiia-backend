@@ -1,20 +1,43 @@
+
 import { Router } from 'express';
 import { protect, restrictTo } from '../../shared/middlewares/auth.middleware.js';
 import * as menuController from './menu.controller.js';
 
 const router = Router();
 
-// Public routes
+const managers = restrictTo('SUPERADMIN', 'MANAGER');
+const superadmins = restrictTo('SUPERADMIN');
+
+// ==========================================
+// 1. PUBLIC ROUTES
+// ==========================================
 router.get('/', menuController.getPublicMenu);
 
-// Admin routes (Protected)
-router.get('/admin/all', protect, menuController.getAdminDishes);
-router.post('/admin', protect, restrictTo('superadmin', 'manager'), menuController.createDish);
-router.put('/admin/:id', protect, restrictTo('superadmin', 'manager'), menuController.updateDish);
-router.patch('/admin/:id/availability', protect, menuController.toggleAvailability);
-router.delete('/admin/:id', protect, restrictTo('superadmin'), menuController.deleteDish);
+// ==========================================
+// 2. ADMIN ROUTES
+// ==========================================
+router.get('/admin', protect, managers, menuController.getAdminDishes);
+router.get('/admin/:id', protect, managers, menuController.getDishById);
 
-// Single dish lookup (public or admin fallback)
-router.get('/:id', menuController.getDishById);
+// ==========================================
+// 3. CREATE DISH
+// ==========================================
+router.post('/admin', protect, managers, menuController.createDish);
+
+// ==========================================
+// 4. TOGGLE AVAILABILITY
+// ==========================================
+router.patch('/admin/:id/availability', protect, managers, menuController.toggleAvailability);
+
+// ==========================================
+// 5. UPDATE DISH
+// ==========================================
+router.put('/admin/:id', protect, managers, menuController.updateDish);
+router.patch('/admin/:id', protect, managers, menuController.updateDish);
+
+// ==========================================
+// 6. DELETE DISH
+// ==========================================
+router.delete('/admin/:id', protect, superadmins, menuController.deleteDish);
 
 export default router;
