@@ -18,6 +18,11 @@ export const getAdminInquiries = catchAsync(async (req: AuthenticatedRequest, re
   res.status(200).json({ success: true, ...result });
 });
 
+export const getInquiryById = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const inquiry = await partyService.getInquiryById(String(req.params.id));
+  res.status(200).json({ success: true, inquiry });
+});
+
 export const updateInquiryStatus = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const actor = req.user?.name || req.user?.username || 'Staff';
   const inquiry = await partyService.updateInquiryStatus(String(req.params.id), req.body, actor);
@@ -25,5 +30,14 @@ export const updateInquiryStatus = catchAsync(async (req: AuthenticatedRequest, 
     success: true,
     inquiry,
     message: 'Party inquiry updated successfully.',
+  });
+});
+
+export const deleteInquiry = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const actor = req.user?.name || req.user?.username || 'Staff';
+  const result = await partyService.deleteInquiry(String(req.params.id), actor);
+  res.status(200).json({
+    success: true,
+    ...result,
   });
 });

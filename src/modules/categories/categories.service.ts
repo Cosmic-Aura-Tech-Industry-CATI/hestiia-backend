@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Category, type ICategoryDocument } from './category.model.js';
+import { MenuItem } from '../menu/menu.model.js';
 import { db } from '../../shared/config/store.js';
 import { AppError } from '../../shared/utils/appError.js';
 
@@ -66,18 +67,24 @@ export const categoriesService = {
       .sort({ displayOrder: 1, createdAt: 1 })
       .lean();
 
-    // Map dishes from memory/DB to compute real-time dish count per category
-    const dishes = db.getState().dishes || [];
+    // High-performance aggregation: count dishes per category directly from MongoDB Atlas
+    const dishCounts = await MenuItem.aggregate([
+      {
+        $group: {
+          _id: { $toLower: '$category' },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const countMap = new Map<string, number>();
+    for (const item of dishCounts) {
+      if (item._id) countMap.set(item._id, item.count);
+    }
 
     return categories.map((cat: any) => {
-      const catIdStr = cat._id.toString();
       const catNameLow = (cat.name || '').toLowerCase();
-
-      const itemCount = dishes.filter(
-        (d) =>
-          (d.category && d.category.toLowerCase() === catNameLow) ||
-          (d as any).categoryId === catIdStr
-      ).length;
+      const itemCount = countMap.get(catNameLow) || 0;
 
       return {
         ...this.formatCategory(cat),
@@ -228,17 +235,14 @@ export const categoriesService = {
     const targetName = category.name;
     const catIdStr = category._id.toString();
 
-    // Check if dishes are currently associated with this category
-    const dishes = db.getState().dishes || [];
-    const activeDishes = dishes.filter(
-      (d) =>
-        (d.category && d.category.toLowerCase() === targetName.toLowerCase()) ||
-        (d as any).categoryId === catIdStr
-    );
+    // Check if dishes in MongoDB Atlas are currently associated with this category
+    const activeDishesCount = await MenuItem.countDocuments({
+      category: { $regex: new RegExp(`^${targetName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
+    });
 
-    if (activeDishes.length > 0) {
+    if (activeDishesCount > 0) {
       throw new AppError(
-        `Cannot delete '${targetName}' because it contains ${activeDishes.length} menu item(s). Reassign or remove these items first.`,
+        `Cannot delete '${targetName}' because it contains ${activeDishesCount} menu item(s). Reassign or remove these items first.`,
         400
       );
     }

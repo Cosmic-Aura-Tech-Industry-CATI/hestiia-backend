@@ -42,3 +42,8 @@ export const updateOrderPayment = catchAsync(async (req: AuthenticatedRequest, r
     message: `Payment status updated to ${req.body.paymentStatus.toUpperCase()}.`,
   });
 });
+
+export const trackOrder = catchAsync(async (req: Request, res: Response) => {
+  const order = await ordersService.trackOrder(String(req.params.orderNumber));
+  res.status(200).json({ success: true, order });
+});
