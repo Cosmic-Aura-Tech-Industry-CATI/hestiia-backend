@@ -4,10 +4,11 @@ import { MenuItem } from '../menu/menu.model.js';
 import { customersService } from '../customers/customers.service.js';
 import { db, type Invoice, type Payment } from '../../shared/config/db.js';
 import { AppError } from '../../shared/utils/appError.js';
+import { eventBus, DOMAIN_EVENTS } from '../../events/eventBus.js';
 import type { IOrderItem } from './orders.interface.js';
 
 const VALID_STATUSES = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'completed', 'cancelled'] as const;
-const VALID_PAYMENTS = ['pending', 'authorized', 'paid', 'failed', 'refunded'] as const;
+const VALID_PAYMENTS = ['pending', 'authorized', 'paid', 'failed', 'refunded', 'awaiting_verification'] as const;
 
 export const ordersService = {
   /**
@@ -19,6 +20,7 @@ export const ordersService = {
       id,
       _id: doc?._id || id,
       orderNumber: doc?.orderNumber || '',
+      idempotencyKey: doc?.idempotencyKey,
       customerName: doc?.customerName || '',
       customerPhone: doc?.customerPhone || '',
       customerEmail: doc?.customerEmail || undefined,
@@ -30,13 +32,19 @@ export const ordersService = {
         price: item?.price ?? 0,
         quantity: item?.quantity ?? 1,
         total: item?.total ?? 0,
+        totalInPaise: item?.totalInPaise,
         image: item?.image || '/uploads/menu/default-dish.webp',
       })),
       subtotal: doc?.subtotal ?? 0,
+      subtotalInPaise: doc?.subtotalInPaise,
       taxAmount: doc?.taxAmount ?? 0,
+      taxInPaise: doc?.taxInPaise,
       deliveryCharge: doc?.deliveryCharge ?? 0,
+      deliveryInPaise: doc?.deliveryInPaise,
       discountAmount: doc?.discountAmount ?? 0,
+      discountInPaise: doc?.discountInPaise,
       grandTotal: doc?.grandTotal ?? 0,
+      grandTotalInPaise: doc?.grandTotalInPaise,
       paymentMethod: doc?.paymentMethod || 'cod',
       paymentStatus: doc?.paymentStatus || 'pending',
       orderStatus: doc?.orderStatus || 'pending',
@@ -82,6 +90,7 @@ export const ordersService = {
       items,
       paymentMethod = 'cod',
       notes,
+      idempotencyKey,
     } = data;
 
     if (!customerName || !customerPhone || !items || !Array.isArray(items) || items.length === 0) {
@@ -90,12 +99,23 @@ export const ordersService = {
 
     const state = db.getState();
 
+    // 1. Idempotency Check: Prevent duplicate orders on network retries
+    if (idempotencyKey) {
+      const existingOrder = state.orders.find((o) => o.idempotencyKey === idempotencyKey);
+      if (existingOrder) {
+        const existingInvoice = state.invoices.find((i) => i.orderId === existingOrder.id);
+        const existingPayment = state.payments.find((p) => p.orderId === existingOrder.id);
+        return { order: existingOrder, invoice: existingInvoice, payment: existingPayment, isIdempotentReplay: true };
+      }
+    }
+
     if (!state.settings.orderAcceptanceEnabled) {
       throw new AppError('We are currently not accepting new online orders. Please call our front desk directly.', 403);
     }
 
+    // 2. Strict Menu Verification & Integer Paise Snapshot
     const verifiedItems: IOrderItem[] = [];
-    let calculatedSubtotal = 0;
+    let calculatedSubtotalPaise = 0;
 
     // Verify dishes and pricing directly from MongoDB Atlas MenuItem collection
     for (const requestedItem of items) {
@@ -125,19 +145,24 @@ export const ordersService = {
         throw new AppError(`'${dish.name}' is currently sold out and unavailable. Please update your tray.`, 400);
       }
 
-      const qty = Math.max(1, parseInt(String(requestedItem.quantity), 10) || 1);
-      const itemTotal = dish.price * qty;
-      calculatedSubtotal += itemTotal;
+      const qty = Math.max(1, parseInt(requestedItem.quantity, 10) || 1);
+      const priceInPaise = Math.round(dish.price * 100);
+      const itemTotalPaise = priceInPaise * qty;
+      calculatedSubtotalPaise += itemTotalPaise;
 
       verifiedItems.push({
         dishId: dish._id ? dish._id.toString() : dish.id,
         name: dish.name,
         price: dish.price,
+        priceInPaise,
         quantity: qty,
-        total: itemTotal,
+        total: itemTotalPaise / 100,
+        totalInPaise: itemTotalPaise,
         image: dish.image || '/uploads/menu/default-dish.webp',
       });
     }
+
+    const calculatedSubtotal = calculatedSubtotalPaise / 100;
 
     if (fulfillmentType === 'delivery' && calculatedSubtotal < state.settings.minOrderValue) {
       throw new AppError(
@@ -146,11 +171,19 @@ export const ordersService = {
       );
     }
 
-    const taxRate = state.settings.taxRatePercent / 100;
-    const taxAmount = Math.round(calculatedSubtotal * taxRate);
-    const deliveryCharge = fulfillmentType === 'delivery' ? state.settings.deliveryFee : 0;
+    // 3. Integer Arithmetic for Financial Integrity (paise)
+    const taxRatePercent = state.settings.taxRatePercent || 5;
+    const taxInPaise = Math.round((calculatedSubtotalPaise * taxRatePercent) / 100);
+    const taxAmount = taxInPaise / 100;
+
+    const deliveryInPaise = fulfillmentType === 'delivery' ? Math.round((state.settings.deliveryFee || 0) * 100) : 0;
+    const deliveryCharge = deliveryInPaise / 100;
+
+    const discountInPaise = 0;
     const discountAmount = 0;
-    const grandTotal = calculatedSubtotal + taxAmount + deliveryCharge - discountAmount;
+
+    const grandTotalPaise = calculatedSubtotalPaise + taxInPaise + deliveryInPaise - discountInPaise;
+    const grandTotal = grandTotalPaise / 100;
 
     // Auto-generate unique order number based on database count
     const currentYear = new Date().getFullYear();
@@ -159,11 +192,13 @@ export const ordersService = {
     const orderNumber = `HST-${currentYear}-${sequence}`;
     const invoiceNumber = `HST-INV-${sequence}`;
     const now = new Date();
-    const initialPaymentStatus = paymentMethod === 'online' ? 'paid' : 'pending';
+    // Online and UPI payments always start as pending until a payment gateway verifies them.
+    const initialPaymentStatus = 'pending';
 
     // 1. Persist directly in MongoDB Atlas
     const createdOrder = await Order.create({
       orderNumber,
+      idempotencyKey,
       customerName: customerName.trim(),
       customerPhone: customerPhone.trim(),
       customerEmail: customerEmail ? customerEmail.trim().toLowerCase() : undefined,
@@ -171,10 +206,15 @@ export const ordersService = {
       fulfillmentType: ['dine-in', 'pickup', 'delivery'].includes(fulfillmentType) ? fulfillmentType : 'delivery',
       items: verifiedItems,
       subtotal: calculatedSubtotal,
+      subtotalInPaise: calculatedSubtotalPaise,
       taxAmount,
+      taxInPaise,
       deliveryCharge,
+      deliveryInPaise,
       discountAmount,
+      discountInPaise,
       grandTotal,
+      grandTotalInPaise: grandTotalPaise,
       paymentMethod: ['online', 'cod', 'upi'].includes(paymentMethod) ? paymentMethod : 'cod',
       paymentStatus: initialPaymentStatus,
       orderStatus: 'pending',
@@ -184,13 +224,13 @@ export const ordersService = {
           status: 'pending',
           timestamp: now,
           actor: 'Customer Order Portal',
-          note: `Order placed via ${fulfillmentType.toUpperCase()} with ${paymentMethod.toUpperCase()}`,
+          note: `Order placed via ${fulfillmentType.toUpperCase()} with payment method ${paymentMethod.toUpperCase()}`,
         },
       ],
       invoiceNumber,
     });
 
-    const formattedOrder = this.formatOrder(createdOrder.toJSON());
+    const formattedOrder = this.formatOrder((createdOrder as any).toJSON());
 
     // 2. Synchronize customer profile directly in MongoDB Atlas Customer collection
     customersService
@@ -229,9 +269,11 @@ export const ordersService = {
       orderId: formattedOrder.id,
       orderNumber,
       amount: grandTotal,
+      amountInPaise: grandTotalPaise,
       paymentMethod: formattedOrder.paymentMethod,
       paymentStatus: initialPaymentStatus,
       transactionDate: now.toISOString(),
+      idempotencyKey,
       gatewayTransactionReference: paymentMethod === 'online' ? `razor_${Date.now()}` : undefined,
     };
 
@@ -243,7 +285,14 @@ export const ordersService = {
 
     db.logAudit('ORDER_PLACED', 'Customer', `Order ${orderNumber} placed for ₹${grandTotal} by ${customerName}`);
 
-    return { order: formattedOrder, invoice: newInvoice };
+    // Emit domain event for order creation
+    eventBus.emitEvent(DOMAIN_EVENTS.ORDER_CREATED, {
+      order: formattedOrder,
+      invoice: newInvoice,
+      payment: newPayment,
+    });
+
+    return { order: formattedOrder, invoice: newInvoice, payment: newPayment };
   },
 
   /**
@@ -345,6 +394,12 @@ export const ordersService = {
     if (!orderDoc) {
       throw new AppError('Order not found.', 404);
     }
+    if (orderDoc.orderStatus === 'cancelled') {
+      throw new AppError('Cannot update status of an already cancelled order.', 400);
+    }
+    if (orderDoc.orderStatus === 'completed') {
+      throw new AppError('Cannot update status of an already completed order.', 400);
+    }
 
     const now = new Date();
     const newStatusEntry = {
@@ -380,6 +435,135 @@ export const ordersService = {
     });
 
     db.logAudit('ORDER_STATUS_CHANGED', actor, `Order ${formatted.orderNumber} status changed to ${status}`);
+
+    eventBus.emitEvent(DOMAIN_EVENTS.ORDER_STATUS_CHANGED, {
+      order: updated,
+      previousStatus: orderDoc.orderStatus,
+      newStatus: status,
+      actor,
+    });
+
+    return formatted;
+  },
+
+  async handlePaymentPaidEvent(payload: { payment: Payment; actor?: string; gatewayTxn?: string }) {
+    const { payment, actor = 'Payment Gateway' } = payload;
+    const orderDoc = await this.findOrderDoc(payment.orderId || payment.orderNumber);
+    if (!orderDoc) return null;
+
+    const now = new Date();
+    const previousStatus = orderDoc.orderStatus;
+    const nextStatus = orderDoc.orderStatus === 'pending' ? 'confirmed' : orderDoc.orderStatus;
+    const updated = await Order.findByIdAndUpdate(
+      orderDoc._id,
+      {
+        $set: {
+          paymentStatus: 'paid',
+          orderStatus: nextStatus,
+          updatedAt: now,
+        },
+        $push: {
+          statusHistory: {
+            status: nextStatus,
+            timestamp: now,
+            actor,
+            note: `Payment of ₹${payment.amount} verified and captured. Order confirmed and sent to kitchen.`,
+          },
+        },
+      },
+      { new: true }
+    ).lean();
+    if (!updated) return null;
+
+    const formatted = this.formatOrder(updated);
+    db.updateState((s) => {
+      const target = s.orders.find((o) => o.id === formatted.id || o.orderNumber === formatted.orderNumber);
+      if (target) {
+        target.paymentStatus = 'paid';
+        target.orderStatus = nextStatus as any;
+        target.updatedAt = now.toISOString();
+        target.statusHistory.push({
+          status: nextStatus,
+          timestamp: now.toISOString(),
+          actor,
+          note: `Payment of ₹${payment.amount} verified and captured. Order confirmed and sent to kitchen.`,
+        });
+        const invoice = s.invoices.find((i) => i.orderId === target.id);
+        if (invoice) invoice.paymentStatus = 'paid';
+      }
+    });
+    eventBus.emitEvent(DOMAIN_EVENTS.ORDER_STATUS_CHANGED, {
+      order: updated,
+      previousStatus,
+      newStatus: nextStatus,
+      actor,
+    });
+    return formatted;
+  },
+
+  /**
+   * Cancel an order while preserving MongoDB and legacy in-memory state
+   */
+  async cancelOrder(orderId: string, reason: string, actor = 'Customer', isCustomer = true) {
+    const orderDoc = await this.findOrderDoc(orderId);
+    if (!orderDoc) {
+      throw new AppError('Order not found.', 404);
+    }
+    if (orderDoc.orderStatus === 'cancelled') {
+      throw new AppError('This order is already cancelled.', 400);
+    }
+    if (orderDoc.orderStatus === 'completed') {
+      throw new AppError('Delivered or completed orders cannot be cancelled.', 400);
+    }
+    if (isCustomer && ['preparing', 'ready_for_pickup', 'out_for_delivery'].includes(orderDoc.orderStatus)) {
+      throw new AppError(
+        'Cancellation unavailable. Kitchen has already started preparing your food. Please contact front desk.',
+        400
+      );
+    }
+
+    const now = new Date();
+    const cancellationEntry = {
+      status: 'cancelled',
+      timestamp: now,
+      actor,
+      note: `Order cancelled. Reason: ${reason}`,
+    };
+    const updated = await Order.findByIdAndUpdate(
+      orderDoc._id,
+      {
+        $set: {
+          orderStatus: 'cancelled',
+          cancellationReason: reason,
+          cancelledAt: now,
+          cancelledBy: actor,
+        },
+        $push: { statusHistory: cancellationEntry },
+      },
+      { new: true }
+    ).lean();
+    if (!updated) {
+      throw new AppError('Order cancellation failed.', 500);
+    }
+
+    const formatted = this.formatOrder(updated);
+    db.updateState((s) => {
+      const target = s.orders.find((o) => o.id === formatted.id || o.orderNumber === formatted.orderNumber);
+      if (target) {
+        target.orderStatus = 'cancelled';
+        target.cancellationReason = reason;
+        target.cancelledAt = now.toISOString();
+        target.cancelledBy = actor;
+        target.updatedAt = now.toISOString();
+        target.statusHistory.push(cancellationEntry as any);
+      }
+    });
+    db.logAudit('ORDER_CANCELLED', actor, `Order ${formatted.orderNumber} cancelled. Reason: ${reason}`);
+    eventBus.emitEvent(DOMAIN_EVENTS.ORDER_CANCELLED, {
+      order: updated,
+      actor,
+      reason,
+    });
     return formatted;
   },
 

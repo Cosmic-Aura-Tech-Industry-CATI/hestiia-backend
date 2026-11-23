@@ -1,16 +1,15 @@
 import { Router } from 'express';
-import { protect, restrictTo } from '../../shared/middlewares/auth.middleware.js';
-import * as galleryController from './gallery.controller.js';
+import { customerGalleryRouter } from './routes/customerGallery.routes.js';
+import { adminGalleryRouter } from './routes/adminGallery.routes.js';
 
-const router = Router();
+export { customerGalleryRouter, adminGalleryRouter };
 
-// Public
-router.get('/', galleryController.getPublicGallery);
+const unifiedGalleryRouter = Router();
 
-// Admin
-router.get('/admin/all', protect, galleryController.getAdminGallery);
-router.post('/admin', protect, restrictTo('superadmin', 'manager'), galleryController.addPhoto);
-router.put('/admin/:id', protect, restrictTo('superadmin', 'manager'), galleryController.updatePhoto);
-router.delete('/admin/:id', protect, restrictTo('superadmin', 'manager'), galleryController.deletePhoto);
+// Mount public / customer routes at root
+unifiedGalleryRouter.use('/', customerGalleryRouter);
 
-export default router;
+// Mount admin routes under /admin
+unifiedGalleryRouter.use('/admin', adminGalleryRouter);
+
+export default unifiedGalleryRouter;

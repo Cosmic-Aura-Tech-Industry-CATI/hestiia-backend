@@ -9,6 +9,8 @@ const router = Router();
 // ==========================================
 // Public order placement
 router.post('/', ordersController.createOrder);
+router.get('/:id', ordersController.getOrderDetails);
+router.post('/:id/cancel', ordersController.cancelOrder);
 
 // Public order tracking by order number
 router.get('/track/:orderNumber', ordersController.trackOrder);
