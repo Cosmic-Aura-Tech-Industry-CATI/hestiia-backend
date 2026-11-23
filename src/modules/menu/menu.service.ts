@@ -62,9 +62,14 @@ export const menuService = {
       filter.available = true;
     }
 
-    // Category filtering
+    // Category filtering (utilizes compound index { available: 1, category: 1, displayOrder: 1 })
     if (category && category !== 'All' && category !== 'all') {
-      filter.category = { $regex: new RegExp(`^${category.trim()}$`, 'i') };
+      const cleanCat = category.trim();
+      const capitalized = cleanCat.charAt(0).toUpperCase() + cleanCat.slice(1).toLowerCase();
+      filter.$or = [
+        { category: cleanCat },
+        { category: capitalized },
+      ];
     }
 
     // Vegetarian filtering

@@ -49,53 +49,34 @@ const loginAttempts: Record<string, { count: number; lockUntil: number }> = {};
 
 export const authService = {
   /**
-   * One-time secure Superadmin and Manager bootstrap on system startup
-   * Does NOT overwrite existing records.
+   * One-time Superadmin bootstrap on system startup
+   * Only seeds if custom non-demo credentials are explicitly configured in environment variables.
+   * Demo accounts (admin@hestiia.com & manager@hestiia.com) have been removed.
    */
   async bootstrapSuperadmin(): Promise<void> {
     if (mongoose.connection.readyState !== 1) {
       return;
     }
     try {
-      const saltRounds = Number(BCRYPT_SALT_ROUNDS) || 12;
-      const defaults = [
-        {
-          name: 'Hestiia Administrator',
-          email: 'admin@hestiia.com',
-          username: 'admin',
-          password: 'Admin@Hestiia2026',
-          role: 'SUPERADMIN',
-        },
-        {
-          name: 'Restaurant Operations Manager',
-          email: 'manager@hestiia.com',
-          username: 'manager',
-          password: 'Manager@Hestiia2026',
-          role: 'MANAGER',
-        },
-      ];
+      const customEmail = process.env.INITIAL_SUPERADMIN_EMAIL;
+      const customPassword = process.env.INITIAL_SUPERADMIN_PASSWORD;
 
-      for (const account of defaults) {
-        const existingUser = await userRepository.findByEmail(account.email);
+      if (customEmail && customPassword && customEmail !== 'admin@hestiia.com') {
+        const existingUser = await userRepository.findByEmail(customEmail);
 
         if (!existingUser) {
+          const saltRounds = Number(BCRYPT_SALT_ROUNDS) || 12;
           const user = new User({
-            name: account.name,
-            email: account.email,
-            username: account.username,
-            passwordHash: await bcrypt.hash(account.password, saltRounds),
-            role: account.role,
+            name: process.env.INITIAL_SUPERADMIN_NAME || 'Superadmin',
+            email: customEmail,
+            username: customEmail.split('@')[0],
+            passwordHash: await bcrypt.hash(customPassword, saltRounds),
+            role: 'SUPERADMIN',
             status: 'ACTIVE',
             tokenVersion: 0,
           });
           await user.save();
-          console.log(`[Bootstrap] Default ${account.role} account seeded in MongoDB Atlas (${account.email})`);
-        } else {
-          existingUser.username = account.username;
-          existingUser.role = account.role as any;
-          existingUser.status = 'ACTIVE';
-          existingUser.passwordHash = await bcrypt.hash(account.password, saltRounds);
-          await existingUser.save({ validateBeforeSave: false });
+          console.log(`[Bootstrap] Configured SUPERADMIN account seeded in MongoDB Atlas (${customEmail})`);
         }
       }
     } catch (err: any) {

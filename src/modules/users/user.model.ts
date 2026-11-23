@@ -22,7 +22,6 @@ const userSchema = new Schema<IUserDocument>(
       lowercase: true,
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'],
-      index: true,
     },
     username: {
       type: String,
@@ -104,6 +103,9 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
   if (!hash) return false;
   return bcrypt.compare(candidatePassword, hash);
 };
+
+userSchema.index({ role: 1, status: 1 });
+userSchema.index({ createdAt: -1 });
 
 export const User = (mongoose.models.User as IUserModel) || mongoose.model<IUserDocument, IUserModel>('User', userSchema);
 export default User;

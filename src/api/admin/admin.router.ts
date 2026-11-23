@@ -15,12 +15,23 @@ import { adminGalleryRouter } from '../../modules/gallery/gallery.router.js';
 import reviewsRouter from '../../modules/reviews/reviews.router.js';
 import settingsRouter from '../../modules/settings/settings.router.js';
 import reportsRouter from '../../modules/reports/reports.router.js';
-import uploadRouter from '../../modules/upload/upload.router.js';
+import { uploadRouter } from '../../modules/upload/index.js';
 import analyticsRouter from '../../modules/analytics/routes/analytics.routes.js';
 import { adminEventsRouter } from '../../modules/events/routes/event.routes.js';
 import { adminInquiryRouter } from '../../modules/events/routes/eventInquiry.routes.js';
-import tablesRouter from '../../modules/tables/tables.service.js';
-import conversationsRouter from '../../modules/conversations/conversations.service.js';
+import { auditRouter } from '../../modules/audit/index.js';
+import { tablesRouter } from '../../modules/tables/index.js';
+import { conversationsRouter } from '../../modules/conversations/index.js';
+import { contactRouter } from '../../modules/contact/index.js';
+import { deliveryRouter } from '../../modules/delivery/index.js';
+import { loyaltyRouter } from '../../modules/loyalty/index.js';
+import { offersRouter } from '../../modules/offers/index.js';
+import { pricingRouter } from '../../modules/pricing/index.js';
+import { restaurantRouter } from '../../modules/restaurant/index.js';
+import { staffRouter } from '../../modules/staff/index.js';
+import { taxRouter } from '../../modules/tax/index.js';
+import { usersRouter } from '../../modules/users/index.js';
+import { notificationsRouter } from '../../modules/notifications/index.js';
 import { catchAsync } from '../../shared/utils/index.js';
 import { sendSuccess } from '../../shared/responses/index.js';
 
@@ -50,30 +61,42 @@ router.use('/analytics', analyticsRouter);
 router.use('/upload', uploadRouter);
 router.use('/events', adminEventsRouter);
 router.use('/event-inquiries', adminInquiryRouter);
+router.use('/audit', auditRouter);
 
-// Tables
-router.get('/tables', catchAsync(async (_req: Request, res: Response) => {
-  const tables = await tablesRouter.getTables();
-  sendSuccess(res, { tables });
-}));
+// Dining Room Tables Management
+router.use('/tables', tablesRouter);
 
 // Live Conversations
-router.get('/conversations', catchAsync(async (_req: Request, res: Response) => {
-  const conversations = await conversationsRouter.getAllConversations();
-  sendSuccess(res, { conversations });
-}));
+router.use('/conversations', conversationsRouter);
 
-router.get('/conversations/:orderNumber', catchAsync(async (req: Request, res: Response) => {
-  const orderNumber = Array.isArray(req.params.orderNumber) ? req.params.orderNumber[0] : req.params.orderNumber;
-  const messages = await conversationsRouter.getMessagesByOrder(orderNumber);
-  sendSuccess(res, { messages });
-}));
+// Contact Inquiries
+router.use('/contact', contactRouter);
 
-router.post('/conversations/:orderNumber/reply', catchAsync(async (req: Request, res: Response) => {
-  const orderNumber = Array.isArray(req.params.orderNumber) ? req.params.orderNumber[0] : req.params.orderNumber;
-  const { senderName, text } = req.body;
-  const message = await conversationsRouter.sendMessage(orderNumber, 'admin', senderName || 'Staff', text);
-  sendSuccess(res, { message }, 201);
-}));
+// Delivery Dispatch & Fleet Operations
+router.use('/delivery', deliveryRouter);
+
+// Loyalty & Diner Retention CRM
+router.use('/loyalty', loyaltyRouter);
+
+// Promotional Offers & Coupon Campaigns
+router.use('/offers', offersRouter);
+
+// Dynamic Pricing & Tax Engine
+router.use('/pricing', pricingRouter);
+
+// Restaurant Profile & Operating Controls
+router.use('/restaurant', restaurantRouter);
+
+// Staff Operations, KDS & Roster
+router.use('/staff', staffRouter);
+
+// Statutory GST & Tax Configuration
+router.use('/tax', taxRouter);
+
+// Staff & Administrative User Accounts
+router.use('/users', usersRouter);
+
+// In-App Alerts & Notifications
+router.use('/notifications', notificationsRouter);
 
 export default router;

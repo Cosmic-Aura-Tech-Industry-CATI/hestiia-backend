@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import customerRouter from '../api/customer/customer.router.js';
 import adminRouter from '../api/admin/admin.router.js';
-import staffRouter from '../api/staff/staff.router.js';
+import { staffRouter } from '../api/staff/staff.router.js';
+import { tablesRouter } from '../modules/tables/index.js';
+import { taxRouter } from '../modules/tax/index.js';
+import { usersRouter } from '../modules/users/index.js';
+import { notificationsRouter } from '../modules/notifications/index.js';
 import webhooksRouter from '../api/webhooks/webhooks.router.js';
 
 // Legacy Module Routers for 100% Backward Compatibility with existing frontend clients
@@ -20,12 +24,21 @@ import galleryRouter from '../modules/gallery/gallery.router.js';
 import reviewsRouter from '../modules/reviews/reviews.router.js';
 import settingsRouter from '../modules/settings/settings.router.js';
 import reportsRouter from '../modules/reports/reports.router.js';
-import uploadRouter from '../modules/upload/upload.router.js';
+import { uploadRouter } from '../modules/upload/index.js';
 import analyticsRouter from '../modules/analytics/routes/analytics.routes.js';
 import { publicEventsRouter, adminEventsRouter } from '../modules/events/routes/event.routes.js';
 import { publicInquiryRouter, adminInquiryRouter } from '../modules/events/routes/eventInquiry.routes.js';
 import wishlistRouter from '../modules/wishlist/routes/wishlist.routes.js';
+import { cartRouter } from '../modules/cart/index.js';
 import { customerGalleryRouter, adminGalleryRouter } from '../modules/gallery/gallery.router.js';
+import { auditRouter } from '../modules/audit/index.js';
+import { conversationsRouter } from '../modules/conversations/index.js';
+import { contactRouter } from '../modules/contact/index.js';
+import { deliveryRouter } from '../modules/delivery/index.js';
+import { loyaltyRouter } from '../modules/loyalty/index.js';
+import { offersRouter } from '../modules/offers/index.js';
+import { pricingRouter } from '../modules/pricing/index.js';
+import { restaurantRouter } from '../modules/restaurant/index.js';
 
 const mainRouter = Router();
 
@@ -57,7 +70,21 @@ mainRouter.use(['/api/admin/events', '/api/v1/admin/events'], adminEventsRouter)
 mainRouter.use(['/api/event-inquiries', '/api/v1/event-inquiries', '/api/v1/customer/event-inquiries'], publicInquiryRouter);
 mainRouter.use(['/api/admin/event-inquiries', '/api/v1/admin/event-inquiries'], adminInquiryRouter);
 mainRouter.use(['/api/wishlist', '/api/v1/wishlist', '/api/v1/customer/wishlist'], wishlistRouter);
+mainRouter.use(['/api/cart', '/api/v1/cart', '/api/v1/customer/cart'], cartRouter);
 mainRouter.use(['/api/gallery', '/api/v1/gallery', '/api/v1/customer/gallery'], customerGalleryRouter);
 mainRouter.use(['/api/admin/gallery', '/api/v1/admin/gallery'], adminGalleryRouter);
+mainRouter.use(['/api/audit', '/api/v1/audit', '/api/admin/audit', '/api/v1/admin/audit'], auditRouter);
+mainRouter.use(['/api/conversations', '/api/v1/conversations'], conversationsRouter);
+mainRouter.use(['/api/contact', '/api/v1/contact', '/api/contact-inquiries', '/api/v1/contact-inquiries', '/api/admin/contact', '/api/v1/admin/contact'], contactRouter);
+mainRouter.use(['/api/delivery', '/api/v1/delivery', '/api/admin/delivery', '/api/v1/admin/delivery'], deliveryRouter);
+mainRouter.use(['/api/loyalty', '/api/v1/loyalty', '/api/admin/loyalty', '/api/v1/admin/loyalty'], loyaltyRouter);
+mainRouter.use(['/api/offers', '/api/v1/offers', '/api/admin/offers', '/api/v1/admin/offers'], offersRouter);
+mainRouter.use(['/api/pricing', '/api/v1/pricing', '/api/admin/pricing', '/api/v1/admin/pricing'], pricingRouter);
+mainRouter.use(['/api/restaurant', '/api/v1/restaurant', '/api/admin/restaurant', '/api/v1/admin/restaurant'], restaurantRouter);
+mainRouter.use(['/api/staff', '/api/v1/staff', '/api/admin/staff', '/api/v1/admin/staff'], staffRouter);
+mainRouter.use(['/api/tables', '/api/v1/tables', '/api/admin/tables', '/api/v1/admin/tables', '/api/v1/customer/tables'], tablesRouter);
+mainRouter.use(['/api/tax', '/api/v1/tax', '/api/admin/tax', '/api/v1/admin/tax'], taxRouter);
+mainRouter.use(['/api/users', '/api/v1/users', '/api/admin/users', '/api/v1/admin/users'], usersRouter);
+mainRouter.use(['/api/notifications', '/api/v1/notifications', '/api/v1/customer/notifications', '/api/admin/notifications'], notificationsRouter);
 
 export default mainRouter;

@@ -45,7 +45,7 @@ export const analyticsOverviewService = {
         totalSalesPaise += orderGrandTotalPaise;
 
         if (Array.isArray(o.items)) {
-          o.items.forEach((item) => {
+          o.items.forEach((item: any) => {
             const key = item.dishId || item.name;
             const itemRevPaise = item.totalInPaise ?? Math.round(item.total * 100);
             const current = dishSalesMap.get(key) || { name: item.name, quantity: 0, revenuePaise: 0 };
