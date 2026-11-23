@@ -1,103 +1,173 @@
-import { db, FoodItem } from '../../shared/config/db.js';
+import mongoose from 'mongoose';
+import { MenuItem, slugify, type IFoodItemDocument } from './menu.model.js';
+import { db } from '../../shared/config/store.js';
 import { AppError } from '../../shared/utils/appError.js';
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
 export const menuService = {
-  async getPublicMenu(query: { category?: string; isVeg?: string; search?: string; availableOnly?: string }) {
-    const { category, isVeg, search, availableOnly } = query;
-    let items = [...db.getState().dishes];
-
-    if (availableOnly !== 'false') {
-      items = items.filter((d) => d.available);
-    }
-
-    if (category && category !== 'All') {
-      const catLow = String(category).toLowerCase();
-      items = items.filter(
-        (d) =>
-          d.category.toLowerCase() === catLow ||
-          d.category.toLowerCase().replace(/[^a-z0-9]+/g, '-') === catLow ||
-          (d as any).categoryId?.toLowerCase() === catLow
-      );
-    }
-
-    if (isVeg !== undefined) {
-      items = items.filter((d) => d.isVeg === (isVeg === 'true'));
-    }
-
-    if (search) {
-      const q = String(search).toLowerCase();
-      items = items.filter(
-        (d) =>
-          d.name.toLowerCase().includes(q) ||
-          d.description.toLowerCase().includes(q) ||
-          d.ingredients.some((ing) => ing.toLowerCase().includes(q))
-      );
-    }
-
-    items.sort((a, b) => (a.displayOrder || 99) - (b.displayOrder || 99));
-    return { total: items.length, dishes: items };
-  },
-
-  async getDishById(id: string) {
-    const dish = db.getState().dishes.find((d) => d.id === id || d.slug === id);
-    if (!dish) {
-      throw new AppError('Food item not found.', 404);
-    }
-    return dish;
-  },
-
-  async getAdminDishes(query: { category?: string; search?: string; available?: string; page?: string; limit?: string }) {
-    const { category, search, available, page = '1', limit = '50' } = query;
-    let dishes = [...db.getState().dishes];
-
-    if (category && category !== 'All') {
-      const catLow = String(category).toLowerCase();
-      dishes = dishes.filter(
-        (d) =>
-          d.category.toLowerCase() === catLow ||
-          d.category.toLowerCase().replace(/[^a-z0-9]+/g, '-') === catLow ||
-          (d as any).categoryId?.toLowerCase() === catLow
-      );
-    }
-
-    if (available !== undefined && available !== 'all') {
-      dishes = dishes.filter((d) => d.available === (available === 'true'));
-    }
-
-    if (search) {
-      const q = String(search).toLowerCase();
-      dishes = dishes.filter(
-        (d) =>
-          d.name.toLowerCase().includes(q) ||
-          d.category.toLowerCase().includes(q) ||
-          d.description.toLowerCase().includes(q)
-      );
-    }
-
-    dishes.sort((a, b) => (a.displayOrder || 99) - (b.displayOrder || 99));
-
-    const pageNum = parseInt(String(page), 10) || 1;
-    const limitNum = parseInt(String(limit), 10) || 50;
-    const startIndex = (pageNum - 1) * limitNum;
-    const paginated = dishes.slice(startIndex, startIndex + limitNum);
-
+  /**
+   * Helper to format a Mongoose dish document or lean object
+   */
+  formatDish(doc: any) {
+    const id = doc?._id ? doc._id.toString() : (doc?.id || '');
     return {
-      total: dishes.length,
-      page: pageNum,
-      totalPages: Math.ceil(dishes.length / limitNum),
-      dishes: paginated,
+      id,
+      _id: doc?._id || id,
+      name: doc?.name || '',
+      slug: doc?.slug || '',
+      category: doc?.category || '',
+      description: doc?.description || '',
+      fullDescription: doc?.fullDescription || '',
+      price: doc?.price ?? 0,
+      compareAtPrice: doc?.compareAtPrice,
+      image: doc?.image || '/uploads/menu/default-dish.webp',
+      isVeg: doc?.isVeg ?? true,
+      isSignature: doc?.isSignature ?? false,
+      spiceLevel: doc?.spiceLevel ?? 2,
+      preparationTime: doc?.preparationTime || '20 mins',
+      ingredients: doc?.ingredients || [],
+      chefNote: doc?.chefNote || '',
+      available: doc?.available ?? true,
+      displayOrder: doc?.displayOrder ?? 0,
+      createdAt: doc?.createdAt || new Date(),
+      updatedAt: doc?.updatedAt || new Date(),
     };
   },
 
+  /**
+   * Fast lookup helper for dish by ObjectId, slug, or exact name
+   */
+  async findDishDoc(idOrSlug: string) {
+    if (mongoose.Types.ObjectId.isValid(idOrSlug)) {
+      const byId = await MenuItem.findById(idOrSlug);
+      if (byId) return byId;
+    }
+    return MenuItem.findOne({
+      $or: [
+        { slug: idOrSlug },
+        { name: { $regex: new RegExp(`^${idOrSlug.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } },
+      ],
+    });
+  },
+
+  /**
+   * 1. Public Menu (Optimized lean query with index coverage)
+   */
+  async getPublicMenu(query: { category?: string; isVeg?: string; search?: string; availableOnly?: string }) {
+    const { category, isVeg, search, availableOnly } = query;
+
+    const filter: any = {};
+
+    // Available only by default
+    if (availableOnly !== 'false') {
+      filter.available = true;
+    }
+
+    // Category filtering
+    if (category && category !== 'All' && category !== 'all') {
+      filter.category = { $regex: new RegExp(`^${category.trim()}$`, 'i') };
+    }
+
+    // Vegetarian filtering
+    if (isVeg !== undefined) {
+      filter.isVeg = isVeg === 'true';
+    }
+
+    // Keyword search (text index or regex fallback)
+    if (search && search.trim()) {
+      const term = search.trim();
+      filter.$or = [
+        { name: { $regex: term, $options: 'i' } },
+        { description: { $regex: term, $options: 'i' } },
+        { ingredients: { $regex: term, $options: 'i' } },
+      ];
+    }
+
+    const dishes = await MenuItem.find(filter)
+      .select('name slug category description price compareAtPrice image isVeg isSignature spiceLevel preparationTime ingredients available displayOrder createdAt')
+      .sort({ displayOrder: 1, createdAt: 1 })
+      .lean();
+
+    return {
+      total: dishes.length,
+      dishes: dishes.map((d) => this.formatDish(d)),
+    };
+  },
+
+  /**
+   * 2. Single Dish Lookup (Detail view with fullDescription and chefNote)
+   */
+  async getDishById(id: string) {
+    let dish: any = null;
+
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      dish = await MenuItem.findById(id).lean();
+    }
+
+    if (!dish) {
+      dish = await MenuItem.findOne({
+        $or: [
+          { slug: id },
+          { name: { $regex: new RegExp(`^${id.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } },
+        ],
+      }).lean();
+    }
+
+    if (!dish) {
+      throw new AppError('Food item not found.', 404);
+    }
+
+    return this.formatDish(dish);
+  },
+
+  /**
+   * 3. Admin Dishes (Optimized pagination and filtering)
+   */
+  async getAdminDishes(query: { category?: string; search?: string; available?: string; page?: string; limit?: string }) {
+    const { category, search, available, page = '1', limit = '50' } = query;
+
+    const filter: any = {};
+
+    if (category && category !== 'All' && category !== 'all') {
+      filter.category = { $regex: new RegExp(`^${category.trim()}$`, 'i') };
+    }
+
+    if (available !== undefined && available !== 'all') {
+      filter.available = available === 'true';
+    }
+
+    if (search && search.trim()) {
+      const term = search.trim();
+      filter.$or = [
+        { name: { $regex: term, $options: 'i' } },
+        { category: { $regex: term, $options: 'i' } },
+        { description: { $regex: term, $options: 'i' } },
+      ];
+    }
+
+    const pageNum = Math.max(1, parseInt(String(page), 10) || 1);
+    const limitNum = Math.min(100, Math.max(1, parseInt(String(limit), 10) || 50));
+    const skip = (pageNum - 1) * limitNum;
+
+    const [total, dishes] = await Promise.all([
+      MenuItem.countDocuments(filter),
+      MenuItem.find(filter)
+        .sort({ displayOrder: 1, createdAt: 1 })
+        .skip(skip)
+        .limit(limitNum)
+        .lean(),
+    ]);
+
+    return {
+      total,
+      page: pageNum,
+      totalPages: Math.ceil(total / limitNum) || 1,
+      dishes: dishes.map((d) => this.formatDish(d)),
+    };
+  },
+
+  /**
+   * 4. Create Dish (Direct MongoDB Atlas insertion with unique slug and order calculation)
+   */
   async createDish(data: any, username = 'admin') {
     const {
       name,
@@ -114,52 +184,86 @@ export const menuService = {
       ingredients,
       chefNote,
       available = true,
+      displayOrder,
     } = data;
 
-    if (!name || !category || price === undefined) {
-      throw new AppError('Dish name, category, and price are required.', 400);
+    if (!name || !name.trim()) {
+      throw new AppError('Dish name is required.', 400);
+    }
+    if (!category || !category.trim()) {
+      throw new AppError('Dish category is required.', 400);
+    }
+    if (price === undefined || price === null) {
+      throw new AppError('Selling price is required.', 400);
     }
 
     const numericPrice = Number(price);
     if (isNaN(numericPrice) || numericPrice < 0) {
-      throw new AppError('Price must be a non-negative number.', 400);
+      throw new AppError('Selling price must be a non-negative number.', 400);
     }
 
-    const id = slugify(name) + '-' + Math.random().toString(36).substr(2, 4);
-    const now = new Date().toISOString();
+    const cleanName = name.trim();
 
-    const newDish: FoodItem = {
-      id,
-      name: name.trim(),
-      slug: slugify(name),
-      category: category.trim(),
-      description: (description || '').trim(),
-      fullDescription: (fullDescription || description || '').trim(),
-      price: numericPrice,
-      compareAtPrice: compareAtPrice ? Number(compareAtPrice) : undefined,
-      image: image || '/images/dishes/handi-paneer.jpg',
-      isVeg: Boolean(isVeg),
-      isSignature: Boolean(isSignature),
-      spiceLevel: [1, 2, 3].includes(Number(spiceLevel)) ? (Number(spiceLevel) as 1 | 2 | 3) : 2,
-      preparationTime: preparationTime ? String(preparationTime) : '20 mins',
-      ingredients: Array.isArray(ingredients) ? ingredients : String(ingredients || '').split(',').map((s) => s.trim()).filter(Boolean),
-      chefNote: chefNote ? String(chefNote).trim() : undefined,
-      available: Boolean(available),
-      displayOrder: db.getState().dishes.length + 1,
-      createdAt: now,
-      updatedAt: now,
-    };
+    // Auto-generate unique slug
+    let baseSlug = slugify(cleanName);
+    let targetSlug = baseSlug;
+    let counter = 1;
+    while (await MenuItem.findOne({ slug: targetSlug }).select('_id').lean()) {
+      targetSlug = `${baseSlug}-${counter}`;
+      counter++;
+    }
 
-    db.updateState((s) => s.dishes.push(newDish));
-    db.logAudit('CREATE_FOOD_ITEM', username, `Created food item: ${newDish.name} (₹${newDish.price})`);
+    // Auto-calculate next displayOrder if not provided
+    let order = displayOrder;
+    if (order === undefined || order === null) {
+      const highest = await MenuItem.findOne().sort({ displayOrder: -1 }).select('displayOrder').lean();
+      order = highest ? (highest.displayOrder ?? 0) + 1 : 1;
+    }
 
-    return newDish;
+    // Parse ingredients array
+    let parsedIngredients: string[] = [];
+    if (Array.isArray(ingredients)) {
+      parsedIngredients = ingredients.map((i) => String(i).trim()).filter(Boolean);
+    } else if (typeof ingredients === 'string') {
+      parsedIngredients = ingredients.split(',').map((s) => s.trim()).filter(Boolean);
+    }
+
+    try {
+      const created = await MenuItem.create({
+        name: cleanName,
+        slug: targetSlug,
+        category: category.trim(),
+        description: (description || '').trim(),
+        fullDescription: (fullDescription || description || '').trim(),
+        price: numericPrice,
+        compareAtPrice: compareAtPrice ? Number(compareAtPrice) : undefined,
+        image: image || '/uploads/menu/default-dish.webp',
+        isVeg: Boolean(isVeg),
+        isSignature: Boolean(isSignature),
+        spiceLevel: [1, 2, 3].includes(Number(spiceLevel)) ? (Number(spiceLevel) as 1 | 2 | 3) : 2,
+        preparationTime: preparationTime ? String(preparationTime).trim() : '20 mins',
+        ingredients: parsedIngredients,
+        chefNote: chefNote ? String(chefNote).trim() : '',
+        available: Boolean(available),
+        displayOrder: Number(order),
+      });
+
+      db.logAudit('CREATE_FOOD_ITEM', username, `Created food item in database: ${created.name} (₹${created.price})`);
+      return this.formatDish(created.toJSON());
+    } catch (err: any) {
+      if (err.code === 11000) {
+        throw new AppError('A dish with this name or slug already exists.', 409);
+      }
+      throw err;
+    }
   },
 
+  /**
+   * 5. Update Dish (Optimized findByIdAndUpdate in MongoDB Atlas)
+   */
   async updateDish(dishId: string, data: any, username = 'admin') {
-    const state = db.getState();
-    const existing = state.dishes.find((d) => d.id === dishId);
-    if (!existing) {
+    const dish = await this.findDishDoc(dishId);
+    if (!dish) {
       throw new AppError('Food item not found.', 404);
     }
 
@@ -181,94 +285,158 @@ export const menuService = {
       displayOrder,
     } = data;
 
-    if (price !== undefined && (isNaN(Number(price)) || Number(price) < 0)) {
-      throw new AppError('Price must be a non-negative number.', 400);
+    const updateFields: any = {};
+
+    if (name !== undefined) {
+      const cleanName = name.trim();
+      if (!cleanName) {
+        throw new AppError('Dish name cannot be empty.', 400);
+      }
+      updateFields.name = cleanName;
+      updateFields.slug = slugify(cleanName);
     }
 
-    let updatedDish: FoodItem | null = null;
-    db.updateState((s) => {
-      const target = s.dishes.find((d) => d.id === dishId);
-      if (target) {
-        if (name) target.name = name.trim();
-        if (category) target.category = category.trim();
-        if (description !== undefined) target.description = description.trim();
-        if (fullDescription !== undefined) target.fullDescription = fullDescription.trim();
-        if (price !== undefined) target.price = Number(price);
-        if (compareAtPrice !== undefined) target.compareAtPrice = compareAtPrice ? Number(compareAtPrice) : undefined;
-        if (image) target.image = image;
-        if (isVeg !== undefined) target.isVeg = Boolean(isVeg);
-        if (isSignature !== undefined) target.isSignature = Boolean(isSignature);
-        if (spiceLevel !== undefined) target.spiceLevel = Number(spiceLevel) as 1 | 2 | 3;
-        if (preparationTime !== undefined) target.preparationTime = String(preparationTime);
-        if (ingredients !== undefined) {
-          target.ingredients = Array.isArray(ingredients) ? ingredients : String(ingredients).split(',').map((s) => s.trim()).filter(Boolean);
-        }
-        if (chefNote !== undefined) target.chefNote = chefNote ? String(chefNote).trim() : undefined;
-        if (available !== undefined) target.available = Boolean(available);
-        if (displayOrder !== undefined) target.displayOrder = Number(displayOrder);
-        target.updatedAt = new Date().toISOString();
-        updatedDish = { ...target };
-      }
-    });
+    if (category !== undefined) {
+      updateFields.category = category.trim();
+    }
 
-    db.logAudit('UPDATE_FOOD_ITEM', username, `Updated dish: ${(updatedDish as any)?.name}`);
-    return (updatedDish as any);
+    if (description !== undefined) {
+      updateFields.description = description.trim();
+    }
+
+    if (fullDescription !== undefined) {
+      updateFields.fullDescription = fullDescription.trim();
+    }
+
+    if (price !== undefined) {
+      const numPrice = Number(price);
+      if (isNaN(numPrice) || numPrice < 0) {
+        throw new AppError('Selling price must be a non-negative number.', 400);
+      }
+      updateFields.price = numPrice;
+    }
+
+    if (compareAtPrice !== undefined) {
+      updateFields.compareAtPrice = compareAtPrice ? Number(compareAtPrice) : null;
+    }
+
+    if (image !== undefined) {
+      updateFields.image = image;
+    }
+
+    if (isVeg !== undefined) {
+      updateFields.isVeg = Boolean(isVeg);
+    }
+
+    if (isSignature !== undefined) {
+      updateFields.isSignature = Boolean(isSignature);
+    }
+
+    if (spiceLevel !== undefined) {
+      updateFields.spiceLevel = [1, 2, 3].includes(Number(spiceLevel)) ? Number(spiceLevel) : 2;
+    }
+
+    if (preparationTime !== undefined) {
+      updateFields.preparationTime = String(preparationTime).trim();
+    }
+
+    if (ingredients !== undefined) {
+      updateFields.ingredients = Array.isArray(ingredients)
+        ? ingredients.map((i) => String(i).trim()).filter(Boolean)
+        : String(ingredients).split(',').map((s) => s.trim()).filter(Boolean);
+    }
+
+    if (chefNote !== undefined) {
+      updateFields.chefNote = String(chefNote).trim();
+    }
+
+    if (available !== undefined) {
+      updateFields.available = Boolean(available);
+    }
+
+    if (displayOrder !== undefined) {
+      const numOrder = Number(displayOrder);
+      if (isNaN(numOrder) || numOrder < 0) {
+        throw new AppError('Display order must be a non-negative number.', 400);
+      }
+      updateFields.displayOrder = numOrder;
+    }
+
+    try {
+      const updated = await MenuItem.findByIdAndUpdate(
+        dish._id,
+        { $set: updateFields },
+        { returnDocument: 'after', runValidators: true }
+      ).lean();
+
+      if (!updated) {
+        throw new AppError('Food item not found or update failed.', 404);
+      }
+
+      db.logAudit('UPDATE_FOOD_ITEM', username, `Updated dish in database: ${updated.name}`);
+      return this.formatDish(updated);
+    } catch (err: any) {
+      if (err.code === 11000) {
+        throw new AppError('A dish with this name or slug already exists.', 409);
+      }
+      throw err;
+    }
   },
 
+  /**
+   * 6. Toggle Stock Availability (Quick stock/86'd status toggle)
+   */
   async toggleAvailability(dishId: string, available?: boolean, username = 'admin') {
-    let updatedDish: FoodItem | null = null;
-    db.updateState((s) => {
-      const target = s.dishes.find((d) => d.id === dishId);
-      if (target) {
-        target.available = available !== undefined ? Boolean(available) : !target.available;
-        target.updatedAt = new Date().toISOString();
-        updatedDish = { ...target };
-      }
-    });
-
-    if (!updatedDish) {
+    const dish = await this.findDishDoc(dishId);
+    if (!dish) {
       throw new AppError('Food item not found.', 404);
     }
 
-    const statusText = (updatedDish as FoodItem).available ? 'Available' : 'Unavailable (86’d)';
-    db.logAudit('TOGGLE_DISH_AVAILABILITY', username, `${(updatedDish as FoodItem).name} set to ${statusText}`);
+    const newStatus = available !== undefined ? Boolean(available) : !dish.available;
 
-    return { dish: updatedDish, statusText };
+    const updated = await MenuItem.findByIdAndUpdate(
+      dish._id,
+      { $set: { available: newStatus } },
+      { returnDocument: 'after' }
+    ).lean();
+
+    const statusText = newStatus ? 'Available' : 'Unavailable (86’d)';
+    db.logAudit('TOGGLE_DISH_AVAILABILITY', username, `${dish.name} set to ${statusText}`);
+
+    return { dish: this.formatDish(updated), statusText };
   },
 
+  /**
+   * 7. Delete / Safe Archive Dish
+   */
   async deleteDish(dishId: string, username = 'admin') {
-    const state = db.getState();
-    const existing = state.dishes.find((d) => d.id === dishId);
-    if (!existing) {
+    const dish = await this.findDishDoc(dishId);
+    if (!dish) {
       throw new AppError('Food item not found.', 404);
     }
 
-    const hasOrders = state.orders.some((o) => o.items.some((item) => item.dishId === dishId));
+    // Check if historical orders reference this dish
+    const orders = db.getState().orders || [];
+    const hasOrders = orders.some((o) => o.items.some((item) => item.dishId === dish._id.toString() || item.dishId === dish.slug));
+
     if (hasOrders) {
-      db.updateState((s) => {
-        const target = s.dishes.find((d) => d.id === dishId);
-        if (target) {
-          target.available = false;
-          target.displayOrder = 9999;
-          target.name = `[Archived] ${target.name}`;
-        }
+      await MenuItem.findByIdAndUpdate(dish._id, {
+        $set: { available: false, name: `[Archived] ${dish.name}` },
       });
 
-      db.logAudit('ARCHIVE_FOOD_ITEM', username, `Archived food item with historical orders: ${existing.name}`);
+      db.logAudit('ARCHIVE_FOOD_ITEM', username, `Archived dish with historical orders: ${dish.name}`);
       return {
         archived: true,
-        message: `${existing.name} has active historical order records and has been safely archived and marked unavailable.`,
+        message: `${dish.name} has historical order records and has been safely archived and marked unavailable.`,
       };
     }
 
-    db.updateState((s) => {
-      s.dishes = s.dishes.filter((d) => d.id !== dishId);
-    });
+    await MenuItem.findByIdAndDelete(dish._id).lean();
 
-    db.logAudit('DELETE_FOOD_ITEM', username, `Permanently deleted unused food item: ${existing.name}`);
+    db.logAudit('DELETE_FOOD_ITEM', username, `Permanently deleted unused dish from database: ${dish.name}`);
     return {
       archived: false,
-      message: `${existing.name} was removed from the menu.`,
+      message: `${dish.name} was permanently removed from the menu.`,
     };
   },
 };

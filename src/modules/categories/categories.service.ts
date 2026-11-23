@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Category, type ICategoryDocument } from './category.model.js';
+import { MenuItem } from '../menu/menu.model.js';
 import { db } from '../../shared/config/store.js';
 import { AppError } from '../../shared/utils/appError.js';
 
@@ -83,8 +84,6 @@ export const categoriesService = {
    * 2. Admin Categories (Optimized query: all categories with associated dish count, lean execution)
    */
   async getAdminCategories() {
-    const dishes = db.getState().dishes || [];
-
     if (mongoose.connection.readyState === 1) {
       try {
         const categories = await Category.find()
@@ -92,20 +91,26 @@ export const categoriesService = {
           .sort({ displayOrder: 1, createdAt: 1 })
           .lean();
 
+        const dishCounts = await MenuItem.aggregate([
+          {
+            $group: {
+              _id: { $toLower: '$category' },
+              count: { $sum: 1 },
+            },
+          },
+        ]);
+
+        const countMap = new Map<string, number>();
+        for (const item of dishCounts) {
+          if (item._id) countMap.set(item._id, item.count);
+        }
+
         if (categories && categories.length > 0) {
           return categories.map((cat: any) => {
-            const catIdStr = cat._id ? cat._id.toString() : cat.id;
             const catNameLow = (cat.name || '').toLowerCase();
-
-            const itemCount = dishes.filter(
-              (d) =>
-                (d.category && d.category.toLowerCase() === catNameLow) ||
-                (d as any).categoryId === catIdStr
-            ).length;
-
             return {
               ...this.formatCategory(cat),
-              itemCount,
+              itemCount: countMap.get(catNameLow) || 0,
             };
           });
         }
@@ -114,17 +119,16 @@ export const categoriesService = {
       }
     }
 
+    const dishes = db.getState().dishes || [];
     const localCategories = db.getState().categories || [];
     return localCategories.map((cat: any) => {
-      const catIdStr = cat._id ? cat._id.toString() : cat.id;
       const catNameLow = (cat.name || '').toLowerCase();
-
+      const catIdStr = cat._id ? String(cat._id) : cat.id;
       const itemCount = dishes.filter(
         (d) =>
           (d.category && d.category.toLowerCase() === catNameLow) ||
           (d as any).categoryId === catIdStr
       ).length;
-
       return {
         ...this.formatCategory(cat),
         itemCount,
@@ -330,17 +334,14 @@ export const categoriesService = {
     const targetName = category.name;
     const catIdStr = String((category as any)._id || (category as any).id);
 
-    // Check if dishes are currently associated with this category
-    const dishes = db.getState().dishes || [];
-    const activeDishes = dishes.filter(
-      (d) =>
-        (d.category && d.category.toLowerCase() === targetName.toLowerCase()) ||
-        (d as any).categoryId === catIdStr
-    );
+    // Check if dishes in MongoDB Atlas are currently associated with this category
+    const activeDishesCount = await MenuItem.countDocuments({
+      category: { $regex: new RegExp(`^${targetName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') },
+    });
 
-    if (activeDishes.length > 0) {
+    if (activeDishesCount > 0) {
       throw new AppError(
-        `Cannot delete '${targetName}' because it contains ${activeDishes.length} menu item(s). Reassign or remove these items first.`,
+        `Cannot delete '${targetName}' because it contains ${activeDishesCount} menu item(s). Reassign or remove these items first.`,
         400
       );
     }

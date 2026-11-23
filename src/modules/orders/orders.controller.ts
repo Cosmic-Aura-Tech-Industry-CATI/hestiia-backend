@@ -59,3 +59,8 @@ export const cancelOrder = catchAsync(async (req: Request, res: Response) => {
     message: 'Order cancelled successfully.',
   });
 });
+
+export const trackOrder = catchAsync(async (req: Request, res: Response) => {
+  const order = await ordersService.trackOrder(String(req.params.orderNumber));
+  res.status(200).json({ success: true, order });
+});
