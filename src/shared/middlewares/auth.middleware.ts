@@ -117,7 +117,7 @@ export const requireAuth = catchAsync(
           name: storeUser.name,
           email: storeUser.email,
           username: storeUser.username,
-          role: uRole as UserRole,
+          role: (uRole as UserRole) || 'ADMIN',
           status: storeUser.active ? 'ACTIVE' : 'INACTIVE',
           tokenVersion: storeUser.tokenVersion || 0,
         };
@@ -155,12 +155,15 @@ export const requireAuth = catchAsync(
 
 /**
  * Role Authorization Middleware
- * Usage: requireRole('SUPERADMIN'), requireRole('SUPERADMIN', 'MANAGER')
+ * Usage: requireRole('ADMIN'), requireRole('ADMIN', 'STAFF')
  *
  * Rules:
- * - SUPERADMIN can access all protected operations.
- * - MANAGER can access only authorized operational endpoints.
- * - MANAGER receives HTTP 403 when accessing Superadmin-only APIs.
+ * - Two effective internal roles: ADMIN and STAFF.
+ * - ADMIN tier: 'ADMIN', 'SUPERADMIN', and 'MANAGER' are treated identically as the Admin tier
+ *   with full administrative, financial, configuration, and governance permissions across all routes.
+ * - STAFF tier: 'STAFF' can ONLY handle Kitchen, Staff & Dining Floor Operations.
+ *   Staff is strictly forbidden (HTTP 403) from administrative governance routes (tax, reports, analytics,
+ *   settings, users, audit, payment reconciliation/refunds, offer/menu management).
  * - Never trusts roles from request body or query parameters.
  */
 export const requireRole = (...allowedRoles: Array<UserRole | string>) => {
@@ -169,34 +172,33 @@ export const requireRole = (...allowedRoles: Array<UserRole | string>) => {
       return next(new AppError('Authentication required.', 401));
     }
 
-    const userRole = (req.user.role || '').toUpperCase() as UserRole;
-    const isSuperAdmin = userRole === 'SUPERADMIN' || (userRole as string) === 'ADMIN';
+    const userRole = (req.user.role || '').toUpperCase();
+    const isAdmin = userRole === 'ADMIN' || userRole === 'SUPERADMIN' || userRole === 'MANAGER';
 
-    // 1. SUPERADMIN has full access to all protected operations
-    if (isSuperAdmin) {
+    // 1. ADMIN tier (admin, manager, superadmin are identical) has full access to all protected operations
+    if (isAdmin) {
       return next();
     }
 
     // Normalize allowed roles
-    const normalizedAllowed = allowedRoles.map((r) => {
-      const upper = r.toUpperCase();
-      return upper === 'ADMIN' ? 'SUPERADMIN' : upper;
-    });
+    const normalizedAllowed = allowedRoles.map((r) => r.toUpperCase());
 
-    // 2. MANAGER is permitted only when 'MANAGER' is in allowed roles
-    if (userRole === 'MANAGER' && normalizedAllowed.includes('MANAGER')) {
-      return next();
+    // 2. STAFF role is strictly restricted to Kitchen, Staff & Dining Floor Operations
+    if (userRole === 'STAFF') {
+      const isStaffOperation =
+        normalizedAllowed.includes('STAFF') ||
+        normalizedAllowed.includes('CHEF') ||
+        normalizedAllowed.includes('DELIVERY');
+
+      if (isStaffOperation) {
+        return next();
+      }
     }
 
-    // 3. STAFF is permitted only when 'STAFF' is in allowed roles
-    if (userRole === 'STAFF' && normalizedAllowed.includes('STAFF')) {
-      return next();
-    }
-
-    // 4. Unauthorized role receives 403
+    // 3. Reject unauthorized access with 403 Forbidden
     return next(
       new AppError(
-        `Forbidden: Role '${req.user.role}' does not have sufficient permissions to execute this operation.`,
+        `Forbidden: Role '${req.user.role}' does not have sufficient permissions to execute this operation. Staff members may only access Kitchen, Staff & Dining Floor Operations.`,
         403
       )
     );

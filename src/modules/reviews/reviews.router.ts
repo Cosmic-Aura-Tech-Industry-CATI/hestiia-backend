@@ -9,9 +9,9 @@ router.get('/', reviewsController.getPublicReviews);
 router.post('/', reviewsController.submitReview);
 
 // Admin
-router.get('/admin/all', protect, reviewsController.getAdminReviews);
-router.patch('/admin/:id/approve', protect, reviewsController.toggleApproval);
-router.patch('/admin/:id/reply', protect, reviewsController.replyReview);
-router.delete('/admin/:id', protect, restrictTo('superadmin', 'manager'), reviewsController.deleteReview);
+router.get('/admin/all', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), reviewsController.getAdminReviews);
+router.patch('/admin/:id/approve', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), reviewsController.toggleApproval);
+router.patch('/admin/:id/reply', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), reviewsController.replyReview);
+router.delete('/admin/:id', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), reviewsController.deleteReview);
 
 export default router;

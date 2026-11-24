@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import { db, Order, Payment, Customer } from '../../../shared/config/db.js';
+import { db, Order as OrderModel, Payment as PaymentModel, Customer as CustomerModel } from '../../../shared/config/db.js';
+import type { Order, Payment, Customer } from '../../../shared/config/store.js';
 
 export interface DateFilterBoundaries {
   startDateIso: string;
@@ -17,9 +18,11 @@ export class AnalyticsRepository {
       try {
         const orderModel = mongoose.models.Order;
         if (orderModel) {
+          const start = new Date(startDateIso);
+          const end = new Date(endDateIso.includes('T') ? endDateIso : `${endDateIso}T23:59:59.999Z`);
           return await orderModel
             .find({
-              createdAt: { $gte: startDateIso, $lte: endDateIso },
+              createdAt: { $gte: start, $lte: end },
             })
             .lean();
         }
@@ -44,9 +47,11 @@ export class AnalyticsRepository {
       try {
         const paymentModel = mongoose.models.Payment;
         if (paymentModel) {
+          const start = new Date(startDateIso);
+          const end = new Date(endDateIso.includes('T') ? endDateIso : `${endDateIso}T23:59:59.999Z`);
           return await paymentModel
             .find({
-              transactionDate: { $gte: startDateIso, $lte: endDateIso },
+              transactionDate: { $gte: start, $lte: end },
             })
             .lean();
         }
@@ -69,7 +74,10 @@ export class AnalyticsRepository {
       try {
         const customerModel = mongoose.models.Customer;
         if (customerModel) {
-          return await customerModel.find().lean();
+          return await customerModel
+            .find()
+            .select('name phone email totalSpent totalOrders lastOrderDate createdAt')
+            .lean();
         }
       } catch {
         // Fall back to local store

@@ -64,12 +64,15 @@ const customerSchema = new Schema<ICustomerDocument>(
 
 // High-performance query indexes
 customerSchema.index({ phone: 1 }, { unique: true });
+customerSchema.index({ email: 1 }, { sparse: true });
 customerSchema.index({ totalSpent: -1, createdAt: -1 });
 customerSchema.index({ totalOrders: -1, createdAt: -1 });
+customerSchema.index({ totalOrders: 1, totalSpent: -1 });
 customerSchema.index({ lastOrderDate: -1 });
 customerSchema.index({ createdAt: -1 });
 customerSchema.index({ name: 'text', email: 'text', phone: 'text' });
 
+export type Customer = ICustomerDocument;
 export const Customer =
   (mongoose.models.Customer as ICustomerModel) ||
   mongoose.model<ICustomerDocument, ICustomerModel>('Customer', customerSchema);

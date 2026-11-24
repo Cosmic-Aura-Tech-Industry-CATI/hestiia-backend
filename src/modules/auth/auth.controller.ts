@@ -16,7 +16,7 @@ import { authService as defaultAuthService } from './auth.service.js';
  */
 
 /**
- * Step 1: Login with credentials (email/username + password)
+ * Step 1: Universal Login (Credentials: email/username + password)
  * Authenticates credentials and creates an access session
  */
 export const login = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
@@ -25,6 +25,38 @@ export const login = catchAsync(async (req: AuthenticatedRequest, res: Response)
 
   const userIdentifier = email || username || identifier;
   const result = await defaultAuthService.login(userIdentifier, password, ip);
+
+  setAuthCookies(res, result.accessToken, result.refreshToken);
+
+  res.status(200).json(result);
+});
+
+/**
+ * Dedicated Admin Portal Login Handler
+ * Authenticates Admin & Manager accounts; strictly rejects Staff with HTTP 403 Forbidden
+ */
+export const adminLogin = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const { email, username, identifier, password } = req.body;
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+
+  const userIdentifier = email || username || identifier;
+  const result = await defaultAuthService.login(userIdentifier, password, ip, 'ADMIN');
+
+  setAuthCookies(res, result.accessToken, result.refreshToken);
+
+  res.status(200).json(result);
+});
+
+/**
+ * Dedicated Staff Operations Login Handler
+ * Authenticates Staff members for Kitchen, Shifts, and Dining floor operations
+ */
+export const staffLogin = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
+  const { email, username, identifier, password } = req.body;
+  const ip = req.ip || req.socket.remoteAddress || 'unknown';
+
+  const userIdentifier = email || username || identifier;
+  const result = await defaultAuthService.login(userIdentifier, password, ip, 'STAFF');
 
   setAuthCookies(res, result.accessToken, result.refreshToken);
 
@@ -239,6 +271,8 @@ export class AuthController {
   constructor(private readonly service = defaultAuthService) {}
 
   public login = login;
+  public adminLogin = adminLogin;
+  public staffLogin = staffLogin;
   public verifyLogin = verifyOtp;
   public verifyOtp = verifyOtp;
   public resendOtp = resendOtp;
@@ -262,6 +296,8 @@ export class AuthController {
 
 export default {
   login,
+  adminLogin,
+  staffLogin,
   verifyOtp,
   verifyLogin,
   resendOtp,

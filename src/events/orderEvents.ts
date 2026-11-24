@@ -2,6 +2,7 @@ import { eventBus, DOMAIN_EVENTS } from './eventBus.js';
 import { ordersService } from '../modules/orders/orders.service.js';
 import { paymentsService } from '../modules/payments/payments.service.js';
 import { offersService } from '../modules/offers/services/offers.service.js';
+import { loyaltyService } from '../modules/loyalty/loyalty.service.js';
 import { broadcast } from '../sockets/socketServer.js';
 import { logger } from '../config/logger.js';
 
@@ -53,6 +54,13 @@ export function registerOrderAndPaymentEventHandlers() {
           discountAmount: (order as any).offer.discountAmount || order.discountAmount || 0,
           orderSubtotal: order.subtotal || 0,
         });
+      }
+
+      // Award Customer Loyalty Club Points on paid orders
+      if (order && order.customerPhone && order.grandTotal) {
+        loyaltyService
+          .awardPointsForOrder(order.orderNumber, order.customerPhone, order.grandTotal)
+          .catch(() => {});
       }
     } catch (err: any) {
       logger.error(`[DomainEvents Error - PAYMENT_PAID] ${err?.message}`);
@@ -107,6 +115,15 @@ export function registerOrderAndPaymentEventHandlers() {
           },
           actor
         );
+      }
+
+      // Reverse customer loyalty points earned on this cancelled order
+      if (order?.customerPhone && orderNumber) {
+        loyaltyService
+          .reversePointsForOrder(orderNumber, order.customerPhone, order.grandTotal)
+          .catch((err: any) => {
+            logger.warn(`[DomainEvents] Loyalty points reversal failed for ${orderNumber}: ${err?.message}`);
+          });
       }
 
       if (orderNumber) {

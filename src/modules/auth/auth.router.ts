@@ -8,6 +8,8 @@ const router = Router();
 // 1. PUBLIC AUTHENTICATION & RECOVERY ROUTES
 // ==========================================
 router.post('/login', authController.login);
+router.post('/admin/login', authController.adminLogin);
+router.post('/staff/login', authController.staffLogin);
 router.post('/verify-otp', authController.verifyOtp);
 router.post('/resend-otp', authController.resendOtp);
 router.post('/refresh', authController.refresh);
@@ -25,14 +27,14 @@ router.post('/logout', requireAuth, authController.logout);
 router.get('/me', requireAuth, authController.getMe);
 
 // ==========================================
-// 3. USER MANAGEMENT ROUTES (SUPERADMIN ONLY)
+// 3. USER MANAGEMENT ROUTES (ADMIN ONLY)
 // ==========================================
-router.post('/users', requireAuth, requireRole('SUPERADMIN'), authController.createUser);
-router.get('/users', requireAuth, requireRole('SUPERADMIN'), authController.getUsers);
-router.get('/users/:id', requireAuth, requireRole('SUPERADMIN'), authController.getUserById);
-router.patch('/users/:id', requireAuth, requireRole('SUPERADMIN'), authController.updateUser);
-router.patch('/users/:id/role', requireAuth, requireRole('SUPERADMIN'), authController.updateUserRole);
-router.patch('/users/:id/status', requireAuth, requireRole('SUPERADMIN'), authController.updateUserStatus);
-router.delete('/users/:id', requireAuth, requireRole('SUPERADMIN'), authController.deleteUser);
+router.post('/users', requireAuth, requireRole('ADMIN', 'SUPERADMIN', 'MANAGER'), authController.createUser);
+router.get('/users', requireAuth, requireRole('ADMIN', 'SUPERADMIN', 'MANAGER'), authController.getUsers);
+router.get('/users/:id', requireAuth, requireRole('ADMIN', 'SUPERADMIN', 'MANAGER'), authController.getUserById);
+router.patch('/users/:id', requireAuth, requireRole('ADMIN', 'SUPERADMIN', 'MANAGER'), authController.updateUser);
+router.patch('/users/:id/role', requireAuth, requireRole('ADMIN', 'SUPERADMIN', 'MANAGER'), authController.updateUserRole);
+router.patch('/users/:id/status', requireAuth, requireRole('ADMIN', 'SUPERADMIN', 'MANAGER'), authController.updateUserStatus);
+router.delete('/users/:id', requireAuth, requireRole('ADMIN', 'SUPERADMIN', 'MANAGER'), authController.deleteUser);
 
 export default router;

@@ -99,7 +99,6 @@ const bookingSchema = new Schema<IBookingDocument>(
 );
 
 // High-performance query indexes
-bookingSchema.index({ bookingRef: 1 }, { unique: true });
 bookingSchema.index({ date: 1, time: 1 });
 bookingSchema.index({ status: 1, date: 1 });
 bookingSchema.index({ phone: 1 });

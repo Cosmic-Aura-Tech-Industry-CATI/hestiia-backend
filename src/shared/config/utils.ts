@@ -36,7 +36,6 @@ export const ADMIN_URL = process.env.ADMIN_URL || 'http://localhost:3000';
 // Upload Paths
 export const UPLOADS_DIR = path.resolve(process.cwd(), 'public', 'uploads');
 export const MENU_DIR = path.resolve(process.cwd(), 'public', 'uploads', 'menu');
-export const DATA_DIR = path.resolve(process.cwd(), 'data');
 
 // Cloudinary
 export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME || '';
