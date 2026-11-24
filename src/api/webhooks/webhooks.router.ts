@@ -10,13 +10,13 @@ const router = Router();
 router.post('/payments/razorpay', async (req: Request, res: Response) => {
   const signature = req.headers['x-razorpay-signature'] as string;
   const eventId = (req.headers['x-razorpay-event-id'] as string) || req.body?.id;
-  const body = JSON.stringify(req.body);
+  const rawBody = (req as any).rawBody || JSON.stringify(req.body);
 
-  // 1. Signature Verification
+  // 1. Signature Verification using Raw Payload Buffer
   if (paymentConfig.webhookSecret && signature) {
     const expected = crypto
       .createHmac('sha256', paymentConfig.webhookSecret)
-      .update(body)
+      .update(rawBody)
       .digest('hex');
 
     const isValidSignature =

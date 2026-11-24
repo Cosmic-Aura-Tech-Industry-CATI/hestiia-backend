@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', settingsController.getPublicSettings);
 
 // Admin
-router.get('/admin', protect, settingsController.getAdminSettings);
-router.put('/admin', protect, restrictTo('superadmin'), settingsController.updateSettings);
+router.get('/admin', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), settingsController.getAdminSettings);
+router.put('/admin', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), settingsController.updateSettings);
 
 export default router;

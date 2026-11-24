@@ -50,7 +50,7 @@ export class UserRepository implements IUserRepository {
 
   async countActiveSuperadmins(): Promise<number> {
     return await User.countDocuments({
-      role: 'SUPERADMIN',
+      role: { $in: ['ADMIN', 'SUPERADMIN', 'MANAGER'] },
       status: 'ACTIVE',
     }).exec();
   }

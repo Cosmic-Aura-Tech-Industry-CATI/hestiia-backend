@@ -6,7 +6,7 @@ import * as menuController from './menu.controller.js';
 const router = Router();
 
 const managers = restrictTo('SUPERADMIN', 'MANAGER');
-const superadmins = restrictTo('SUPERADMIN');
+const superadmins = restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER');
 
 // ==========================================
 // 1. PUBLIC ROUTES
