@@ -30,12 +30,15 @@ function maskEmail(email: string): string {
 }
 
 function sanitizeUser(user: IUserDocument | any): IAdminUser {
+  const rawRole = (user.role || '').toUpperCase();
+  const canonicalRole: UserRole = rawRole === 'STAFF' ? 'STAFF' : 'ADMIN';
+
   return {
     id: user._id ? String(user._id) : user.id,
     name: user.name,
     email: user.email,
     username: user.username,
-    role: (user.role === 'admin' ? 'SUPERADMIN' : user.role) as UserRole,
+    role: canonicalRole,
     status: (user.status || (user.active ? 'ACTIVE' : 'INACTIVE')) as UserStatus,
     tokenVersion: user.tokenVersion || 0,
     lastLogin: user.lastLogin,
@@ -71,12 +74,12 @@ export const authService = {
             email: customEmail,
             username: customEmail.split('@')[0],
             passwordHash: await bcrypt.hash(customPassword, saltRounds),
-            role: 'SUPERADMIN',
+            role: 'ADMIN',
             status: 'ACTIVE',
             tokenVersion: 0,
           });
           await user.save();
-          console.log(`[Bootstrap] Configured SUPERADMIN account seeded in MongoDB Atlas (${customEmail})`);
+          console.log(`[Bootstrap] Configured ADMIN account seeded in MongoDB Atlas (${customEmail})`);
         }
       }
     } catch (err: any) {
@@ -85,9 +88,10 @@ export const authService = {
   },
 
   /**
-   * Step 1 of Login: Validates credentials and dispatches 2FA OTP via Resend
+   * Step 1 of Login: Validates credentials and creates session
+   * Supports role-specific login validation (ADMIN vs STAFF)
    */
-  async login(identifier?: string, password?: string, ip = 'unknown') {
+  async login(identifier?: string, password?: string, ip = 'unknown', requiredRole?: 'ADMIN' | 'STAFF') {
     if (!identifier || !password) {
       throw new AppError('Email/username and password are required.', 400);
     }
@@ -127,7 +131,7 @@ export const authService = {
           email: storeUser.email,
           username: storeUser.username,
           passwordHash: storeUser.passwordHash,
-          role: (storeUser.role || '').toUpperCase() === 'MANAGER' ? 'MANAGER' : 'SUPERADMIN',
+          role: (storeUser.role || '').toUpperCase() === 'STAFF' ? 'STAFF' : 'ADMIN',
           status: storeUser.active ? 'ACTIVE' : 'INACTIVE',
           tokenVersion: storeUser.tokenVersion || 0,
         });
@@ -148,21 +152,41 @@ export const authService = {
 
     // 3. Reject inactive accounts
     if (user.status === 'INACTIVE') {
-      throw new AppError('Your account has been deactivated. Please contact the Superadmin.', 401);
+      throw new AppError('Your account has been deactivated. Please contact the administrator.', 401);
+    }
+
+    // 4. Role-specific portal validation
+    const userRole = ((user.role || '').toUpperCase() === 'STAFF') ? 'STAFF' : 'ADMIN';
+
+    if (requiredRole === 'ADMIN' && userRole === 'STAFF') {
+      db.logAudit('AUTH_ADMIN_LOGIN_REJECTED', cleanInput, 'Staff member attempted to log into Admin Portal', ip);
+      throw new AppError(
+        'Access denied: Staff accounts cannot log into the Admin Management Portal. Please use the Staff Operations login.',
+        403
+      );
     }
 
     // Reset failed counter
     delete loginAttempts[attemptKey];
 
-    // 4. Create a direct authenticated session. OTP verification is disabled.
+    // 5. Create a direct authenticated session. OTP verification is disabled.
     const { accessToken, refreshToken } = this.generateTokenPair(user);
 
-    db.logAudit('AUTH_LOGIN_SUCCESS', user.email, `User authenticated as ${user.role}`, ip);
+    db.logAudit(
+      requiredRole ? `AUTH_${requiredRole}_LOGIN_SUCCESS` : 'AUTH_LOGIN_SUCCESS',
+      user.email,
+      `User authenticated as ${userRole} via ${requiredRole || 'Standard'} portal`,
+      ip
+    );
+
+    const welcomeMessage = userRole === 'STAFF'
+      ? 'Authentication successful. Welcome to Hestiia Staff Operations.'
+      : 'Authentication successful. Welcome to Hestiia Restaurant Administration.';
 
     return {
       success: true,
       requireOtp: false,
-      message: 'Authentication successful. Welcome to Hestiia Restaurant Administration.',
+      message: welcomeMessage,
       token: accessToken,
       accessToken,
       refreshToken,
@@ -230,11 +254,14 @@ export const authService = {
    * Token Generator for Access Token and Refresh Token
    */
   generateTokenPair(user: IUserDocument | any): { accessToken: string; refreshToken: string } {
+    const rawRole = (user.role || '').toUpperCase();
+    const canonicalRole: UserRole = rawRole === 'STAFF' ? 'STAFF' : 'ADMIN';
+
     const payload = {
       id: user._id ? String(user._id) : user.id,
       email: user.email,
       name: user.name,
-      role: (user.role === 'admin' ? 'SUPERADMIN' : user.role) as UserRole,
+      role: canonicalRole,
       status: (user.status || 'ACTIVE') as UserStatus,
       tokenVersion: user.tokenVersion || 0,
     };
@@ -419,17 +446,19 @@ export const authService = {
   },
 
   /**
-   * User Management: Create new user (Superadmin Only)
+   * User Management: Create new user (Admin Only)
    */
   async createUser(
     userData: { name: string; email: string; username?: string; password: string; role?: string; status?: string },
     actorUser: any
   ) {
-    if (actorUser.role !== 'SUPERADMIN' && actorUser.role !== 'admin') {
-      throw new AppError('Forbidden: Only a Superadmin can create user accounts.', 403);
+    const actorRole = (actorUser.role || '').toUpperCase();
+    const isActorAdmin = actorRole === 'ADMIN' || actorRole === 'SUPERADMIN' || actorRole === 'MANAGER';
+    if (!isActorAdmin) {
+      throw new AppError('Forbidden: Only an Admin can create user accounts.', 403);
     }
 
-    const { name, email, username, password, role = 'MANAGER', status = 'ACTIVE' } = userData;
+    const { name, email, username, password, role = 'STAFF', status = 'ACTIVE' } = userData;
 
     if (!name || !email || !password) {
       throw new AppError('Name, email, and password are required.', 400);
@@ -440,12 +469,14 @@ export const authService = {
     }
 
     const cleanEmail = email.toLowerCase().trim();
-    const cleanRole = role.toUpperCase().trim() as UserRole;
+    const rawRole = role.toUpperCase().trim();
     const cleanStatus = status.toUpperCase().trim() as UserStatus;
 
-    if (cleanRole !== 'SUPERADMIN' && cleanRole !== 'MANAGER') {
-      throw new AppError("Invalid role. Role must strictly be 'SUPERADMIN' or 'MANAGER'.", 400);
+    if (rawRole !== 'ADMIN' && rawRole !== 'STAFF' && rawRole !== 'SUPERADMIN' && rawRole !== 'MANAGER') {
+      throw new AppError("Invalid role. Role must strictly be 'ADMIN' or 'STAFF'.", 400);
     }
+
+    const canonicalRole: UserRole = rawRole === 'STAFF' ? 'STAFF' : 'ADMIN';
 
     if (cleanStatus !== 'ACTIVE' && cleanStatus !== 'INACTIVE') {
       throw new AppError("Invalid status. Status must strictly be 'ACTIVE' or 'INACTIVE'.", 400);
@@ -462,7 +493,7 @@ export const authService = {
       email: cleanEmail,
       username: username ? username.toLowerCase().trim() : cleanEmail.split('@')[0],
       password,
-      role: cleanRole,
+      role: canonicalRole,
       status: cleanStatus,
       tokenVersion: 0,
     });
@@ -477,14 +508,14 @@ export const authService = {
         email: newUser.email,
         username: newUser.username || newUser.email,
         passwordHash,
-        role: newUser.role === 'SUPERADMIN' ? 'superadmin' : 'manager',
+        role: canonicalRole === 'STAFF' ? 'staff' : 'admin',
         active: newUser.status === 'ACTIVE',
         tokenVersion: 0,
         createdAt: new Date().toISOString(),
       });
     });
 
-    db.logAudit('USER_CREATED', actorUser.email, `Created new ${cleanRole} user '${cleanEmail}'`);
+    db.logAudit('USER_CREATED', actorUser.email, `Created new ${canonicalRole} user '${cleanEmail}'`);
 
     return sanitizeUser(newUser);
   },
@@ -560,18 +591,26 @@ export const authService = {
   },
 
   /**
-   * User Management: Update User Role (Superadmin Only)
-   * Prevents self-role change and ensures at least one active Superadmin remains.
+   * User Management: Update User Role (Admin Only)
+   * Prevents self-role change and ensures at least one active Admin remains.
    */
   async updateUserRole(id: string, newRole: string, actorUser: any) {
+    const actorRole = (actorUser.role || '').toUpperCase();
+    const isActorAdmin = actorRole === 'ADMIN' || actorRole === 'SUPERADMIN' || actorRole === 'MANAGER';
+    if (!isActorAdmin) {
+      throw new AppError('Forbidden: Only an Admin can update user roles.', 403);
+    }
+
     if (!newRole) {
       throw new AppError("Field 'role' is required.", 400);
     }
 
-    const cleanRole = newRole.toUpperCase().trim() as UserRole;
-    if (cleanRole !== 'SUPERADMIN' && cleanRole !== 'MANAGER') {
-      throw new AppError("Invalid role. Role must strictly be 'SUPERADMIN' or 'MANAGER'.", 400);
+    const rawRole = newRole.toUpperCase().trim();
+    if (rawRole !== 'ADMIN' && rawRole !== 'STAFF' && rawRole !== 'SUPERADMIN' && rawRole !== 'MANAGER') {
+      throw new AppError("Invalid role. Role must strictly be 'ADMIN' or 'STAFF'.", 400);
     }
+
+    const canonicalRole: UserRole = rawRole === 'STAFF' ? 'STAFF' : 'ADMIN';
 
     // Constraint 1: Prevent user from modifying their own role
     if (actorUser.id === id) {
@@ -583,15 +622,17 @@ export const authService = {
       throw new AppError('User not found.', 404);
     }
 
-    // Constraint 2: Prevent demoting the last active Superadmin
-    if (user.role === 'SUPERADMIN' && cleanRole !== 'SUPERADMIN') {
-      const activeSuperadmins = await userRepository.countActiveSuperadmins();
-      if (activeSuperadmins <= 1) {
-        throw new AppError('Security constraint: Cannot demote the last active Superadmin in the system.', 400);
+    const isCurrentAdmin = (user.role || '').toUpperCase() !== 'STAFF';
+
+    // Constraint 2: Prevent demoting the last active Admin
+    if (isCurrentAdmin && canonicalRole === 'STAFF') {
+      const activeAdmins = await userRepository.countActiveSuperadmins();
+      if (activeAdmins <= 1) {
+        throw new AppError('Security constraint: Cannot demote the last active Admin in the system.', 400);
       }
     }
 
-    user.role = cleanRole;
+    user.role = canonicalRole;
     user.tokenVersion = (user.tokenVersion || 0) + 1; // Invalidate target user's active session
     await user.save();
 
@@ -599,21 +640,27 @@ export const authService = {
     db.updateState((s) => {
       const target = s.users.find((u) => u.id === id);
       if (target) {
-        target.role = cleanRole === 'SUPERADMIN' ? 'superadmin' : 'manager';
+        target.role = canonicalRole === 'STAFF' ? 'staff' : 'admin';
         target.tokenVersion = (target.tokenVersion || 0) + 1;
       }
     });
 
-    db.logAudit('ROLE_UPDATED', actorUser.email, `Updated role of ${user.email} to ${cleanRole}`);
+    db.logAudit('ROLE_UPDATED', actorUser.email, `Updated role of ${user.email} to ${canonicalRole}`);
 
     return sanitizeUser(user);
   },
 
   /**
-   * User Management: Update User Status (Superadmin Only)
-   * Prevents deactivating self and the last active Superadmin.
+   * User Management: Update User Status (Admin Only)
+   * Prevents deactivating self and the last active Admin.
    */
   async updateUserStatus(id: string, newStatus: string, actorUser: any) {
+    const actorRole = (actorUser.role || '').toUpperCase();
+    const isActorAdmin = actorRole === 'ADMIN' || actorRole === 'SUPERADMIN' || actorRole === 'MANAGER';
+    if (!isActorAdmin) {
+      throw new AppError('Forbidden: Only an Admin can update user status.', 403);
+    }
+
     if (!newStatus) {
       throw new AppError("Field 'status' is required.", 400);
     }
@@ -633,11 +680,12 @@ export const authService = {
       throw new AppError('User not found.', 404);
     }
 
-    // Constraint 2: Prevent deactivating the last active Superadmin
-    if (user.role === 'SUPERADMIN' && cleanStatus === 'INACTIVE') {
-      const activeSuperadmins = await userRepository.countActiveSuperadmins();
-      if (activeSuperadmins <= 1) {
-        throw new AppError('Security constraint: Cannot deactivate the last active Superadmin in the system.', 400);
+    // Constraint 2: Prevent deactivating the last active Admin
+    const isTargetAdmin = (user.role || '').toUpperCase() !== 'STAFF';
+    if (isTargetAdmin && cleanStatus === 'INACTIVE') {
+      const activeAdmins = await userRepository.countActiveSuperadmins();
+      if (activeAdmins <= 1) {
+        throw new AppError('Security constraint: Cannot deactivate the last active Admin in the system.', 400);
       }
     }
 
@@ -664,9 +712,15 @@ export const authService = {
   },
 
   /**
-   * User Management: Delete user (Superadmin Only)
+   * User Management: Delete user (Admin Only)
    */
   async deleteUser(id: string, actorUser: any) {
+    const actorRole = (actorUser.role || '').toUpperCase();
+    const isActorAdmin = actorRole === 'ADMIN' || actorRole === 'SUPERADMIN' || actorRole === 'MANAGER';
+    if (!isActorAdmin) {
+      throw new AppError('Forbidden: Only an Admin can delete user accounts.', 403);
+    }
+
     if (actorUser.id === id) {
       throw new AppError('Security constraint: You cannot delete your own account.', 400);
     }
@@ -676,10 +730,11 @@ export const authService = {
       throw new AppError('User not found.', 404);
     }
 
-    if (user.role === 'SUPERADMIN') {
-      const activeSuperadmins = await userRepository.countActiveSuperadmins();
-      if (activeSuperadmins <= 1) {
-        throw new AppError('Security constraint: Cannot delete the last active Superadmin.', 400);
+    const isTargetAdmin = (user.role || '').toUpperCase() !== 'STAFF';
+    if (isTargetAdmin) {
+      const activeAdmins = await userRepository.countActiveSuperadmins();
+      if (activeAdmins <= 1) {
+        throw new AppError('Security constraint: Cannot delete the last active Admin.', 400);
       }
     }
 
@@ -727,7 +782,7 @@ export const authService = {
       if (user) {
         user.name = name.trim();
         user.passwordHash = hashedPassword;
-        user.role = 'SUPERADMIN';
+        user.role = 'ADMIN';
         user.status = 'ACTIVE';
         user.tokenVersion = (user.tokenVersion || 0) + 1;
         await user.save();
@@ -737,7 +792,7 @@ export const authService = {
           email: cleanEmail,
           username: cleanEmail.split('@')[0],
           passwordHash: hashedPassword,
-          role: 'SUPERADMIN',
+          role: 'ADMIN',
           status: 'ACTIVE',
           tokenVersion: 0,
         });
@@ -748,7 +803,7 @@ export const authService = {
         name: name.trim(),
         email: cleanEmail,
         username: cleanEmail.split('@')[0],
-        role: 'SUPERADMIN',
+        role: 'ADMIN',
         status: 'ACTIVE',
         tokenVersion: 0,
         createdAt: new Date(),
@@ -762,7 +817,7 @@ export const authService = {
       if (idx !== -1) {
         s.users[idx].name = name.trim();
         s.users[idx].passwordHash = hashedPassword;
-        s.users[idx].role = 'superadmin';
+        s.users[idx].role = 'admin';
         s.users[idx].active = true;
       } else {
         s.users.push({
@@ -771,7 +826,7 @@ export const authService = {
           email: cleanEmail,
           username: cleanEmail.split('@')[0],
           passwordHash: hashedPassword,
-          role: 'superadmin',
+          role: 'admin',
           active: true,
           tokenVersion: 0,
           createdAt: new Date().toISOString(),

@@ -4,23 +4,18 @@ import * as dashboardController from './dashboard.controller.js';
 
 const router = Router();
 
-// Protect all dashboard routes & restrict access to authorized staff / management
+// Protect all dashboard routes
 router.use(protect);
-router.use(restrictTo('SUPERADMIN', 'MANAGER', 'STAFF'));
 
-// Executive Overview (accessible via / or /overview or /stats)
-router.get('/', dashboardController.getOverview);
-router.get('/overview', dashboardController.getOverview);
-router.get('/stats', dashboardController.getOverview);
+// Live Kitchen & Active Dining Orders (Floor & Kitchen Operations)
+router.get('/live', restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER', 'STAFF'), dashboardController.getLiveOrders);
 
-// Dynamic Sales Trend (?days=7, 14, 30)
-router.get('/sales-trend', dashboardController.getSalesTrend);
-
-// Top Selling Popular Dishes (?limit=10)
-router.get('/popular-items', dashboardController.getPopularItems);
-
-// Live Kitchen & Active Dining Orders
-router.get('/live', dashboardController.getLiveOrders);
+// Executive Overview & Sales Trends (Admin Only)
+router.get('/', restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), dashboardController.getOverview);
+router.get('/overview', restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), dashboardController.getOverview);
+router.get('/stats', restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), dashboardController.getOverview);
+router.get('/sales-trend', restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), dashboardController.getSalesTrend);
+router.get('/popular-items', restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), dashboardController.getPopularItems);
 
 export default router;
 export const dashboardRouter = router;

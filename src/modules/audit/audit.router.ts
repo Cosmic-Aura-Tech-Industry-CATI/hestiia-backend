@@ -13,7 +13,7 @@ router.get('/stats', restrictTo('SUPERADMIN', 'MANAGER'), auditController.getAud
 // 2. Query Audit Trail Logs
 router.get('/', restrictTo('SUPERADMIN', 'MANAGER'), auditController.getAuditLogs);
 
-// 3. Purge Historical Audit Logs (Superadmin Only Maintenance)
-router.delete('/purge', restrictTo('SUPERADMIN'), auditController.clearOldLogs);
+// 3. Purge Historical Audit Logs (Admin Maintenance)
+router.delete('/purge', restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), auditController.clearOldLogs);
 
 export default router;

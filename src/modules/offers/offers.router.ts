@@ -43,7 +43,7 @@ router.patch(
 router.delete(
   '/:id',
   protect,
-  restrictTo('SUPERADMIN'),
+  restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'),
   controller.deleteOffer
 );
 

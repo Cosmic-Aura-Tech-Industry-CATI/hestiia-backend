@@ -27,14 +27,14 @@ router.get(
 router.patch(
   '/config',
   protect,
-  restrictTo('SUPERADMIN'),
+  restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'),
   controller.updateConfig
 );
 
 router.put(
   '/config',
   protect,
-  restrictTo('SUPERADMIN'),
+  restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'),
   controller.updateConfig
 );
 

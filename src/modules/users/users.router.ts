@@ -5,7 +5,7 @@ import * as controller from './users.controller.js';
 const router = Router();
 
 router.use(requireAuth);
-router.use(requireRole('SUPERADMIN'));
+router.use(requireRole('ADMIN', 'SUPERADMIN', 'MANAGER'));
 
 router.get('/', controller.getUsers);
 router.post('/', controller.createUser);

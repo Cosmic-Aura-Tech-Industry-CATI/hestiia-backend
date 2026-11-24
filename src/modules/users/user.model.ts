@@ -41,14 +41,14 @@ const userSchema = new Schema<IUserDocument>(
     role: {
       type: String,
       enum: {
-        values: ['SUPERADMIN', 'MANAGER', 'admin', 'manager', 'superadmin'],
-        message: "Role must strictly be 'SUPERADMIN' or 'MANAGER'",
+        values: ['ADMIN', 'STAFF', 'SUPERADMIN', 'MANAGER', 'admin', 'staff', 'superadmin', 'manager'],
+        message: "Role must strictly be 'ADMIN' or 'STAFF'",
       },
-      default: 'MANAGER',
+      default: 'STAFF',
       set: (val: string) => {
-        if (!val) return 'MANAGER';
+        if (!val) return 'STAFF';
         const upper = val.toUpperCase().trim();
-        return upper === 'ADMIN' ? 'SUPERADMIN' : upper;
+        return upper === 'STAFF' ? 'STAFF' : 'ADMIN';
       },
       required: true,
       index: true,

@@ -113,7 +113,7 @@ router.patch(
 
 router.delete(
   '/members/:id',
-  restrictTo('SUPERADMIN'),
+  restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'),
   controller.deleteStaffMember
 );
 

@@ -9,7 +9,7 @@ export interface AdminUser {
   email: string;
   username: string;
   passwordHash: string;
-  role: 'superadmin' | 'manager' | 'staff';
+  role: 'admin' | 'staff' | 'superadmin' | 'manager';
   active: boolean;
   tokenVersion?: number;
   lastLogin?: string;

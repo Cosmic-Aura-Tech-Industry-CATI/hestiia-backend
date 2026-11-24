@@ -34,13 +34,20 @@ import { usersRouter } from '../../modules/users/index.js';
 import { notificationsRouter } from '../../modules/notifications/index.js';
 import { catchAsync } from '../../shared/utils/index.js';
 import { sendSuccess } from '../../shared/responses/index.js';
+import * as authController from '../../modules/auth/auth.controller.js';
 
 const router = Router();
 
-// Auth routes (Public login, protected me/password)
+// ==========================================
+// 1. DEDICATED ADMIN AUTHENTICATION
+// ==========================================
+router.post('/auth/login', authController.adminLogin);
+router.post('/login', authController.adminLogin);
 router.use('/auth', authRouter);
 
-// Protected Admin Core
+// ==========================================
+// 2. PROTECTED ADMIN CORE (REQUIRES AUTH)
+// ==========================================
 router.use(protect);
 
 router.use('/dashboard', dashboardRouter);

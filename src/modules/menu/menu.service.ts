@@ -87,10 +87,39 @@ export const menuService = {
       ];
     }
 
-    const dishes = await MenuItem.find(filter)
-      .select('name slug category description price compareAtPrice image isVeg isSignature spiceLevel preparationTime ingredients available displayOrder createdAt')
-      .sort({ displayOrder: 1, createdAt: 1 })
-      .lean();
+    let dishes: any[] = [];
+    if (mongoose.connection.readyState === 1) {
+      try {
+        dishes = await MenuItem.find(filter)
+          .select('name slug category description price compareAtPrice image isVeg isSignature spiceLevel preparationTime ingredients available displayOrder createdAt')
+          .sort({ displayOrder: 1, createdAt: 1 })
+          .lean();
+      } catch {
+        dishes = [];
+      }
+    }
+
+    // High availability fallback to in-memory store if DB is offline or empty during startup
+    if (dishes.length === 0 && mongoose.connection.readyState !== 1) {
+      let local = db.getState().dishes || [];
+      if (availableOnly !== 'false') {
+        local = local.filter((d) => d.available !== false);
+      }
+      if (category && category !== 'All' && category !== 'all') {
+        local = local.filter((d) => d.category.toLowerCase() === category.toLowerCase());
+      }
+      if (isVeg !== undefined) {
+        local = local.filter((d) => d.isVeg === (isVeg === 'true'));
+      }
+      if (search && search.trim()) {
+        const term = search.trim().toLowerCase();
+        local = local.filter((d) => d.name.toLowerCase().includes(term) || d.description?.toLowerCase().includes(term));
+      }
+      return {
+        total: local.length,
+        dishes: local.map((d) => this.formatDish(d)),
+      };
+    }
 
     return {
       total: dishes.length,
@@ -104,17 +133,28 @@ export const menuService = {
   async getDishById(id: string) {
     let dish: any = null;
 
-    if (mongoose.Types.ObjectId.isValid(id)) {
-      dish = await MenuItem.findById(id).lean();
+    if (mongoose.connection.readyState === 1) {
+      try {
+        if (mongoose.Types.ObjectId.isValid(id)) {
+          dish = await MenuItem.findById(id).lean();
+        }
+
+        if (!dish) {
+          dish = await MenuItem.findOne({
+            $or: [
+              { slug: id },
+              { name: { $regex: new RegExp(`^${id.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } },
+            ],
+          }).lean();
+        }
+      } catch {}
     }
 
     if (!dish) {
-      dish = await MenuItem.findOne({
-        $or: [
-          { slug: id },
-          { name: { $regex: new RegExp(`^${id.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } },
-        ],
-      }).lean();
+      const local = (db.getState().dishes || []).find(
+        (d) => d.id === id || (d as any)._id === id || d.slug === id || d.name.toLowerCase() === id.toLowerCase()
+      );
+      if (local) dish = local;
     }
 
     if (!dish) {
