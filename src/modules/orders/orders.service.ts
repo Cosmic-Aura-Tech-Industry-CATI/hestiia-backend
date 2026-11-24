@@ -1,9 +1,14 @@
 import mongoose from 'mongoose';
 import { Order, type IOrderDocument } from './order.model.js';
+import { Counter } from './counter.model.js';
+import { Invoice as InvoiceModel } from '../invoices/invoice.model.js';
+import { Payment as PaymentModel } from '../payments/payment.model.js';
 import { MenuItem } from '../menu/menu.model.js';
 import { customersService } from '../customers/customers.service.js';
-import { db, type Invoice, type Payment } from '../../shared/config/db.js';
+import { db } from '../../shared/config/db.js';
+import type { Invoice, Payment } from '../../shared/config/store.js';
 import { AppError } from '../../shared/utils/appError.js';
+import { logger } from '../../config/logger.js';
 import { eventBus, DOMAIN_EVENTS } from '../../events/eventBus.js';
 import type { IOrderItem } from './orders.interface.js';
 
@@ -101,6 +106,29 @@ export const ordersService = {
 
     // 1. Idempotency Check: Prevent duplicate orders on network retries
     if (idempotencyKey) {
+      if (mongoose.connection.readyState === 1) {
+        try {
+          const mongoExisting = await Order.findOne({ idempotencyKey }).lean();
+          if (mongoExisting) {
+            const formattedExisting = this.formatOrder(mongoExisting);
+            const [mongoInvoice, mongoPayment] = await Promise.all([
+              InvoiceModel.findOne({
+                $or: [{ orderId: formattedExisting.id }, { orderNumber: formattedExisting.orderNumber }],
+              }).lean(),
+              PaymentModel.findOne({
+                $or: [{ orderId: formattedExisting.id }, { orderNumber: formattedExisting.orderNumber }],
+              }).lean(),
+            ]);
+            return {
+              order: formattedExisting,
+              invoice: mongoInvoice || state.invoices.find((i) => i.orderId === formattedExisting.id) || null,
+              payment: mongoPayment || state.payments.find((p) => p.orderId === formattedExisting.id) || null,
+              isIdempotentReplay: true,
+            };
+          }
+        } catch {}
+      }
+
       const existingOrder = state.orders.find((o) => o.idempotencyKey === idempotencyKey);
       if (existingOrder) {
         const existingInvoice = state.invoices.find((i) => i.orderId === existingOrder.id);
@@ -117,25 +145,49 @@ export const ordersService = {
     const verifiedItems: IOrderItem[] = [];
     let calculatedSubtotalPaise = 0;
 
-    // Verify dishes and pricing directly from MongoDB Atlas MenuItem collection
+    // High-performance batch dish lookup: resolves entire order tray in a single MongoDB query
+    const rawItemIds = items.map((i: any) => String(i.dishId || i.id || '').trim()).filter(Boolean);
+    const validObjectIds = rawItemIds.filter((id) => mongoose.Types.ObjectId.isValid(id));
+    const nonObjectIds = rawItemIds.filter((id) => !mongoose.Types.ObjectId.isValid(id));
+
+    let dishesFromDb: any[] = [];
+    if (mongoose.connection.readyState === 1 && rawItemIds.length > 0) {
+      try {
+        dishesFromDb = await MenuItem.find({
+          $or: [
+            ...(validObjectIds.length > 0 ? [{ _id: { $in: validObjectIds } }] : []),
+            ...(nonObjectIds.length > 0
+              ? [
+                  { slug: { $in: nonObjectIds } },
+                  { name: { $in: nonObjectIds.map((n) => new RegExp(`^${n.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i')) } },
+                ]
+              : []),
+          ],
+        })
+          .select('name slug price available image')
+          .lean();
+      } catch (err: any) {
+        logger.warn(`[Orders] Batch dish query failed, falling back to per-item lookup: ${err?.message}`);
+      }
+    }
+
+    const dishMap = new Map<string, any>();
+    for (const d of dishesFromDb) {
+      if (d._id) dishMap.set(d._id.toString(), d);
+      if (d.slug) dishMap.set(d.slug.toLowerCase(), d);
+      if (d.name) dishMap.set(d.name.toLowerCase(), d);
+    }
+
     for (const requestedItem of items) {
       const itemId = String(requestedItem.dishId || requestedItem.id || '').trim();
       if (!itemId) {
         throw new AppError('Invalid dish ID in order items.', 400);
       }
 
-      let dish: any = null;
-      if (mongoose.Types.ObjectId.isValid(itemId)) {
-        dish = await MenuItem.findById(itemId).lean();
-      }
+      let dish = dishMap.get(itemId) || dishMap.get(itemId.toLowerCase());
 
-      if (!dish) {
-        dish = await MenuItem.findOne({
-          $or: [
-            { slug: itemId },
-            { name: { $regex: new RegExp(`^${itemId.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } },
-          ],
-        }).lean();
+      if (!dish && mongoose.connection.readyState !== 1) {
+        dish = (state.dishes || []).find((d: any) => d.id === itemId || d.name.toLowerCase() === itemId.toLowerCase());
       }
 
       if (!dish) {
@@ -185,10 +237,9 @@ export const ordersService = {
     const grandTotalPaise = calculatedSubtotalPaise + taxInPaise + deliveryInPaise - discountInPaise;
     const grandTotal = grandTotalPaise / 100;
 
-    // Auto-generate unique order number based on database count
+    // Auto-generate unique order number atomically via MongoDB Counter collection
     const currentYear = new Date().getFullYear();
-    const totalOrderCount = await Order.countDocuments();
-    const sequence = totalOrderCount + 1001;
+    const sequence = await Counter.getNextSequence(`order_number_${currentYear}`, 1001);
     const orderNumber = `HST-${currentYear}-${sequence}`;
     const invoiceNumber = `HST-INV-${sequence}`;
     const now = new Date();
@@ -243,7 +294,40 @@ export const ordersService = {
       })
       .catch(() => {});
 
-    // 3. Keep in-memory store synchronized for legacy modules (invoices, payments, dashboard)
+    // 3. Persist Invoice and Payment records directly in MongoDB Atlas
+    await Promise.allSettled([
+      InvoiceModel.create({
+        invoiceNumber,
+        orderId: formattedOrder.id,
+        orderNumber,
+        customerName: formattedOrder.customerName,
+        customerPhone: formattedOrder.customerPhone,
+        customerAddress: formattedOrder.deliveryAddress,
+        items: verifiedItems,
+        subtotal: calculatedSubtotal,
+        taxAmount,
+        deliveryCharge,
+        discountAmount,
+        grandTotal,
+        paymentMethod: formattedOrder.paymentMethod,
+        paymentStatus: initialPaymentStatus,
+        issuedAt: now,
+      }),
+      PaymentModel.create({
+        paymentReference: `PAY_${orderNumber}`,
+        orderId: formattedOrder.id,
+        orderNumber,
+        amount: grandTotal,
+        amountInPaise: grandTotalPaise,
+        paymentMethod: formattedOrder.paymentMethod,
+        paymentStatus: initialPaymentStatus,
+        transactionDate: now,
+        idempotencyKey,
+        gatewayTransactionReference: paymentMethod === 'online' ? `razor_${Date.now()}` : undefined,
+      }),
+    ]);
+
+    // 4. Keep in-memory store synchronized for legacy modules (invoices, payments, dashboard)
     const newInvoice: Invoice = {
       id: 'inv_' + Date.now(),
       invoiceNumber,
@@ -372,13 +456,36 @@ export const ordersService = {
 
     const formattedOrder = this.formatOrder(orderDoc);
     const state = db.getState();
-    const payment = state.payments.find((p) => p.orderId === formattedOrder.id || p.orderNumber === formattedOrder.orderNumber);
-    const invoice = state.invoices.find((i) => i.orderId === formattedOrder.id || i.orderNumber === formattedOrder.orderNumber);
+
+    let payment: any = null;
+    let invoice: any = null;
+
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const [atlasPayment, atlasInvoice] = await Promise.all([
+          PaymentModel.findOne({
+            $or: [{ orderId: formattedOrder.id }, { orderNumber: formattedOrder.orderNumber }],
+          }).lean(),
+          InvoiceModel.findOne({
+            $or: [{ orderId: formattedOrder.id }, { orderNumber: formattedOrder.orderNumber }],
+          }).lean(),
+        ]);
+        payment = atlasPayment;
+        invoice = atlasInvoice;
+      } catch {}
+    }
+
+    if (!payment) {
+      payment = state.payments.find((p) => p.orderId === formattedOrder.id || p.orderNumber === formattedOrder.orderNumber) || null;
+    }
+    if (!invoice) {
+      invoice = state.invoices.find((i) => i.orderId === formattedOrder.id || i.orderNumber === formattedOrder.orderNumber) || null;
+    }
 
     return {
       order: formattedOrder,
-      payment: payment || null,
-      invoice: invoice || null,
+      payment,
+      invoice,
     };
   },
 

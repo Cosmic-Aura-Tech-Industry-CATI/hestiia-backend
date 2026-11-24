@@ -10,10 +10,10 @@ router.post('/verify', paymentsController.verifyOnlinePayment);
 router.post('/manual-upi', paymentsController.submitManualUpi);
 
 // Protected Admin & Staff Payment Operations
-router.get('/', protect, paymentsController.getPayments);
-router.get('/reconciliation', protect, paymentsController.getReconciliationReport);
-router.post('/record-collection', protect, paymentsController.recordCollection);
-router.post('/verify-upi', protect, paymentsController.verifyManualUpi);
-router.post('/:id/refund', protect, restrictTo('superadmin', 'manager'), paymentsController.refundPayment);
+router.get('/', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), paymentsController.getPayments);
+router.get('/reconciliation', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), paymentsController.getReconciliationReport);
+router.post('/record-collection', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER', 'STAFF'), paymentsController.recordCollection);
+router.post('/verify-upi', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER', 'STAFF'), paymentsController.verifyManualUpi);
+router.post('/:id/refund', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), paymentsController.refundPayment);
 
 export default router;

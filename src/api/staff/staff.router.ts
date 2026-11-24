@@ -1,28 +1,30 @@
-import { Router, Request, Response } from 'express';
-import { protect, restrictTo } from '../../middleware/auth.middleware.js';
-import { ordersService } from '../../modules/orders/orders.service.js';
-import { tablesService } from '../../modules/tables/tables.service.js';
-import { catchAsync } from '../../shared/utils/index.js';
-import { sendSuccess } from '../../shared/responses/index.js';
+import { Router } from 'express';
+import { staffRouter as staffOperationsRouter } from '../../modules/staff/index.js';
+import * as authController from '../../modules/auth/auth.controller.js';
+import { requireAuth } from '../../shared/middlewares/auth.middleware.js';
 
 const router = Router();
-router.use(protect);
-router.use(restrictTo('superadmin', 'manager', 'staff'));
 
-router.get('/kitchen/orders', catchAsync(async (_req: Request, res: Response) => {
-  const result = await ordersService.getAdminOrders({ orderStatus: 'preparing' });
-  sendSuccess(res, result);
-}));
+// ==========================================
+// 1. PUBLIC STAFF AUTHENTICATION (STAFF LOGIN)
+// ==========================================
+router.post('/auth/login', authController.staffLogin);
+router.post('/login', authController.staffLogin);
+router.post('/auth/refresh', authController.refresh);
+router.post('/refresh', authController.refresh);
 
-router.patch('/kitchen/orders/:id/ready', catchAsync(async (req: Request, res: Response) => {
-  const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-  const order = await ordersService.updateOrderStatus(id, 'ready_for_pickup', 'Marked ready by kitchen station');
-  sendSuccess(res, { order });
-}));
+// ==========================================
+// 2. AUTHENTICATED STAFF SESSION
+// ==========================================
+router.post('/auth/logout', requireAuth, authController.logout);
+router.post('/logout', requireAuth, authController.logout);
+router.get('/auth/me', requireAuth, authController.getMe);
+router.get('/me', requireAuth, authController.getMe);
 
-router.get('/tables', catchAsync(async (_req: Request, res: Response) => {
-  const tables = await tablesService.getTables();
-  sendSuccess(res, { tables });
-}));
+// ==========================================
+// 3. STAFF OPERATIONS (KDS, Shifts, Dining Floor)
+// ==========================================
+router.use('/', staffOperationsRouter);
 
 export default router;
+export { router as staffRouter };

@@ -8,12 +8,12 @@ const router = Router();
 router.post('/', bookingsController.createBooking);
 router.get('/verify/:ref', bookingsController.getBookingByRef);
 
-// Admin routes
-router.get('/admin', protect, restrictTo('SUPERADMIN', 'MANAGER'), bookingsController.getAdminBookings);
-router.get('/admin/:id', protect, restrictTo('SUPERADMIN', 'MANAGER'), bookingsController.getBookingById);
+// Admin & Dining Floor routes
+router.get('/admin', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER', 'STAFF'), bookingsController.getAdminBookings);
+router.get('/admin/:id', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER', 'STAFF'), bookingsController.getBookingById);
 
-router.patch('/admin/:id/status', protect, restrictTo('SUPERADMIN', 'MANAGER'), bookingsController.updateBookingStatus);
+router.patch('/admin/:id/status', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER', 'STAFF'), bookingsController.updateBookingStatus);
 
-router.delete('/admin/:id', protect, restrictTo('SUPERADMIN'), bookingsController.deleteBooking);
+router.delete('/admin/:id', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), bookingsController.deleteBooking);
 
 export default router;

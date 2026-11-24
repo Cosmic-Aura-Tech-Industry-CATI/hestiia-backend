@@ -48,7 +48,7 @@ export const analyticsProductsService = {
       if (o.orderStatus !== 'cancelled' && Array.isArray(o.items)) {
         const orderProcessedDishes = new Set<string>();
 
-        o.items.forEach((item) => {
+        o.items.forEach((item: any) => {
           const key = item.dishId || item.name;
           const category = dishCategoryMap.get(item.dishId) || dishCategoryMap.get(key) || 'Uncategorized';
           const itemPrice = item.price;

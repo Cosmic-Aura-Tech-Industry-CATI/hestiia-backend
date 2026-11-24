@@ -1,5 +1,7 @@
 import crypto from 'crypto';
-import { db, Payment, Order, Invoice } from '../../shared/config/db.js';
+import mongoose from 'mongoose';
+import { db, Payment as PaymentModel, Order, Invoice } from '../../shared/config/db.js';
+import type { Payment } from '../../shared/config/store.js';
 import { AppError } from '../../shared/utils/appError.js';
 import { paymentConfig } from '../../config/payment.js';
 import { eventBus, DOMAIN_EVENTS } from '../../events/eventBus.js';
@@ -9,6 +11,52 @@ import { cache } from '../../config/redis.js';
 export const paymentsService = {
   async getPayments(query: any) {
     const { search, paymentStatus, paymentMethod, page = '1', limit = '20' } = query;
+    const pageNum = parseInt(String(page), 10) || 1;
+    const limitNum = parseInt(String(limit), 10) || 20;
+
+    // 1. Direct MongoDB Atlas Query
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const filter: any = {};
+        if (search && String(search).trim()) {
+          const q = String(search).trim();
+          filter.$or = [
+            { paymentReference: { $regex: q, $options: 'i' } },
+            { orderNumber: { $regex: q, $options: 'i' } },
+            { gatewayTransactionReference: { $regex: q, $options: 'i' } },
+            { upiUtr: { $regex: q, $options: 'i' } },
+          ];
+        }
+        if (paymentStatus && paymentStatus !== 'all') {
+          filter.paymentStatus = paymentStatus;
+        }
+        if (paymentMethod && paymentMethod !== 'all') {
+          filter.paymentMethod = paymentMethod;
+        }
+
+        const [total, payments] = await Promise.all([
+          PaymentModel.countDocuments(filter),
+          PaymentModel.find(filter)
+            .sort({ transactionDate: -1, createdAt: -1 })
+            .skip((pageNum - 1) * limitNum)
+            .limit(limitNum)
+            .lean(),
+        ]);
+
+        if (total > 0 || !search) {
+          return {
+            total,
+            page: pageNum,
+            totalPages: Math.ceil(total / limitNum) || 1,
+            payments,
+          };
+        }
+      } catch (err: any) {
+        logger.warn(`[Payment] Atlas query failed, falling back to local store: ${err?.message}`);
+      }
+    }
+
+    // 2. Resilient In-Memory Fallback
     let payments = [...db.getState().payments];
 
     if (search) {
@@ -32,8 +80,6 @@ export const paymentsService = {
 
     payments.sort((a, b) => new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime());
 
-    const pageNum = parseInt(String(page), 10) || 1;
-    const limitNum = parseInt(String(limit), 10) || 20;
     const startIndex = (pageNum - 1) * limitNum;
     const paginated = payments.slice(startIndex, startIndex + limitNum);
 
@@ -49,7 +95,26 @@ export const paymentsService = {
     const { orderId, idempotencyKey } = payload;
     const state = db.getState();
 
-    const order = state.orders.find((o) => o.id === orderId || o.orderNumber === orderId);
+    let order: any = null;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const queryOr: any[] = [{ orderNumber: orderId }];
+        if (mongoose.Types.ObjectId.isValid(orderId)) {
+          queryOr.unshift({ _id: orderId });
+        }
+        order = await Order.findOne({ $or: queryOr }).lean();
+        if (order) {
+          order.id = order._id ? order._id.toString() : order.id;
+        }
+      } catch (err: any) {
+        logger.warn(`[Payment] Atlas order lookup failed: ${err?.message}`);
+      }
+    }
+
+    if (!order) {
+      order = state.orders.find((o) => o.id === orderId || o.orderNumber === orderId);
+    }
+
     if (!order) {
       throw new AppError('Order not found for payment initialization.', 404);
     }
@@ -99,6 +164,37 @@ export const paymentsService = {
         updatedPayment = { ...payment };
       }
     });
+
+    if (mongoose.connection.readyState === 1) {
+      try {
+        await PaymentModel.findOneAndUpdate(
+          {
+            $or: [
+              { orderId: order.id },
+              { orderNumber: order.orderNumber },
+              ...(order._id ? [{ orderId: order._id.toString() }] : []),
+            ],
+          },
+          {
+            $set: {
+              paymentReference: `PAY_${order.orderNumber}`,
+              orderId: order.id,
+              orderNumber: order.orderNumber,
+              amount: order.grandTotal,
+              amountInPaise,
+              paymentMethod: order.paymentMethod,
+              paymentStatus: 'pending',
+              gatewayOrderId,
+              idempotencyKey,
+              transactionDate: new Date(),
+            },
+          },
+          { upsert: true, new: true }
+        );
+      } catch (err: any) {
+        logger.warn(`[Payment] Atlas payment upsert failed: ${err?.message}`);
+      }
+    }
 
     const intentResult = {
       keyId: paymentConfig.keyId,
@@ -181,6 +277,50 @@ export const paymentsService = {
       throw new AppError('Payment record not found for verification.', 404);
     }
 
+    if (mongoose.connection.readyState === 1) {
+      try {
+        await PaymentModel.findOneAndUpdate(
+          {
+            $or: [
+              { orderId },
+              { orderNumber: orderId },
+              { gatewayOrderId },
+            ],
+          },
+          {
+            $set: {
+              paymentStatus: 'paid',
+              gatewayTransactionReference: gatewayPaymentId,
+              gatewaySignature,
+              transactionDate: new Date(),
+            },
+          }
+        );
+        await Order.findOneAndUpdate(
+          {
+            $or: [
+              { orderNumber: (verifiedPayment as Payment).orderNumber },
+              { id: orderId },
+              ...(mongoose.Types.ObjectId.isValid(orderId) ? [{ _id: orderId }] : []),
+            ],
+          },
+          {
+            $set: { paymentStatus: 'paid' },
+            $push: {
+              statusHistory: {
+                status: 'paid',
+                timestamp: new Date(),
+                actor: 'Payment Gateway',
+                note: `Payment verified online. Txn: ${gatewayPaymentId}`,
+              },
+            },
+          }
+        );
+      } catch (err: any) {
+        logger.warn(`[Payment] Atlas verifyOnlinePayment sync failed: ${err?.message}`);
+      }
+    }
+
     db.logAudit(
       'PAYMENT_VERIFIED_ONLINE',
       'Payment Gateway',
@@ -251,6 +391,48 @@ export const paymentsService = {
       throw new AppError('Payment record not found for UPI submission.', 404);
     }
 
+    if (mongoose.connection.readyState === 1) {
+      try {
+        await PaymentModel.findOneAndUpdate(
+          {
+            $or: [
+              ...(orderId ? [{ orderId }] : []),
+              ...(orderNumber ? [{ orderNumber }] : []),
+            ],
+          },
+          {
+            $set: {
+              paymentMethod: 'upi',
+              paymentStatus: 'awaiting_verification',
+              upiUtr: cleanUtr,
+              upiSubmittedAt: new Date(),
+            },
+          }
+        );
+        await Order.findOneAndUpdate(
+          {
+            $or: [
+              ...(orderId ? [{ id: orderId }, ...(mongoose.Types.ObjectId.isValid(orderId) ? [{ _id: orderId }] : [])] : []),
+              ...(orderNumber ? [{ orderNumber }] : []),
+            ],
+          },
+          {
+            $set: { paymentStatus: 'awaiting_verification' },
+            $push: {
+              statusHistory: {
+                status: 'pending',
+                timestamp: new Date(),
+                actor: 'Customer',
+                note: `Submitted manual UPI UTR: ${cleanUtr}. Awaiting cashier/manager credit verification.`,
+              },
+            },
+          }
+        );
+      } catch (err: any) {
+        logger.warn(`[Payment] Atlas submitManualUpiReference sync failed: ${err?.message}`);
+      }
+    }
+
     db.logAudit(
       'UPI_UTR_SUBMITTED',
       'Customer',
@@ -308,6 +490,44 @@ export const paymentsService = {
       throw new AppError('Payment record not found.', 404);
     }
 
+    if (mongoose.connection.readyState === 1) {
+      try {
+        await PaymentModel.findOneAndUpdate(
+          {
+            $or: [
+              ...(paymentId ? [{ id: paymentId }, ...(mongoose.Types.ObjectId.isValid(paymentId) ? [{ _id: paymentId }] : [])] : []),
+              ...(orderNumber ? [{ orderNumber }] : []),
+            ],
+          },
+          {
+            $set: {
+              paymentStatus: approved ? 'paid' : 'failed',
+              upiVerifiedAt: new Date(),
+              upiVerifiedBy: actor,
+            },
+          }
+        );
+        if (!approved) {
+          await Order.findOneAndUpdate(
+            { orderNumber: (resultPayment as Payment).orderNumber },
+            {
+              $set: { paymentStatus: 'failed' },
+              $push: {
+                statusHistory: {
+                  status: 'payment_failed',
+                  timestamp: new Date(),
+                  actor,
+                  note: `UPI verification rejected: ${reason || 'UTR not reflected in bank account'}.`,
+                },
+              },
+            }
+          );
+        }
+      } catch (err: any) {
+        logger.warn(`[Payment] Atlas verifyManualUpi sync failed: ${err?.message}`);
+      }
+    }
+
     if (approved) {
       db.logAudit('UPI_VERIFIED_SUCCESS', actor, `UPI payment verified for order ${(resultPayment as Payment).orderNumber}`);
       eventBus.emitEvent(DOMAIN_EVENTS.PAYMENT_PAID, {
@@ -361,6 +581,40 @@ export const paymentsService = {
       return null;
     }
 
+    if (mongoose.connection.readyState === 1) {
+      try {
+        await PaymentModel.findOneAndUpdate(
+          {
+            $or: [
+              ...(paymentId ? [{ id: paymentId }, ...(mongoose.Types.ObjectId.isValid(paymentId) ? [{ _id: paymentId }] : [])] : []),
+              ...(orderId ? [{ orderId }] : []),
+              { orderNumber: (refundedPayment as Payment).orderNumber },
+            ],
+          },
+          {
+            $set: {
+              paymentStatus: 'refunded',
+              refundReference: (refundedPayment as Payment).refundReference,
+              refundAmount: (refundedPayment as Payment).refundAmount,
+              refundReason: (refundedPayment as Payment).refundReason,
+              refundedAt: new Date(),
+            },
+          }
+        );
+        await Invoice.findOneAndUpdate(
+          {
+            $or: [
+              ...(orderId ? [{ orderId }] : []),
+              { orderNumber: (refundedPayment as Payment).orderNumber },
+            ],
+          },
+          { $set: { paymentStatus: 'refunded' } }
+        );
+      } catch (err: any) {
+        logger.warn(`[Payment] Atlas processRefund sync failed: ${err?.message}`);
+      }
+    }
+
     db.logAudit(
       'PAYMENT_REFUNDED',
       actor,
@@ -393,6 +647,28 @@ export const paymentsService = {
 
     if (!updatedPayment) {
       throw new AppError('Payment record not found.', 404);
+    }
+
+    if (mongoose.connection.readyState === 1) {
+      try {
+        await PaymentModel.findOneAndUpdate(
+          {
+            $or: [
+              ...(paymentId ? [{ id: paymentId }, ...(mongoose.Types.ObjectId.isValid(paymentId) ? [{ _id: paymentId }] : [])] : []),
+              ...(orderNumber ? [{ orderNumber }] : []),
+            ],
+          },
+          {
+            $set: {
+              paymentStatus: 'paid',
+              collectedBy: collectedBy || actor,
+              transactionDate: new Date(),
+            },
+          }
+        );
+      } catch (err: any) {
+        logger.warn(`[Payment] Atlas recordCollection sync failed: ${err?.message}`);
+      }
     }
 
     db.logAudit('PAYMENT_COLLECTED', actor, `Payment for order ${orderNumber} marked as collected`);
@@ -443,6 +719,30 @@ export const paymentsService = {
     });
 
     if (updatedPayment) {
+      if (mongoose.connection.readyState === 1) {
+        try {
+          await PaymentModel.findOneAndUpdate(
+            {
+              $or: [
+                ...(orderId ? [{ orderId }, { orderNumber: orderId }] : []),
+                ...(paymentEntity?.order_id ? [{ gatewayOrderId: paymentEntity.order_id }] : []),
+                ...(gatewayPaymentId ? [{ gatewayTransactionReference: gatewayPaymentId }] : []),
+              ],
+            },
+            {
+              $set: {
+                paymentStatus: 'paid',
+                gatewayTransactionReference: gatewayPaymentId,
+                transactionDate: new Date(),
+                ...(amountInPaise ? { amountInPaise } : {}),
+              },
+            }
+          );
+        } catch (err: any) {
+          logger.warn(`[Webhook] Atlas captured sync failed: ${err?.message}`);
+        }
+      }
+
       db.logAudit('WEBHOOK_PAYMENT_CAPTURED', 'Razorpay Webhook', `Captured ₹${(updatedPayment as Payment).amount} for ${(updatedPayment as Payment).orderNumber}`);
       eventBus.emitEvent(DOMAIN_EVENTS.PAYMENT_PAID, {
         payment: updatedPayment,
@@ -465,6 +765,17 @@ export const paymentsService = {
         target.paymentStatus = 'failed';
       }
     });
+
+    if (mongoose.connection.readyState === 1 && orderId) {
+      try {
+        await PaymentModel.findOneAndUpdate(
+          { $or: [{ orderId }, { orderNumber: orderId }] },
+          { $set: { paymentStatus: 'failed' } }
+        );
+      } catch (err: any) {
+        logger.warn(`[Webhook] Atlas failed sync failed: ${err?.message}`);
+      }
+    }
 
     eventBus.emitEvent(DOMAIN_EVENTS.PAYMENT_FAILED, {
       orderId,

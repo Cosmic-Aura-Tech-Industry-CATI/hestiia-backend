@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Customer, type ICustomerDocument } from './customer.model.js';
+import { Order } from '../orders/order.model.js';
 import { db } from '../../shared/config/store.js';
 import { AppError } from '../../shared/utils/appError.js';
 
@@ -114,11 +115,25 @@ export const customersService = {
       throw new AppError('Customer not found.', 404);
     }
 
-    // Retrieve order history matching customer phone
+    // Retrieve order history matching customer phone (utilizing compound index { customerPhone: 1, createdAt: -1 })
     const cleanPhone = (customer.phone || '').replace(/\D/g, '');
-    const orders = (db.getState().orders || []).filter(
-      (o) => (o.customerPhone || '').replace(/\D/g, '') === cleanPhone
-    );
+    let orders: any[] = [];
+    if (mongoose.connection.readyState === 1) {
+      try {
+        orders = await Order.find({
+          $or: [{ customerPhone: cleanPhone }, { customerPhone: customer.phone }],
+        })
+          .sort({ createdAt: -1 })
+          .limit(20)
+          .lean();
+      } catch {}
+    }
+
+    if (orders.length === 0) {
+      orders = (db.getState().orders || []).filter(
+        (o) => (o.customerPhone || '').replace(/\D/g, '') === cleanPhone
+      );
+    }
 
     return {
       customer: this.formatCustomer(customer),

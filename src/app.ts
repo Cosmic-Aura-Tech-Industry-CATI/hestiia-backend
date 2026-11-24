@@ -19,13 +19,34 @@ export const app = express();
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(corsConfig);
 app.use(compression());
-app.use(express.json({ limit: '10mb' }));
+app.use(
+  express.json({
+    limit: '10mb',
+    verify: (req: any, _res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 app.use(hpp());
 
-// 2. Rate Limiting for Sensitive Auth Routes
-app.use(['/api/auth/login', '/api/admin/auth/login', '/api/v1/admin/auth/login'], authLimiter);
+// 2. Rate Limiting for Sensitive Auth Routes (Admin & Staff Logins)
+app.use(
+  [
+    '/api/auth/login',
+    '/api/v1/auth/login',
+    '/api/admin/auth/login',
+    '/api/v1/admin/auth/login',
+    '/api/admin/login',
+    '/api/v1/admin/login',
+    '/api/staff/auth/login',
+    '/api/v1/staff/auth/login',
+    '/api/staff/login',
+    '/api/v1/staff/login',
+  ],
+  authLimiter
+);
 
 // 3. Static Assets
 app.use('/uploads', express.static(ENV.UPLOADS_DIR));

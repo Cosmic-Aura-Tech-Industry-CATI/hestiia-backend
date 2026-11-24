@@ -55,6 +55,8 @@ const otpSchema = new Schema<IOtpDocument>(
   }
 );
 
+otpSchema.index({ email: 1, otpType: 1, isVerified: 1, createdAt: -1 });
+
 // Hash the plain OTP with SHA-256 before saving to MongoDB
 otpSchema.pre('save', function () {
   if (this.isModified('otpCode') && this.otpCode) {
