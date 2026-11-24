@@ -26,6 +26,10 @@ import { publicEventsRouter, adminEventsRouter } from '../modules/events/routes/
 import { publicInquiryRouter, adminInquiryRouter } from '../modules/events/routes/eventInquiry.routes.js';
 import wishlistRouter from '../modules/wishlist/routes/wishlist.routes.js';
 import { customerGalleryRouter, adminGalleryRouter } from '../modules/gallery/gallery.router.js';
+import adminStaffRouter from '../modules/staff/staff.router.js';
+import { adminOffersRouter, customerOffersRouter } from '../modules/offers/offers.router.js';
+import cartRouter from '../modules/cart/routes/cart.routes.js';
+import { customerContactRouter, adminContactRouter } from '../modules/contact/contact.routes.js';
 
 const mainRouter = Router();
 
@@ -59,5 +63,11 @@ mainRouter.use(['/api/admin/event-inquiries', '/api/v1/admin/event-inquiries'], 
 mainRouter.use(['/api/wishlist', '/api/v1/wishlist', '/api/v1/customer/wishlist'], wishlistRouter);
 mainRouter.use(['/api/gallery', '/api/v1/gallery', '/api/v1/customer/gallery'], customerGalleryRouter);
 mainRouter.use(['/api/admin/gallery', '/api/v1/admin/gallery'], adminGalleryRouter);
+mainRouter.use(['/api/staff', '/api/admin/staff', '/api/v1/admin/staff'], adminStaffRouter);
+mainRouter.use(['/api/customer/offers', '/api/v1/customer/offers', '/api/offers', '/api/v1/offers'], customerOffersRouter);
+mainRouter.use(['/api/admin/offers', '/api/v1/admin/offers'], adminOffersRouter);
+mainRouter.use(['/api/customer/cart', '/api/v1/customer/cart', '/api/cart', '/api/v1/cart'], cartRouter);
+mainRouter.use(['/api/customer/contact', '/api/v1/customer/contact', '/api/contact', '/api/v1/contact'], customerContactRouter);
+mainRouter.use(['/api/admin/contact', '/api/v1/admin/contact'], adminContactRouter);
 
 export default mainRouter;

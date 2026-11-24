@@ -285,6 +285,11 @@ export interface DatabaseState {
   media?: any[];
   gallerySections?: any[];
   mediaModerations?: any[];
+  staff?: any[];
+  offers?: any[];
+  offerRedemptions?: any[];
+  carts?: any[];
+  contactSettings?: any;
 }
 
 const DB_FILE = path.join(DATA_DIR, 'db.json');
@@ -325,6 +330,19 @@ class JSONDatabase {
         if (!parsed.media) parsed.media = [];
         if (!parsed.gallerySections) parsed.gallerySections = [];
         if (!parsed.mediaModerations) parsed.mediaModerations = [];
+        if (!parsed.staff) parsed.staff = [];
+        if (!parsed.offers) parsed.offers = [];
+        if (!parsed.offerRedemptions) parsed.offerRedemptions = [];
+        if (!parsed.carts) parsed.carts = [];
+        if (!parsed.contactSettings) {
+          parsed.contactSettings = {
+            phone: { number: '+919876543210', enabled: true },
+            email: { address: 'restaurant@hestiia.com', enabled: true },
+            whatsapp: { number: '919876543210', enabled: true },
+            createdAt: '2026-01-01T00:00:00.000Z',
+            updatedAt: '2026-01-01T00:00:00.000Z',
+          };
+        }
         return parsed;
       } catch (err) {
         console.error('Error reading db.json, initializing fresh store:', err);
@@ -1208,6 +1226,17 @@ class JSONDatabase {
       promotions: initialPromotions,
       gallery: initialGallery,
       reviews: initialReviews,
+      staff: [],
+      offers: [],
+      offerRedemptions: [],
+      carts: [],
+      contactSettings: {
+        phone: { number: '+919876543210', enabled: true },
+        email: { address: 'restaurant@hestiia.com', enabled: true },
+        whatsapp: { number: '919876543210', enabled: true },
+        createdAt: '2026-01-01T00:00:00.000Z',
+        updatedAt: '2026-01-01T00:00:00.000Z',
+      },
       auditLogs: [
         {
           id: 'aud_seed',

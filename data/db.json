@@ -35,6 +35,17 @@
       "createdAt": "2026-10-25T10:06:53.866Z",
       "lastLogin": "2026-10-25T10:08:58.075Z",
       "tokenVersion": 0
+    },
+    {
+      "id": "6b040a273e5a1636edab5fd0",
+      "name": "yashi",
+      "email": "yashika6.mishra@gmail.com",
+      "username": "yashika6.mishra",
+      "passwordHash": "$2b$12$t.erV36L.2647vzNxuNMAeF8pqGDw9MQOeaA7qvkMl1yxRSa6nqXC",
+      "role": "superadmin",
+      "active": true,
+      "tokenVersion": 0,
+      "createdAt": "2026-11-23T09:40:55.315Z"
     }
   ],
   "settings": {
@@ -566,6 +577,245 @@
     }
   ],
   "orders": [
+    {
+      "id": "6b05d1b03bed74a6155775f5",
+      "_id": "6b05d1b03bed74a6155775f5",
+      "orderNumber": "HST-2026-1030",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9876543210",
+      "customerEmail": "priya@gmail.com",
+      "deliveryAddress": "Dining In",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "subtotalInPaise": 53800,
+      "taxAmount": 26.9,
+      "taxInPaise": 2690,
+      "deliveryCharge": 0,
+      "deliveryInPaise": 0,
+      "discountAmount": 120,
+      "discount": 120,
+      "discountInPaise": 12000,
+      "offer": {
+        "offerId": "6b05d1af3bed74a6155775f0",
+        "title": "Flat ₹120 Off Super Festive Deal",
+        "discountType": "fixed",
+        "discountValue": 120,
+        "discountAmount": 120
+      },
+      "grandTotal": 444.9,
+      "grandTotalInPaise": 44490,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "notes": "",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-24T18:04:32.776Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DINING with payment method UPI"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-24T18:04:32.864Z",
+          "actor": "Payment Gateway",
+          "note": "Payment of ₹444.9 verified and captured. Order confirmed and sent to kitchen."
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-24T18:04:33.183Z",
+          "actor": "Payment Gateway",
+          "note": "Payment of ₹444.9 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1030",
+      "createdAt": "2026-11-24T18:04:32.776Z",
+      "updatedAt": "2026-11-24T18:04:33.183Z"
+    },
+    {
+      "id": "6b05d113c0dc554ba4a1f601",
+      "_id": "6b05d113c0dc554ba4a1f601",
+      "orderNumber": "HST-2026-1029",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9876543210",
+      "customerEmail": "priya@gmail.com",
+      "deliveryAddress": "Dining In",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "subtotalInPaise": 53800,
+      "taxAmount": 26.9,
+      "taxInPaise": 2690,
+      "deliveryCharge": 0,
+      "deliveryInPaise": 0,
+      "discountAmount": 120,
+      "discount": 120,
+      "discountInPaise": 12000,
+      "offer": {
+        "offerId": "6b05d113c0dc554ba4a1f5fc",
+        "title": "Flat ₹120 Off Super Festive Deal",
+        "discountType": "fixed",
+        "discountValue": 120,
+        "discountAmount": 120
+      },
+      "grandTotal": 444.9,
+      "grandTotalInPaise": 44490,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "orderStatus": "confirmed",
+      "notes": "",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-24T18:01:55.813Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DINING with payment method UPI"
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-24T18:01:55.874Z",
+          "actor": "Payment Gateway",
+          "note": "Payment of ₹444.9 verified and captured. Order confirmed and sent to kitchen."
+        },
+        {
+          "status": "confirmed",
+          "timestamp": "2026-11-24T18:01:56.183Z",
+          "actor": "Payment Gateway",
+          "note": "Payment of ₹444.9 verified and captured. Order confirmed and sent to kitchen."
+        }
+      ],
+      "invoiceNumber": "HST-INV-1029",
+      "createdAt": "2026-11-24T18:01:55.813Z",
+      "updatedAt": "2026-11-24T18:01:56.183Z"
+    },
+    {
+      "id": "6b05d0721f0b79c0ed21ebde",
+      "_id": "6b05d0721f0b79c0ed21ebde",
+      "orderNumber": "HST-2026-1028",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9876543210",
+      "customerEmail": "priya@gmail.com",
+      "deliveryAddress": "Dining In",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "subtotalInPaise": 53800,
+      "taxAmount": 26.9,
+      "taxInPaise": 2690,
+      "deliveryCharge": 0,
+      "deliveryInPaise": 0,
+      "discountAmount": 120,
+      "discount": 120,
+      "discountInPaise": 12000,
+      "offer": {
+        "offerId": "6b05d0721f0b79c0ed21ebd9",
+        "title": "Flat ₹120 Off Super Festive Deal",
+        "discountType": "fixed",
+        "discountValue": 120,
+        "discountAmount": 120
+      },
+      "grandTotal": 444.9,
+      "grandTotalInPaise": 44490,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "orderStatus": "pending",
+      "notes": "",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-24T17:59:14.763Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DINING with payment method UPI"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1028",
+      "createdAt": "2026-11-24T17:59:14.763Z",
+      "updatedAt": "2026-11-24T17:59:14.763Z"
+    },
+    {
+      "id": "6b040e50c9c35ab2dbd6d161",
+      "_id": "6b040e50c9c35ab2dbd6d161",
+      "orderNumber": "HST-2026-1027",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9876543210",
+      "customerEmail": "priya@gmail.com",
+      "deliveryAddress": "Dining In",
+      "fulfillmentType": "delivery",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "subtotalInPaise": 53800,
+      "taxAmount": 26.9,
+      "taxInPaise": 2690,
+      "deliveryCharge": 0,
+      "deliveryInPaise": 0,
+      "discountAmount": 120,
+      "discountInPaise": 12000,
+      "offer": {
+        "offerId": "6b040e50c9c35ab2dbd6d15c",
+        "title": "Flat ₹120 Off Super Festive Deal",
+        "discountType": "fixed",
+        "discountValue": 120,
+        "discountAmount": 120
+      },
+      "grandTotal": 444.9,
+      "grandTotalInPaise": 44490,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "orderStatus": "pending",
+      "notes": "",
+      "statusHistory": [
+        {
+          "status": "pending",
+          "timestamp": "2026-11-23T09:58:40.811Z",
+          "actor": "Customer Order Portal",
+          "note": "Order placed via DINING with payment method UPI"
+        }
+      ],
+      "invoiceNumber": "HST-INV-1027",
+      "createdAt": "2026-11-23T09:58:40.811Z",
+      "updatedAt": "2026-11-23T09:58:40.811Z"
+    },
     {
       "id": "ord_1795282939853_pvbp",
       "orderNumber": "HST-2026-1026",
@@ -2021,6 +2271,50 @@
   ],
   "payments": [
     {
+      "id": "pay_1795543472784",
+      "paymentReference": "PAY_HST-2026-1030",
+      "orderId": "6b05d1b03bed74a6155775f5",
+      "orderNumber": "HST-2026-1030",
+      "amount": 444.9,
+      "amountInPaise": 44490,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-24T18:04:32.776Z"
+    },
+    {
+      "id": "pay_1795543315818",
+      "paymentReference": "PAY_HST-2026-1029",
+      "orderId": "6b05d113c0dc554ba4a1f601",
+      "orderNumber": "HST-2026-1029",
+      "amount": 444.9,
+      "amountInPaise": 44490,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-24T18:01:55.813Z"
+    },
+    {
+      "id": "pay_1795543154768",
+      "paymentReference": "PAY_HST-2026-1028",
+      "orderId": "6b05d0721f0b79c0ed21ebde",
+      "orderNumber": "HST-2026-1028",
+      "amount": 444.9,
+      "amountInPaise": 44490,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-24T17:59:14.763Z"
+    },
+    {
+      "id": "pay_1795427920815",
+      "paymentReference": "PAY_HST-2026-1027",
+      "orderId": "6b040e50c9c35ab2dbd6d161",
+      "orderNumber": "HST-2026-1027",
+      "amount": 444.9,
+      "amountInPaise": 44490,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "transactionDate": "2026-11-23T09:58:40.811Z"
+    },
+    {
       "id": "pay_1795282939853",
       "paymentReference": "PAY_HST-2026-1026",
       "orderId": "ord_1795282939853_pvbp",
@@ -2361,6 +2655,122 @@
     }
   ],
   "invoices": [
+    {
+      "id": "inv_1795543472783",
+      "invoiceNumber": "HST-INV-1030",
+      "orderId": "6b05d1b03bed74a6155775f5",
+      "orderNumber": "HST-2026-1030",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9876543210",
+      "customerAddress": "Dining In",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "taxAmount": 26.9,
+      "deliveryCharge": 0,
+      "discountAmount": 120,
+      "grandTotal": 444.9,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-24T18:04:32.776Z"
+    },
+    {
+      "id": "inv_1795543315818",
+      "invoiceNumber": "HST-INV-1029",
+      "orderId": "6b05d113c0dc554ba4a1f601",
+      "orderNumber": "HST-2026-1029",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9876543210",
+      "customerAddress": "Dining In",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "taxAmount": 26.9,
+      "deliveryCharge": 0,
+      "discountAmount": 120,
+      "grandTotal": 444.9,
+      "paymentMethod": "upi",
+      "paymentStatus": "paid",
+      "issuedAt": "2026-11-24T18:01:55.813Z"
+    },
+    {
+      "id": "inv_1795543154768",
+      "invoiceNumber": "HST-INV-1028",
+      "orderId": "6b05d0721f0b79c0ed21ebde",
+      "orderNumber": "HST-2026-1028",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9876543210",
+      "customerAddress": "Dining In",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "taxAmount": 26.9,
+      "deliveryCharge": 0,
+      "discountAmount": 120,
+      "grandTotal": 444.9,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-24T17:59:14.763Z"
+    },
+    {
+      "id": "inv_1795427920815",
+      "invoiceNumber": "HST-INV-1027",
+      "orderId": "6b040e50c9c35ab2dbd6d161",
+      "orderNumber": "HST-2026-1027",
+      "customerName": "Priya Sharma",
+      "customerPhone": "9876543210",
+      "customerAddress": "Dining In",
+      "items": [
+        {
+          "dishId": "paneer-lababdar",
+          "name": "Paneer Lababdar",
+          "price": 269,
+          "priceInPaise": 26900,
+          "quantity": 2,
+          "total": 538,
+          "totalInPaise": 53800,
+          "image": "/uploads/1793044986481-223508333.png"
+        }
+      ],
+      "subtotal": 538,
+      "taxAmount": 26.9,
+      "deliveryCharge": 0,
+      "discountAmount": 120,
+      "grandTotal": 444.9,
+      "paymentMethod": "upi",
+      "paymentStatus": "pending",
+      "issuedAt": "2026-11-23T09:58:40.811Z"
+    },
     {
       "id": "inv_1795282939853",
       "invoiceNumber": "HST-INV-1026",
@@ -3154,6 +3564,23 @@
   ],
   "bookings": [
     {
+      "id": "tb_1795419083185",
+      "bookingRef": "HST-TB-2612-8848",
+      "customerName": "Vikramaditya Singhania",
+      "phone": "9876543210",
+      "email": "vikram.singhania@gmail.com",
+      "date": "2026-12-28",
+      "time": "19:30",
+      "guests": "80 Guests",
+      "occasion": "Anniversary Banquet",
+      "specialRequests": "Pure vegetarian Jain food options required for 20 guests. | Looking for terrace garden seating with lighting.",
+      "status": "new",
+      "holdPolicy": "Table is held for 15 minutes beyond your reserved time slot before release.",
+      "staffNotes": "",
+      "createdAt": "2026-11-23T07:31:23.185Z",
+      "updatedAt": "2026-11-23T07:31:23.185Z"
+    },
+    {
       "id": "tb_1793020206050",
       "bookingRef": "HST-TB-2610-1404",
       "customerName": "sumo",
@@ -3589,6 +4016,1297 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "aud_1795546614059_e3yj",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:56:54.059Z"
+    },
+    {
+      "id": "aud_1795546614038_gawq",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:56:54.038Z"
+    },
+    {
+      "id": "aud_1795546613995_oisk",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:56:53.995Z"
+    },
+    {
+      "id": "aud_1795546613958_h4tq",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:56:53.958Z"
+    },
+    {
+      "id": "aud_1795546613933_3z6c",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:56:53.933Z"
+    },
+    {
+      "id": "aud_1795546613891_jr8d",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:56:53.891Z"
+    },
+    {
+      "id": "aud_1795546613865_bvdk",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:56:53.865Z"
+    },
+    {
+      "id": "aud_1795546613595_yfi9",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-24T18:56:53.595Z"
+    },
+    {
+      "id": "aud_1795546496830_0e9z",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:54:56.830Z"
+    },
+    {
+      "id": "aud_1795546496799_lo85",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:54:56.799Z"
+    },
+    {
+      "id": "aud_1795546496743_yfhr",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:54:56.743Z"
+    },
+    {
+      "id": "aud_1795546496703_ek6p",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:54:56.703Z"
+    },
+    {
+      "id": "aud_1795546496654_rwcd",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:54:56.654Z"
+    },
+    {
+      "id": "aud_1795546496619_kxvd",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:54:56.619Z"
+    },
+    {
+      "id": "aud_1795546496589_oc0m",
+      "action": "CONTACT_SETTINGS_UPDATED",
+      "user": "admin",
+      "details": "Updated restaurant contact configuration",
+      "timestamp": "2026-11-24T18:54:56.590Z"
+    },
+    {
+      "id": "aud_1795546496412_ijjw",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-24T18:54:56.412Z"
+    },
+    {
+      "id": "aud_1795543472897_uo7r",
+      "action": "OFFER_REDEEMED",
+      "user": "System",
+      "details": "Redeemed offer 6b05d1af3bed74a6155775f0 on order HST-2026-1030 for ₹120",
+      "timestamp": "2026-11-24T18:04:32.897Z"
+    },
+    {
+      "id": "aud_1795543472798_gt45",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1030 placed for ₹444.9 by Priya Sharma",
+      "timestamp": "2026-11-24T18:04:32.798Z"
+    },
+    {
+      "id": "aud_1795543472446_xjfe",
+      "action": "OFFER_ARCHIVED",
+      "user": "admin",
+      "details": "Archived offer \"Offer To Archive\" (6b05d1b03bed74a6155775f3)",
+      "timestamp": "2026-11-24T18:04:32.446Z"
+    },
+    {
+      "id": "aud_1795543472399_24sv",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Offer To Archive\" (6b05d1b03bed74a6155775f3) with fixed discount of 20",
+      "timestamp": "2026-11-24T18:04:32.399Z"
+    },
+    {
+      "id": "aud_1795543472333_hlqh",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Activated offer \"Flat ₹120 Off Super Festive Deal\" (6b05d1af3bed74a6155775f0)",
+      "timestamp": "2026-11-24T18:04:32.333Z"
+    },
+    {
+      "id": "aud_1795543472277_a7ij",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Deactivated offer \"Flat ₹120 Off Super Festive Deal\" (6b05d1af3bed74a6155775f0)",
+      "timestamp": "2026-11-24T18:04:32.277Z"
+    },
+    {
+      "id": "aud_1795543472193_l5cc",
+      "action": "OFFER_UPDATED",
+      "user": "admin",
+      "details": "Updated offer \"Flat ₹120 Off Super Festive Deal\" (6b05d1af3bed74a6155775f0)",
+      "timestamp": "2026-11-24T18:04:32.193Z"
+    },
+    {
+      "id": "aud_1795543471823_p81y",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b05d1af3bed74a6155775f2) with fixed discount of 50",
+      "timestamp": "2026-11-24T18:04:31.823Z"
+    },
+    {
+      "id": "aud_1795543471785_x9sy",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b05d1af3bed74a6155775f1) with percentage discount of 20",
+      "timestamp": "2026-11-24T18:04:31.785Z"
+    },
+    {
+      "id": "aud_1795543471744_qlfw",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b05d1af3bed74a6155775f0) with fixed discount of 100",
+      "timestamp": "2026-11-24T18:04:31.744Z"
+    },
+    {
+      "id": "aud_1795543471523_8k0c",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-24T18:04:31.523Z"
+    },
+    {
+      "id": "aud_1795543438527_rpnf",
+      "action": "GALLERY_SECTION_DELETED",
+      "user": "admin",
+      "details": "Deleted gallery section \"Royal Heritage Banquet\"",
+      "timestamp": "2026-11-24T18:03:58.527Z"
+    },
+    {
+      "id": "aud_1795543438506_5pzs",
+      "action": "GALLERY_PHOTO_DELETED",
+      "user": "admin",
+      "details": "Deleted photograph #med_1795543438317_zfw4",
+      "timestamp": "2026-11-24T18:03:58.506Z"
+    },
+    {
+      "id": "aud_1795543438482_ymag",
+      "action": "GALLERY_PHOTO_DELETED",
+      "user": "admin",
+      "details": "Deleted photograph #med_1795543437809_6u8i",
+      "timestamp": "2026-11-24T18:03:58.482Z"
+    },
+    {
+      "id": "aud_1795543438446_0y31",
+      "action": "CUSTOMER_MEDIA_MODERATED",
+      "user": "admin",
+      "details": "Action REMOVED on photo #med_1795543438317_zfw4 (Reason: TOS violation)",
+      "timestamp": "2026-11-24T18:03:58.446Z"
+    },
+    {
+      "id": "aud_1795543438396_hs6u",
+      "action": "CUSTOMER_MEDIA_MODERATED",
+      "user": "admin",
+      "details": "Action APPROVED on photo #med_1795543438317_zfw4",
+      "timestamp": "2026-11-24T18:03:58.396Z"
+    },
+    {
+      "id": "aud_1795543438328_yvfr",
+      "action": "GUEST_PHOTO_SUBMITTED",
+      "user": "Guest Customer",
+      "details": "Submitted photo #med_1795543438317_zfw4 with caption: \"Unforgettable family anniversa...\"",
+      "timestamp": "2026-11-24T18:03:58.328Z"
+    },
+    {
+      "id": "aud_1795543437867_g2nh",
+      "action": "GALLERY_PHOTO_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Changed status of photo #med_1795543437809_6u8i to DRAFT",
+      "timestamp": "2026-11-24T18:03:57.867Z"
+    },
+    {
+      "id": "aud_1795543437825_1nf2",
+      "action": "OFFICIAL_MEDIA_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded official photo: \"Grand Awadhi Chandelier Hall\" (med_1795543437809_6u8i)",
+      "timestamp": "2026-11-24T18:03:57.825Z"
+    },
+    {
+      "id": "aud_1795543435946_wiit",
+      "action": "GALLERY_SECTION_UPDATED",
+      "user": "admin",
+      "details": "Updated gallery section \"Royal Heritage Banquet\"",
+      "timestamp": "2026-11-24T18:03:55.946Z"
+    },
+    {
+      "id": "aud_1795543435907_b3xk",
+      "action": "GALLERY_SECTION_CREATED",
+      "user": "admin",
+      "details": "Created gallery section \"Royal Heritage Banquet\" (royal-heritage-banquet)",
+      "timestamp": "2026-11-24T18:03:55.907Z"
+    },
+    {
+      "id": "aud_1795543435720_nhws",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-24T18:03:55.720Z"
+    },
+    {
+      "id": "aud_1795543421733_lp07",
+      "action": "EVENT_INQUIRY_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Updated event inquiry #inq_1795543411535_l6fv status to CONFIRMED",
+      "timestamp": "2026-11-24T18:03:41.733Z"
+    },
+    {
+      "id": "aud_1795543411664_mrd1",
+      "action": "EVENT_INQUIRY_NOTES_UPDATED",
+      "user": "admin",
+      "details": "Updated staff notes for event inquiry #inq_1795543411535_l6fv",
+      "timestamp": "2026-11-24T18:03:31.665Z"
+    },
+    {
+      "id": "aud_1795543411608_dpu5",
+      "action": "EVENT_INQUIRY_RECEIVED",
+      "user": "Public Customer",
+      "details": "Event inquiry submitted by Ananya Sharma (9123456780) for Corporate Dinner on 2027-01-10",
+      "timestamp": "2026-11-24T18:03:31.608Z"
+    },
+    {
+      "id": "aud_1795543411565_7w1l",
+      "action": "EVENT_INQUIRY_RECEIVED",
+      "user": "Public Customer",
+      "details": "Event inquiry submitted by Vikramaditya Singhania (9876543210) for Anniversary Banquet on 2026-12-28",
+      "timestamp": "2026-11-24T18:03:31.565Z"
+    },
+    {
+      "id": "aud_1795543411499_rppz",
+      "action": "EVENT_UPDATED",
+      "user": "admin",
+      "details": "Updated event: \"Royal Heritage Wedding Reception\" (ev_1795543409651_elrp)",
+      "timestamp": "2026-11-24T18:03:31.499Z"
+    },
+    {
+      "id": "aud_1795543411407_83kc",
+      "action": "EVENT_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Changed status of event \"Royal Heritage Wedding Reception\" to PUBLISHED",
+      "timestamp": "2026-11-24T18:03:31.408Z"
+    },
+    {
+      "id": "aud_1795543411357_6bu6",
+      "action": "EVENT_PHOTOS_REORDERED",
+      "user": "admin",
+      "details": "Reordered 2 photographs for event #ev_1795543409651_elrp",
+      "timestamp": "2026-11-24T18:03:31.357Z"
+    },
+    {
+      "id": "aud_1795543411315_zzue",
+      "action": "EVENT_COVER_UPDATED",
+      "user": "admin",
+      "details": "Updated cover image for event #ev_1795543409651_elrp to photograph #evm_1795543411222_m9iv",
+      "timestamp": "2026-11-24T18:03:31.315Z"
+    },
+    {
+      "id": "aud_1795543411235_8njl",
+      "action": "EVENT_PHOTOS_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded 1 photograph(s) for event: Royal Heritage Wedding Reception",
+      "timestamp": "2026-11-24T18:03:31.235Z"
+    },
+    {
+      "id": "aud_1795543410816_tjzv",
+      "action": "EVENT_PHOTOS_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded 1 photograph(s) for event: Royal Heritage Wedding Reception",
+      "timestamp": "2026-11-24T18:03:30.816Z"
+    },
+    {
+      "id": "aud_1795543409674_qg7y",
+      "action": "EVENT_CREATED",
+      "user": "admin",
+      "details": "Created event: \"Royal Heritage Wedding Reception\" (ev_1795543409651_elrp)",
+      "timestamp": "2026-11-24T18:03:29.674Z"
+    },
+    {
+      "id": "aud_1795543409479_d2q2",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-24T18:03:29.479Z"
+    },
+    {
+      "id": "aud_1795543366727_rnjh",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Concurrent 1\" (6b05d1468e3c5fbbd0b10610) with phone 9876543301",
+      "timestamp": "2026-11-24T18:02:46.727Z"
+    },
+    {
+      "id": "aud_1795543366641_q24a",
+      "action": "STAFF_DEACTIVATED",
+      "user": "admin",
+      "details": "Deactivated staff employee \"Priya Verma\" (6b05d1468e3c5fbbd0b1060f)",
+      "timestamp": "2026-11-24T18:02:46.642Z"
+    },
+    {
+      "id": "aud_1795543366571_ne7h",
+      "action": "STAFF_UPDATED",
+      "user": "admin",
+      "details": "Updated staff employee \"Rahul Kumar Sharma\" (6b05d1468e3c5fbbd0b1060e)",
+      "timestamp": "2026-11-24T18:02:46.571Z"
+    },
+    {
+      "id": "aud_1795543366368_lgmi",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Priya Verma\" (6b05d1468e3c5fbbd0b1060f) with phone 9876543211",
+      "timestamp": "2026-11-24T18:02:46.368Z"
+    },
+    {
+      "id": "aud_1795543366331_8a2v",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Rahul Sharma\" (6b05d1468e3c5fbbd0b1060e) with phone 9876543210",
+      "timestamp": "2026-11-24T18:02:46.331Z"
+    },
+    {
+      "id": "aud_1795543366013_k74v",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-24T18:02:46.013Z"
+    },
+    {
+      "id": "aud_1795543315899_xjyg",
+      "action": "OFFER_REDEEMED",
+      "user": "System",
+      "details": "Redeemed offer 6b05d113c0dc554ba4a1f5fc on order HST-2026-1029 for ₹120",
+      "timestamp": "2026-11-24T18:01:55.899Z"
+    },
+    {
+      "id": "aud_1795543315841_xbxx",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1029 placed for ₹444.9 by Priya Sharma",
+      "timestamp": "2026-11-24T18:01:55.841Z"
+    },
+    {
+      "id": "aud_1795543315622_8dlr",
+      "action": "OFFER_ARCHIVED",
+      "user": "admin",
+      "details": "Archived offer \"Offer To Archive\" (6b05d113c0dc554ba4a1f5ff)",
+      "timestamp": "2026-11-24T18:01:55.622Z"
+    },
+    {
+      "id": "aud_1795543315592_pk7e",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Offer To Archive\" (6b05d113c0dc554ba4a1f5ff) with fixed discount of 20",
+      "timestamp": "2026-11-24T18:01:55.592Z"
+    },
+    {
+      "id": "aud_1795543315540_0ryr",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Activated offer \"Flat ₹120 Off Super Festive Deal\" (6b05d113c0dc554ba4a1f5fc)",
+      "timestamp": "2026-11-24T18:01:55.540Z"
+    },
+    {
+      "id": "aud_1795543315466_77or",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Deactivated offer \"Flat ₹120 Off Super Festive Deal\" (6b05d113c0dc554ba4a1f5fc)",
+      "timestamp": "2026-11-24T18:01:55.466Z"
+    },
+    {
+      "id": "aud_1795543315421_6xm8",
+      "action": "OFFER_UPDATED",
+      "user": "admin",
+      "details": "Updated offer \"Flat ₹120 Off Super Festive Deal\" (6b05d113c0dc554ba4a1f5fc)",
+      "timestamp": "2026-11-24T18:01:55.421Z"
+    },
+    {
+      "id": "aud_1795543315318_g0zx",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b05d113c0dc554ba4a1f5fe) with fixed discount of 50",
+      "timestamp": "2026-11-24T18:01:55.318Z"
+    },
+    {
+      "id": "aud_1795543315293_acqn",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b05d113c0dc554ba4a1f5fd) with percentage discount of 20",
+      "timestamp": "2026-11-24T18:01:55.293Z"
+    },
+    {
+      "id": "aud_1795543315267_9hie",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b05d113c0dc554ba4a1f5fc) with fixed discount of 100",
+      "timestamp": "2026-11-24T18:01:55.267Z"
+    },
+    {
+      "id": "aud_1795543314985_0dui",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-24T18:01:54.985Z"
+    },
+    {
+      "id": "aud_1795543154779_vdf3",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1028 placed for ₹444.9 by Priya Sharma",
+      "timestamp": "2026-11-24T17:59:14.779Z"
+    },
+    {
+      "id": "aud_1795543154585_lepd",
+      "action": "OFFER_ARCHIVED",
+      "user": "admin",
+      "details": "Archived offer \"Offer To Archive\" (6b05d0721f0b79c0ed21ebdc)",
+      "timestamp": "2026-11-24T17:59:14.585Z"
+    },
+    {
+      "id": "aud_1795543154561_rbna",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Offer To Archive\" (6b05d0721f0b79c0ed21ebdc) with fixed discount of 20",
+      "timestamp": "2026-11-24T17:59:14.561Z"
+    },
+    {
+      "id": "aud_1795543154515_t5yj",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Activated offer \"Flat ₹120 Off Super Festive Deal\" (6b05d0721f0b79c0ed21ebd9)",
+      "timestamp": "2026-11-24T17:59:14.515Z"
+    },
+    {
+      "id": "aud_1795543154485_zi3q",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Deactivated offer \"Flat ₹120 Off Super Festive Deal\" (6b05d0721f0b79c0ed21ebd9)",
+      "timestamp": "2026-11-24T17:59:14.485Z"
+    },
+    {
+      "id": "aud_1795543154453_300b",
+      "action": "OFFER_UPDATED",
+      "user": "admin",
+      "details": "Updated offer \"Flat ₹120 Off Super Festive Deal\" (6b05d0721f0b79c0ed21ebd9)",
+      "timestamp": "2026-11-24T17:59:14.453Z"
+    },
+    {
+      "id": "aud_1795543154320_0eg5",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b05d0721f0b79c0ed21ebdb) with fixed discount of 50",
+      "timestamp": "2026-11-24T17:59:14.320Z"
+    },
+    {
+      "id": "aud_1795543154283_yzth",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b05d0721f0b79c0ed21ebda) with percentage discount of 20",
+      "timestamp": "2026-11-24T17:59:14.283Z"
+    },
+    {
+      "id": "aud_1795543154256_3ulg",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b05d0721f0b79c0ed21ebd9) with fixed discount of 100",
+      "timestamp": "2026-11-24T17:59:14.256Z"
+    },
+    {
+      "id": "aud_1795543154042_bwgo",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-24T17:59:14.042Z"
+    },
+    {
+      "id": "aud_1795427920823_7slp",
+      "action": "ORDER_PLACED",
+      "user": "Customer",
+      "details": "Order HST-2026-1027 placed for ₹444.9 by Priya Sharma",
+      "timestamp": "2026-11-23T09:58:40.823Z"
+    },
+    {
+      "id": "aud_1795427920670_efgf",
+      "action": "OFFER_ARCHIVED",
+      "user": "admin",
+      "details": "Archived offer \"Offer To Archive\" (6b040e50c9c35ab2dbd6d15f)",
+      "timestamp": "2026-11-23T09:58:40.670Z"
+    },
+    {
+      "id": "aud_1795427920651_wuak",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Offer To Archive\" (6b040e50c9c35ab2dbd6d15f) with fixed discount of 20",
+      "timestamp": "2026-11-23T09:58:40.651Z"
+    },
+    {
+      "id": "aud_1795427920632_7qar",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Activated offer \"Flat ₹120 Off Super Festive Deal\" (6b040e50c9c35ab2dbd6d15c)",
+      "timestamp": "2026-11-23T09:58:40.632Z"
+    },
+    {
+      "id": "aud_1795427920610_q2ir",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Deactivated offer \"Flat ₹120 Off Super Festive Deal\" (6b040e50c9c35ab2dbd6d15c)",
+      "timestamp": "2026-11-23T09:58:40.610Z"
+    },
+    {
+      "id": "aud_1795427920544_9hp8",
+      "action": "OFFER_UPDATED",
+      "user": "admin",
+      "details": "Updated offer \"Flat ₹120 Off Super Festive Deal\" (6b040e50c9c35ab2dbd6d15c)",
+      "timestamp": "2026-11-23T09:58:40.544Z"
+    },
+    {
+      "id": "aud_1795427920382_0szn",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b040e50c9c35ab2dbd6d15e) with fixed discount of 50",
+      "timestamp": "2026-11-23T09:58:40.382Z"
+    },
+    {
+      "id": "aud_1795427920355_ajuk",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b040e50c9c35ab2dbd6d15d) with percentage discount of 20",
+      "timestamp": "2026-11-23T09:58:40.355Z"
+    },
+    {
+      "id": "aud_1795427920318_zrij",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b040e50c9c35ab2dbd6d15c) with fixed discount of 100",
+      "timestamp": "2026-11-23T09:58:40.318Z"
+    },
+    {
+      "id": "aud_1795427920163_hie3",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T09:58:40.163Z"
+    },
+    {
+      "id": "aud_1795427590899_9loz",
+      "action": "OFFER_ARCHIVED",
+      "user": "admin",
+      "details": "Archived offer \"Offer To Archive\" (6b040d0619153c28e07d8de3)",
+      "timestamp": "2026-11-23T09:53:10.900Z"
+    },
+    {
+      "id": "aud_1795427590870_i3nh",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Offer To Archive\" (6b040d0619153c28e07d8de3) with fixed discount of 20",
+      "timestamp": "2026-11-23T09:53:10.870Z"
+    },
+    {
+      "id": "aud_1795427590842_til8",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Activated offer \"Flat ₹120 Off Super Festive Deal\" (6b040d0619153c28e07d8de0)",
+      "timestamp": "2026-11-23T09:53:10.842Z"
+    },
+    {
+      "id": "aud_1795427590811_h2zv",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Deactivated offer \"Flat ₹120 Off Super Festive Deal\" (6b040d0619153c28e07d8de0)",
+      "timestamp": "2026-11-23T09:53:10.811Z"
+    },
+    {
+      "id": "aud_1795427590752_fofx",
+      "action": "OFFER_UPDATED",
+      "user": "admin",
+      "details": "Updated offer \"Flat ₹120 Off Super Festive Deal\" (6b040d0619153c28e07d8de0)",
+      "timestamp": "2026-11-23T09:53:10.752Z"
+    },
+    {
+      "id": "aud_1795427590623_9jrq",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b040d0619153c28e07d8de2) with fixed discount of 50",
+      "timestamp": "2026-11-23T09:53:10.623Z"
+    },
+    {
+      "id": "aud_1795427590598_5u8d",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b040d0619153c28e07d8de1) with percentage discount of 20",
+      "timestamp": "2026-11-23T09:53:10.598Z"
+    },
+    {
+      "id": "aud_1795427590563_ftls",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b040d0619153c28e07d8de0) with fixed discount of 100",
+      "timestamp": "2026-11-23T09:53:10.563Z"
+    },
+    {
+      "id": "aud_1795427590419_fwp7",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T09:53:10.419Z"
+    },
+    {
+      "id": "aud_1795427425727_b0j1",
+      "action": "OFFER_ARCHIVED",
+      "user": "admin",
+      "details": "Archived offer \"Offer To Archive\" (6b040c61dacfa25e643d6302)",
+      "timestamp": "2026-11-23T09:50:25.727Z"
+    },
+    {
+      "id": "aud_1795427425713_ork2",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Offer To Archive\" (6b040c61dacfa25e643d6302) with fixed discount of 20",
+      "timestamp": "2026-11-23T09:50:25.713Z"
+    },
+    {
+      "id": "aud_1795427425692_n2gl",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Activated offer \"Flat ₹120 Off Super Festive Deal\" (6b040c61dacfa25e643d62ff)",
+      "timestamp": "2026-11-23T09:50:25.692Z"
+    },
+    {
+      "id": "aud_1795427425671_ivhw",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Deactivated offer \"Flat ₹120 Off Super Festive Deal\" (6b040c61dacfa25e643d62ff)",
+      "timestamp": "2026-11-23T09:50:25.671Z"
+    },
+    {
+      "id": "aud_1795427425658_npeg",
+      "action": "OFFER_UPDATED",
+      "user": "admin",
+      "details": "Updated offer \"Flat ₹120 Off Super Festive Deal\" (6b040c61dacfa25e643d62ff)",
+      "timestamp": "2026-11-23T09:50:25.658Z"
+    },
+    {
+      "id": "aud_1795427425627_fdgk",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b040c61dacfa25e643d6301) with fixed discount of 50",
+      "timestamp": "2026-11-23T09:50:25.627Z"
+    },
+    {
+      "id": "aud_1795427425620_mk8w",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b040c61dacfa25e643d6300) with percentage discount of 20",
+      "timestamp": "2026-11-23T09:50:25.620Z"
+    },
+    {
+      "id": "aud_1795427425612_c971",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b040c61dacfa25e643d62ff) with fixed discount of 100",
+      "timestamp": "2026-11-23T09:50:25.612Z"
+    },
+    {
+      "id": "aud_1795427425560_8824",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T09:50:25.560Z"
+    },
+    {
+      "id": "aud_1795427264359_iw2u",
+      "action": "OFFER_ARCHIVED",
+      "user": "admin",
+      "details": "Archived offer \"Offer To Archive\" (6b040bc079828d45edfd7914)",
+      "timestamp": "2026-11-23T09:47:44.359Z"
+    },
+    {
+      "id": "aud_1795427264346_w0cc",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Offer To Archive\" (6b040bc079828d45edfd7914) with fixed discount of 20",
+      "timestamp": "2026-11-23T09:47:44.346Z"
+    },
+    {
+      "id": "aud_1795427264334_rvoe",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Activated offer \"Flat ₹120 Off Super Festive Deal\" (6b040bc079828d45edfd7911)",
+      "timestamp": "2026-11-23T09:47:44.334Z"
+    },
+    {
+      "id": "aud_1795427264325_odtl",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Deactivated offer \"Flat ₹120 Off Super Festive Deal\" (6b040bc079828d45edfd7911)",
+      "timestamp": "2026-11-23T09:47:44.325Z"
+    },
+    {
+      "id": "aud_1795427264316_8urb",
+      "action": "OFFER_UPDATED",
+      "user": "admin",
+      "details": "Updated offer \"Flat ₹120 Off Super Festive Deal\" (6b040bc079828d45edfd7911)",
+      "timestamp": "2026-11-23T09:47:44.316Z"
+    },
+    {
+      "id": "aud_1795427264275_s176",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b040bc079828d45edfd7913) with fixed discount of 50",
+      "timestamp": "2026-11-23T09:47:44.275Z"
+    },
+    {
+      "id": "aud_1795427264264_1gsc",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b040bc079828d45edfd7912) with percentage discount of 20",
+      "timestamp": "2026-11-23T09:47:44.264Z"
+    },
+    {
+      "id": "aud_1795427264255_j7b1",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b040bc079828d45edfd7911) with fixed discount of 100",
+      "timestamp": "2026-11-23T09:47:44.255Z"
+    },
+    {
+      "id": "aud_1795427264193_bgq0",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T09:47:44.193Z"
+    },
+    {
+      "id": "aud_1795427222488_cioe",
+      "action": "OFFER_ARCHIVED",
+      "user": "admin",
+      "details": "Archived offer \"Offer To Archive\" (6b040b96a5c2f4c9d7a97321)",
+      "timestamp": "2026-11-23T09:47:02.488Z"
+    },
+    {
+      "id": "aud_1795427222451_w3dc",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Offer To Archive\" (6b040b96a5c2f4c9d7a97321) with fixed discount of 20",
+      "timestamp": "2026-11-23T09:47:02.451Z"
+    },
+    {
+      "id": "aud_1795427222431_cyro",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Activated offer \"Flat ₹120 Off Super Festive Deal\" (6b040b96a5c2f4c9d7a9731e)",
+      "timestamp": "2026-11-23T09:47:02.431Z"
+    },
+    {
+      "id": "aud_1795427222410_mhfw",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Deactivated offer \"Flat ₹120 Off Super Festive Deal\" (6b040b96a5c2f4c9d7a9731e)",
+      "timestamp": "2026-11-23T09:47:02.410Z"
+    },
+    {
+      "id": "aud_1795427222389_j87b",
+      "action": "OFFER_UPDATED",
+      "user": "admin",
+      "details": "Updated offer \"Flat ₹120 Off Super Festive Deal\" (6b040b96a5c2f4c9d7a9731e)",
+      "timestamp": "2026-11-23T09:47:02.389Z"
+    },
+    {
+      "id": "aud_1795427222314_6gss",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b040b96a5c2f4c9d7a97320) with fixed discount of 50",
+      "timestamp": "2026-11-23T09:47:02.314Z"
+    },
+    {
+      "id": "aud_1795427222305_s4c4",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b040b96a5c2f4c9d7a9731f) with percentage discount of 20",
+      "timestamp": "2026-11-23T09:47:02.305Z"
+    },
+    {
+      "id": "aud_1795427222297_txak",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b040b96a5c2f4c9d7a9731e) with fixed discount of 100",
+      "timestamp": "2026-11-23T09:47:02.297Z"
+    },
+    {
+      "id": "aud_1795427222246_ld81",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T09:47:02.246Z"
+    },
+    {
+      "id": "aud_1795427194634_jbwe",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Activated offer \"Flat ₹120 Off Super Festive Deal\" (6b040b7a3f7ba38edc2d9205)",
+      "timestamp": "2026-11-23T09:46:34.634Z"
+    },
+    {
+      "id": "aud_1795427194611_6gk2",
+      "action": "OFFER_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Deactivated offer \"Flat ₹120 Off Super Festive Deal\" (6b040b7a3f7ba38edc2d9205)",
+      "timestamp": "2026-11-23T09:46:34.611Z"
+    },
+    {
+      "id": "aud_1795427194597_x4yp",
+      "action": "OFFER_UPDATED",
+      "user": "admin",
+      "details": "Updated offer \"Flat ₹120 Off Super Festive Deal\" (6b040b7a3f7ba38edc2d9205)",
+      "timestamp": "2026-11-23T09:46:34.597Z"
+    },
+    {
+      "id": "aud_1795427194562_rg5i",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b040b7a3f7ba38edc2d9207) with fixed discount of 50",
+      "timestamp": "2026-11-23T09:46:34.562Z"
+    },
+    {
+      "id": "aud_1795427194554_r3gf",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b040b7a3f7ba38edc2d9206) with percentage discount of 20",
+      "timestamp": "2026-11-23T09:46:34.554Z"
+    },
+    {
+      "id": "aud_1795427194544_jxg3",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b040b7a3f7ba38edc2d9205) with fixed discount of 100",
+      "timestamp": "2026-11-23T09:46:34.544Z"
+    },
+    {
+      "id": "aud_1795427194477_16xh",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T09:46:34.477Z"
+    },
+    {
+      "id": "aud_1795427116128_qnqv",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Old Expired Offer\" (6b040b2cc39141c7a783f37f) with fixed discount of 50",
+      "timestamp": "2026-11-23T09:45:16.128Z"
+    },
+    {
+      "id": "aud_1795427116120_9t6k",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"20% Chef Special Discount\" (6b040b2cc39141c7a783f37e) with percentage discount of 20",
+      "timestamp": "2026-11-23T09:45:16.120Z"
+    },
+    {
+      "id": "aud_1795427116113_sfsf",
+      "action": "OFFER_CREATED",
+      "user": "admin",
+      "details": "Created offer \"Flat ₹100 Off Festive Treat\" (6b040b2cc39141c7a783f37d) with fixed discount of 100",
+      "timestamp": "2026-11-23T09:45:16.113Z"
+    },
+    {
+      "id": "aud_1795427115940_dk1r",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T09:45:15.942Z"
+    },
+    {
+      "id": "aud_1795427054633_rhby",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T09:44:14.633Z"
+    },
+    {
+      "id": "aud_1795427018420_uc4a",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "yashika6.mishra@gmail.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::1",
+      "timestamp": "2026-11-23T09:43:38.420Z"
+    },
+    {
+      "id": "aud_1795426976593_djxu",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "yashika6.mishra@gmail.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::1",
+      "timestamp": "2026-11-23T09:42:56.593Z"
+    },
+    {
+      "id": "aud_1795426855328_xgys",
+      "action": "SUPERADMIN_CREATED",
+      "user": "yashika6.mishra@gmail.com",
+      "details": "Superadmin account created/updated for 'yashika6.mishra@gmail.com'",
+      "timestamp": "2026-11-23T09:40:55.328Z"
+    },
+    {
+      "id": "aud_1795419310814_m7g3",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Concurrent 1\" (6b03ecae5afce28314c797b1) with phone 9876543301",
+      "timestamp": "2026-11-23T07:35:10.814Z"
+    },
+    {
+      "id": "aud_1795419310723_ejp9",
+      "action": "STAFF_DEACTIVATED",
+      "user": "admin",
+      "details": "Deactivated staff employee \"Priya Verma\" (6b03ecae5afce28314c797b0)",
+      "timestamp": "2026-11-23T07:35:10.723Z"
+    },
+    {
+      "id": "aud_1795419310651_xnjq",
+      "action": "STAFF_UPDATED",
+      "user": "admin",
+      "details": "Updated staff employee \"Rahul Kumar Sharma\" (6b03ecae5afce28314c797af)",
+      "timestamp": "2026-11-23T07:35:10.651Z"
+    },
+    {
+      "id": "aud_1795419310528_0fib",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Priya Verma\" (6b03ecae5afce28314c797b0) with phone 9876543211",
+      "timestamp": "2026-11-23T07:35:10.528Z"
+    },
+    {
+      "id": "aud_1795419310513_xxa5",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Rahul Sharma\" (6b03ecae5afce28314c797af) with phone 9876543210",
+      "timestamp": "2026-11-23T07:35:10.513Z"
+    },
+    {
+      "id": "aud_1795419310467_fhdp",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T07:35:10.467Z"
+    },
+    {
+      "id": "aud_1795419095946_2nzp",
+      "action": "GALLERY_SECTION_DELETED",
+      "user": "admin",
+      "details": "Deleted gallery section \"Royal Heritage Banquet\"",
+      "timestamp": "2026-11-23T07:31:35.947Z"
+    },
+    {
+      "id": "aud_1795419095923_rcho",
+      "action": "GALLERY_PHOTO_DELETED",
+      "user": "admin",
+      "details": "Deleted photograph #med_1795419095769_ipli",
+      "timestamp": "2026-11-23T07:31:35.923Z"
+    },
+    {
+      "id": "aud_1795419095903_w3qc",
+      "action": "GALLERY_PHOTO_DELETED",
+      "user": "admin",
+      "details": "Deleted photograph #med_1795419095689_wevc",
+      "timestamp": "2026-11-23T07:31:35.903Z"
+    },
+    {
+      "id": "aud_1795419095872_r6pu",
+      "action": "CUSTOMER_MEDIA_MODERATED",
+      "user": "admin",
+      "details": "Action REMOVED on photo #med_1795419095769_ipli (Reason: TOS violation)",
+      "timestamp": "2026-11-23T07:31:35.872Z"
+    },
+    {
+      "id": "aud_1795419095833_3s7t",
+      "action": "CUSTOMER_MEDIA_MODERATED",
+      "user": "admin",
+      "details": "Action APPROVED on photo #med_1795419095769_ipli",
+      "timestamp": "2026-11-23T07:31:35.833Z"
+    },
+    {
+      "id": "aud_1795419095777_3pfn",
+      "action": "GUEST_PHOTO_SUBMITTED",
+      "user": "Guest Customer",
+      "details": "Submitted photo #med_1795419095769_ipli with caption: \"Unforgettable family anniversa...\"",
+      "timestamp": "2026-11-23T07:31:35.777Z"
+    },
+    {
+      "id": "aud_1795419095743_e3zb",
+      "action": "GALLERY_PHOTO_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Changed status of photo #med_1795419095689_wevc to DRAFT",
+      "timestamp": "2026-11-23T07:31:35.744Z"
+    },
+    {
+      "id": "aud_1795419095700_rsye",
+      "action": "OFFICIAL_MEDIA_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded official photo: \"Grand Awadhi Chandelier Hall\" (med_1795419095689_wevc)",
+      "timestamp": "2026-11-23T07:31:35.700Z"
+    },
+    {
+      "id": "aud_1795419095655_d28f",
+      "action": "GALLERY_SECTION_UPDATED",
+      "user": "admin",
+      "details": "Updated gallery section \"Royal Heritage Banquet\"",
+      "timestamp": "2026-11-23T07:31:35.655Z"
+    },
+    {
+      "id": "aud_1795419095621_r6wd",
+      "action": "GALLERY_SECTION_CREATED",
+      "user": "admin",
+      "details": "Created gallery section \"Royal Heritage Banquet\" (royal-heritage-banquet)",
+      "timestamp": "2026-11-23T07:31:35.621Z"
+    },
+    {
+      "id": "aud_1795419095495_iv27",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T07:31:35.495Z"
+    },
+    {
+      "id": "aud_1795419083206_55ds",
+      "action": "EVENT_DELETED",
+      "user": "admin",
+      "details": "Deleted event \"Royal Heritage Wedding Reception\" (ev_1795419083059_hmrk) and associated media",
+      "timestamp": "2026-11-23T07:31:23.206Z"
+    },
+    {
+      "id": "aud_1795419083195_skp5",
+      "action": "EVENT_INQUIRY_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Updated event inquiry #inq_1795419083152_d1sb status to CONFIRMED (Linked Booking: tb_1795419083185)",
+      "timestamp": "2026-11-23T07:31:23.195Z"
+    },
+    {
+      "id": "aud_1795419083188_ooux",
+      "action": "TABLE_BOOKING_REQUESTED",
+      "user": "Public Customer",
+      "details": "Reservation inquiry #HST-TB-2612-8848 (tb_1795419083185) by Vikramaditya Singhania for 2026-12-28 19:30",
+      "timestamp": "2026-11-23T07:31:23.188Z"
+    },
+    {
+      "id": "aud_1795419083177_bwtb",
+      "action": "EVENT_INQUIRY_NOTES_UPDATED",
+      "user": "admin",
+      "details": "Updated staff notes for event inquiry #inq_1795419083152_d1sb",
+      "timestamp": "2026-11-23T07:31:23.177Z"
+    },
+    {
+      "id": "aud_1795419083164_xw6g",
+      "action": "EVENT_INQUIRY_RECEIVED",
+      "user": "Public Customer",
+      "details": "Event inquiry submitted by Ananya Sharma (9123456780) for Corporate Dinner on 2027-01-10",
+      "timestamp": "2026-11-23T07:31:23.164Z"
+    },
+    {
+      "id": "aud_1795419083155_um87",
+      "action": "EVENT_INQUIRY_RECEIVED",
+      "user": "Public Customer",
+      "details": "Event inquiry submitted by Vikramaditya Singhania (9876543210) for Anniversary Banquet on 2026-12-28",
+      "timestamp": "2026-11-23T07:31:23.155Z"
+    },
+    {
+      "id": "aud_1795419083145_5jyt",
+      "action": "EVENT_UPDATED",
+      "user": "admin",
+      "details": "Updated event: \"Royal Heritage Wedding Reception\" (ev_1795419083059_hmrk)",
+      "timestamp": "2026-11-23T07:31:23.145Z"
+    },
+    {
+      "id": "aud_1795419083130_t7j2",
+      "action": "EVENT_STATUS_CHANGED",
+      "user": "admin",
+      "details": "Changed status of event \"Royal Heritage Wedding Reception\" to PUBLISHED",
+      "timestamp": "2026-11-23T07:31:23.130Z"
+    },
+    {
+      "id": "aud_1795419083121_scyb",
+      "action": "EVENT_PHOTOS_REORDERED",
+      "user": "admin",
+      "details": "Reordered 2 photographs for event #ev_1795419083059_hmrk",
+      "timestamp": "2026-11-23T07:31:23.121Z"
+    },
+    {
+      "id": "aud_1795419083111_pvx6",
+      "action": "EVENT_COVER_UPDATED",
+      "user": "admin",
+      "details": "Updated cover image for event #ev_1795419083059_hmrk to photograph #evm_1795419083095_r11l",
+      "timestamp": "2026-11-23T07:31:23.111Z"
+    },
+    {
+      "id": "aud_1795419083098_nif6",
+      "action": "EVENT_PHOTOS_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded 1 photograph(s) for event: Royal Heritage Wedding Reception",
+      "timestamp": "2026-11-23T07:31:23.098Z"
+    },
+    {
+      "id": "aud_1795419083088_m0fe",
+      "action": "EVENT_PHOTOS_UPLOADED",
+      "user": "admin",
+      "details": "Uploaded 1 photograph(s) for event: Royal Heritage Wedding Reception",
+      "timestamp": "2026-11-23T07:31:23.088Z"
+    },
+    {
+      "id": "aud_1795419083063_j1x7",
+      "action": "EVENT_CREATED",
+      "user": "admin",
+      "details": "Created event: \"Royal Heritage Wedding Reception\" (ev_1795419083059_hmrk)",
+      "timestamp": "2026-11-23T07:31:23.063Z"
+    },
+    {
+      "id": "aud_1795419083003_v7jk",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T07:31:23.003Z"
+    },
+    {
+      "id": "aud_1795419045682_9zsm",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Concurrent 1\" (6b03eba5ee8fa014aacc9fcf) with phone 9876543301",
+      "timestamp": "2026-11-23T07:30:45.682Z"
+    },
+    {
+      "id": "aud_1795419045570_ihe7",
+      "action": "STAFF_DEACTIVATED",
+      "user": "admin",
+      "details": "Deactivated staff employee \"Priya Verma\" (6b03eba5ee8fa014aacc9fce)",
+      "timestamp": "2026-11-23T07:30:45.570Z"
+    },
+    {
+      "id": "aud_1795419045477_oqww",
+      "action": "STAFF_UPDATED",
+      "user": "admin",
+      "details": "Updated staff employee \"Rahul Kumar Sharma\" (6b03eba5ee8fa014aacc9fcd)",
+      "timestamp": "2026-11-23T07:30:45.477Z"
+    },
+    {
+      "id": "aud_1795419045243_uc8l",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Priya Verma\" (6b03eba5ee8fa014aacc9fce) with phone 9876543211",
+      "timestamp": "2026-11-23T07:30:45.243Z"
+    },
+    {
+      "id": "aud_1795419045170_1c9w",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Rahul Sharma\" (6b03eba5ee8fa014aacc9fcd) with phone 9876543210",
+      "timestamp": "2026-11-23T07:30:45.171Z"
+    },
+    {
+      "id": "aud_1795419045018_ndsl",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T07:30:45.018Z"
+    },
+    {
+      "id": "aud_1795419015179_kjt1",
+      "action": "STAFF_DEACTIVATED",
+      "user": "admin",
+      "details": "Deactivated staff employee \"Priya Verma\" (6b03eb87abbb3415658b2830)",
+      "timestamp": "2026-11-23T07:30:15.179Z"
+    },
+    {
+      "id": "aud_1795419015159_ox8z",
+      "action": "STAFF_UPDATED",
+      "user": "admin",
+      "details": "Updated staff employee \"Rahul Kumar Sharma\" (6b03eb87abbb3415658b282f)",
+      "timestamp": "2026-11-23T07:30:15.159Z"
+    },
+    {
+      "id": "aud_1795419015098_9t7q",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Priya Verma\" (6b03eb87abbb3415658b2830) with phone 9876543211",
+      "timestamp": "2026-11-23T07:30:15.098Z"
+    },
+    {
+      "id": "aud_1795419015087_hqfx",
+      "action": "STAFF_CREATED",
+      "user": "admin",
+      "details": "Registered staff employee \"Rahul Sharma\" (6b03eb87abbb3415658b282f) with phone 9876543210",
+      "timestamp": "2026-11-23T07:30:15.087Z"
+    },
+    {
+      "id": "aud_1795419015044_ktqx",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T07:30:15.044Z"
+    },
+    {
+      "id": "aud_1795418869554_bvw8",
+      "action": "AUTH_LOGIN_SUCCESS",
+      "user": "admin@hestiia.com",
+      "details": "User authenticated as SUPERADMIN",
+      "ip": "::ffff:127.0.0.1",
+      "timestamp": "2026-11-23T07:27:49.554Z"
+    },
     {
       "id": "aud_1795339159350_u5sg",
       "action": "ADMIN_LOGIN",
@@ -5040,5 +6758,453 @@
       "details": "Initialized Hestiia Restaurant Admin Database with seed menu and settings.",
       "timestamp": "2026-10-01T10:00:00.000Z"
     }
-  ]
+  ],
+  "staff": [
+    {
+      "_id": "6b05d1468e3c5fbbd0b10610",
+      "name": "Concurrent 1",
+      "phone": "9876543301",
+      "email": "concurrent.test@gmail.com",
+      "role": "staff",
+      "isActive": true,
+      "createdAt": "2026-11-24T18:02:46.717Z",
+      "updatedAt": "2026-11-24T18:02:46.717Z"
+    },
+    {
+      "_id": "6b05d1468e3c5fbbd0b1060f",
+      "name": "Priya Verma",
+      "phone": "9876543211",
+      "email": "priya.verma@gmail.com",
+      "role": "staff",
+      "isActive": false,
+      "createdAt": "2026-11-24T18:02:46.355Z",
+      "updatedAt": "2026-11-24T18:02:46.627Z"
+    },
+    {
+      "_id": "6b05d1468e3c5fbbd0b1060e",
+      "name": "Rahul Kumar Sharma",
+      "phone": "9876543299",
+      "email": "rahul.kumar@gmail.com",
+      "role": "staff",
+      "isActive": true,
+      "createdAt": "2026-11-24T18:02:46.317Z",
+      "updatedAt": "2026-11-24T18:02:46.560Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "ev_1795543409651_elrp",
+      "event_name": "Royal Heritage Wedding Reception",
+      "description": "An elegant evening celebration with royal Awadhi banquet dining and bespoke floral arrangements.",
+      "event_date": "2026-12-15T18:00:00.000Z",
+      "attendee_count": 300,
+      "services_provided": [
+        {
+          "name": "Catering",
+          "description": "7-course traditional Mughlai buffet"
+        },
+        {
+          "name": "Live Music",
+          "description": "Classical instrumental performance"
+        },
+        {
+          "name": "Floral Decor",
+          "description": "Grand stage and royal banquet seating"
+        }
+      ],
+      "location": "Hestiia Main Lawn, Shyam Nagar, Kanpur",
+      "status": "published",
+      "cover_image": "/uploads/1795543410846-701925019.jpg",
+      "created_by": "admin",
+      "createdAt": "2026-11-24T18:03:29.651Z",
+      "updatedAt": "2026-11-24T18:03:31.479Z"
+    }
+  ],
+  "eventMedia": [
+    {
+      "id": "evm_1795543410792_05qg",
+      "event_id": "ev_1795543409651_elrp",
+      "image_url": "/uploads/1795543409772-627462058.jpg",
+      "public_id": "local_1795543409772-627462058.jpg",
+      "is_cover": false,
+      "display_order": 1,
+      "createdAt": "2026-11-24T18:03:30.792Z"
+    },
+    {
+      "id": "evm_1795543411222_m9iv",
+      "event_id": "ev_1795543409651_elrp",
+      "image_url": "/uploads/1795543410846-701925019.jpg",
+      "public_id": "local_1795543410846-701925019.jpg",
+      "is_cover": true,
+      "display_order": 0,
+      "createdAt": "2026-11-24T18:03:31.222Z"
+    }
+  ],
+  "eventInquiries": [
+    {
+      "id": "inq_1795543411592_tqxt",
+      "customer_name": "Ananya Sharma",
+      "phone": "9123456780",
+      "event_type": "Corporate Dinner",
+      "preferred_date": "2027-01-10T19:30:00.000Z",
+      "expected_attendees": 45,
+      "requirements": "",
+      "message": "",
+      "status": "pending",
+      "admin_notes": "",
+      "createdAt": "2026-11-24T18:03:31.592Z",
+      "updatedAt": "2026-11-24T18:03:31.592Z"
+    },
+    {
+      "id": "inq_1795543411535_l6fv",
+      "customer_name": "Vikramaditya Singhania",
+      "phone": "9876543210",
+      "email": "vikram.singhania@gmail.com",
+      "event_type": "Anniversary Banquet",
+      "preferred_date": "2026-12-28T19:00:00.000Z",
+      "expected_attendees": 80,
+      "requirements": "Pure vegetarian Jain food options required for 20 guests.",
+      "message": "Looking for terrace garden seating with lighting.",
+      "status": "confirmed",
+      "admin_notes": "Spoke with Mr. Singhania. Budget agreed. Table reserved.",
+      "createdAt": "2026-11-24T18:03:31.535Z",
+      "updatedAt": "2026-11-24T18:03:41.720Z"
+    },
+    {
+      "id": "inq_1795419083160_ygzg",
+      "customer_name": "Ananya Sharma",
+      "phone": "9123456780",
+      "event_type": "Corporate Dinner",
+      "preferred_date": "2027-01-10T19:30:00.000Z",
+      "expected_attendees": 45,
+      "requirements": "",
+      "message": "",
+      "status": "pending",
+      "admin_notes": "",
+      "createdAt": "2026-11-23T07:31:23.160Z",
+      "updatedAt": "2026-11-23T07:31:23.160Z"
+    },
+    {
+      "id": "inq_1795419083152_d1sb",
+      "customer_name": "Vikramaditya Singhania",
+      "phone": "9876543210",
+      "email": "vikram.singhania@gmail.com",
+      "event_type": "Anniversary Banquet",
+      "preferred_date": "2026-12-28T19:00:00.000Z",
+      "expected_attendees": 80,
+      "requirements": "Pure vegetarian Jain food options required for 20 guests.",
+      "message": "Looking for terrace garden seating with lighting.",
+      "status": "confirmed",
+      "admin_notes": "Spoke with Mr. Singhania. Budget agreed. Table reserved.",
+      "createdAt": "2026-11-23T07:31:23.152Z",
+      "updatedAt": "2026-11-23T07:31:23.191Z",
+      "booking_id": "tb_1795419083185"
+    }
+  ],
+  "wishlists": [
+    {
+      "id": "wsh_1795419088393_pr9s",
+      "guest_id": "gst_a8b6f61edf5a551cf61e7e92587be6d4",
+      "items": [],
+      "expires_at": "2026-12-23T07:31:28.429Z",
+      "createdAt": "2026-11-23T07:31:28.393Z",
+      "updatedAt": "2026-11-23T07:31:28.429Z"
+    },
+    {
+      "id": "wsh_1795419088446_fn40",
+      "guest_id": "gst_e4e71e5a69515e84385838fc58dcca89",
+      "items": [],
+      "expires_at": "2026-12-23T07:31:28.463Z",
+      "createdAt": "2026-11-23T07:31:28.446Z",
+      "updatedAt": "2026-11-23T07:31:28.463Z"
+    },
+    {
+      "id": "wsh_1795543380741_qvrz",
+      "guest_id": "gst_f13305b1fec23ad5a4b98ec8b085246f",
+      "items": [],
+      "expires_at": "2026-12-24T18:03:00.849Z",
+      "createdAt": "2026-11-24T18:03:00.741Z",
+      "updatedAt": "2026-11-24T18:03:00.849Z"
+    },
+    {
+      "id": "wsh_1795543380926_mb13",
+      "guest_id": "gst_0ba505ed0f4f2790d4f8bb4c0e424cf5",
+      "items": [],
+      "expires_at": "2026-12-24T18:03:00.963Z",
+      "createdAt": "2026-11-24T18:03:00.926Z",
+      "updatedAt": "2026-11-24T18:03:00.963Z"
+    }
+  ],
+  "media": [],
+  "gallerySections": [
+    {
+      "id": "sec_1_interior",
+      "name": "Restaurant Interior",
+      "slug": "interior",
+      "description": "Warm and inviting indoor seating and architectural details",
+      "displayOrder": 1,
+      "isActive": true,
+      "isPublic": true,
+      "createdAt": "2026-11-23T07:31:35.574Z",
+      "updatedAt": "2026-11-23T07:31:35.574Z"
+    },
+    {
+      "id": "sec_2_exterior",
+      "name": "Restaurant Exterior",
+      "slug": "exterior",
+      "description": "Facade, entrance, and lush green banquet surroundings",
+      "displayOrder": 2,
+      "isActive": true,
+      "isPublic": true,
+      "createdAt": "2026-11-23T07:31:35.574Z",
+      "updatedAt": "2026-11-23T07:31:35.574Z"
+    },
+    {
+      "id": "sec_3_dining-area",
+      "name": "Dining Area",
+      "slug": "dining-area",
+      "description": "Main hall dining, family booths, and royal banquet setups",
+      "displayOrder": 3,
+      "isActive": true,
+      "isPublic": true,
+      "createdAt": "2026-11-23T07:31:35.574Z",
+      "updatedAt": "2026-11-23T07:31:35.574Z"
+    },
+    {
+      "id": "sec_4_ambience",
+      "name": "Ambience",
+      "slug": "ambience",
+      "description": "Evening mood lighting, candlelit tables, and tranquil sanctuary vibes",
+      "displayOrder": 4,
+      "isActive": true,
+      "isPublic": true,
+      "createdAt": "2026-11-23T07:31:35.574Z",
+      "updatedAt": "2026-11-23T07:31:35.574Z"
+    },
+    {
+      "id": "sec_5_kitchen",
+      "name": "Kitchen & Culinary",
+      "slug": "kitchen",
+      "description": "Live tandoor, wok fires, and artisanal culinary craft in motion",
+      "displayOrder": 5,
+      "isActive": true,
+      "isPublic": true,
+      "createdAt": "2026-11-23T07:31:35.574Z",
+      "updatedAt": "2026-11-23T07:31:35.574Z"
+    },
+    {
+      "id": "sec_6_customer-moments",
+      "name": "Customer Moments",
+      "slug": "customer-moments",
+      "description": "Shared smiles, celebrations, and customer contributions",
+      "displayOrder": 6,
+      "isActive": true,
+      "isPublic": true,
+      "createdAt": "2026-11-23T07:31:35.574Z",
+      "updatedAt": "2026-11-23T07:31:35.574Z"
+    },
+    {
+      "id": "sec_7_general",
+      "name": "General Gallery",
+      "slug": "general",
+      "description": "General restaurant highlights and signature dining moments",
+      "displayOrder": 7,
+      "isActive": true,
+      "isPublic": true,
+      "createdAt": "2026-11-23T07:31:35.574Z",
+      "updatedAt": "2026-11-23T07:31:35.574Z"
+    }
+  ],
+  "mediaModerations": [
+    {
+      "id": "mod_1795543438437_bvfc",
+      "mediaId": "med_1795543438317_zfw4",
+      "reviewedBy": "admin",
+      "action": "removed",
+      "reason": "TOS violation",
+      "reviewedAt": "2026-11-24T18:03:58.423Z"
+    },
+    {
+      "id": "mod_1795543438386_2mel",
+      "mediaId": "med_1795543438317_zfw4",
+      "reviewedBy": "admin",
+      "action": "approved",
+      "reviewedAt": "2026-11-24T18:03:58.376Z"
+    },
+    {
+      "id": "mod_1795419095864_8abv",
+      "mediaId": "med_1795419095769_ipli",
+      "reviewedBy": "admin",
+      "action": "removed",
+      "reason": "TOS violation",
+      "reviewedAt": "2026-11-23T07:31:35.854Z"
+    },
+    {
+      "id": "mod_1795419095823_cn1p",
+      "mediaId": "med_1795419095769_ipli",
+      "reviewedBy": "admin",
+      "action": "approved",
+      "reviewedAt": "2026-11-23T07:31:35.814Z"
+    }
+  ],
+  "offers": [
+    {
+      "_id": "6b05d1b03bed74a6155775f3",
+      "id": "6b05d1b03bed74a6155775f3",
+      "title": "Offer To Archive",
+      "description": "Temporary offer destined for archival",
+      "discountType": "fixed",
+      "discountValue": 20,
+      "minOrderValue": 0,
+      "maxDiscount": null,
+      "startDate": "2026-11-24T18:04:31.655Z",
+      "endDate": "2026-12-01T18:04:31.655Z",
+      "placements": [
+        "home",
+        "menu"
+      ],
+      "bannerImage": "",
+      "termsAndConditions": [],
+      "displayPriority": 1,
+      "isActive": false,
+      "isArchived": true,
+      "createdAt": "2026-11-24T18:04:32.366Z",
+      "updatedAt": "2026-11-24T18:04:32.433Z"
+    },
+    {
+      "_id": "6b05d1af3bed74a6155775f2",
+      "id": "6b05d1af3bed74a6155775f2",
+      "title": "Old Expired Offer",
+      "description": "Past promo",
+      "discountType": "fixed",
+      "discountValue": 50,
+      "minOrderValue": 200,
+      "maxDiscount": null,
+      "startDate": "2026-11-10T18:04:31.655Z",
+      "endDate": "2026-11-17T18:04:31.655Z",
+      "placements": [
+        "menu"
+      ],
+      "bannerImage": "",
+      "termsAndConditions": [],
+      "displayPriority": 1,
+      "isActive": true,
+      "isArchived": false,
+      "createdAt": "2026-11-24T18:04:31.805Z",
+      "updatedAt": "2026-11-24T18:04:31.805Z"
+    },
+    {
+      "_id": "6b05d1af3bed74a6155775f1",
+      "id": "6b05d1af3bed74a6155775f1",
+      "title": "20% Chef Special Discount",
+      "description": "Get 20% off up to ₹150 on orders above ₹500",
+      "discountType": "percentage",
+      "discountValue": 20,
+      "minOrderValue": 500,
+      "maxDiscount": 150,
+      "startDate": "2026-11-24T18:04:31.655Z",
+      "endDate": "2026-12-01T18:04:31.655Z",
+      "placements": [
+        "home"
+      ],
+      "bannerImage": "",
+      "termsAndConditions": [],
+      "displayPriority": 5,
+      "isActive": true,
+      "isArchived": false,
+      "createdAt": "2026-11-24T18:04:31.772Z",
+      "updatedAt": "2026-11-24T18:04:31.772Z"
+    },
+    {
+      "_id": "6b05d1af3bed74a6155775f0",
+      "id": "6b05d1af3bed74a6155775f0",
+      "title": "Flat ₹120 Off Super Festive Deal",
+      "description": "Enjoy ₹100 off on orders above ₹400",
+      "discountType": "fixed",
+      "discountValue": 120,
+      "minOrderValue": 450,
+      "maxDiscount": null,
+      "startDate": "2026-11-24T18:04:31.655Z",
+      "endDate": "2026-12-01T18:04:31.655Z",
+      "placements": [
+        "home",
+        "menu"
+      ],
+      "bannerImage": "",
+      "termsAndConditions": [],
+      "displayPriority": 10,
+      "isActive": true,
+      "isArchived": false,
+      "createdAt": "2026-11-24T18:04:31.732Z",
+      "updatedAt": "2026-11-24T18:04:32.318Z"
+    }
+  ],
+  "offerRedemptions": [
+    {
+      "_id": "6b05d1b03bed74a6155775f7",
+      "offerId": "6b05d1af3bed74a6155775f0",
+      "orderId": "HST-2026-1030",
+      "discountAmount": 120,
+      "orderSubtotal": 538,
+      "redeemedAt": "2026-11-24T18:04:32.880Z"
+    }
+  ],
+  "carts": [
+    {
+      "_id": "6b05d1b03bed74a6155775f4",
+      "cartId": "6b05d1b03bed74a6155775f4",
+      "guestId": "gst_test_offers_user",
+      "items": [
+        {
+          "dishId": "507f1f77bcf86cd799439021",
+          "name": "Butter Chicken",
+          "price": 300,
+          "quantity": 1,
+          "total": 300,
+          "image": "/uploads/menu/default-dish.webp"
+        },
+        {
+          "dishId": "507f1f77bcf86cd799439022",
+          "name": "Dal Makhani",
+          "price": 300,
+          "quantity": 1,
+          "total": 300,
+          "image": "/uploads/menu/default-dish.webp"
+        },
+        {
+          "dishId": "507f1f77bcf86cd799439023",
+          "name": "Paneer Tikka",
+          "price": 600,
+          "quantity": 1,
+          "total": 600,
+          "image": "/uploads/menu/default-dish.webp"
+        }
+      ],
+      "subtotal": 1200,
+      "discountAmount": 0,
+      "appliedOffer": null,
+      "taxAmount": 60,
+      "deliveryFee": 0,
+      "payableAmount": 1260,
+      "createdAt": "2026-11-24T18:04:32.538Z",
+      "updatedAt": "2026-11-24T18:04:32.718Z"
+    }
+  ],
+  "contactSettings": {
+    "id": "contact_settings_singleton",
+    "phone": {
+      "number": "+91 99999 11111",
+      "enabled": true
+    },
+    "email": {
+      "address": "conc1@hestiia.com",
+      "enabled": true
+    },
+    "whatsapp": {
+      "number": "919876543210",
+      "enabled": true
+    },
+    "createdAt": "2026-11-24T18:56:53.119Z",
+    "updatedAt": "2026-11-24T18:56:54.049Z"
+  }
 }

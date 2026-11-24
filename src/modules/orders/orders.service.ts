@@ -6,6 +6,8 @@ import { db, type Invoice, type Payment } from '../../shared/config/db.js';
 import { AppError } from '../../shared/utils/appError.js';
 import { eventBus, DOMAIN_EVENTS } from '../../events/eventBus.js';
 import type { IOrderItem } from './orders.interface.js';
+import { offersService } from '../offers/services/offers.service.js';
+import { discountCalculationService } from '../offers/services/discountCalculation.service.js';
 
 const VALID_STATUSES = ['pending', 'confirmed', 'preparing', 'ready_for_pickup', 'out_for_delivery', 'completed', 'cancelled'] as const;
 const VALID_PAYMENTS = ['pending', 'authorized', 'paid', 'failed', 'refunded', 'awaiting_verification'] as const;
@@ -42,7 +44,9 @@ export const ordersService = {
       deliveryCharge: doc?.deliveryCharge ?? 0,
       deliveryInPaise: doc?.deliveryInPaise,
       discountAmount: doc?.discountAmount ?? 0,
+      discount: doc?.discountAmount ?? doc?.discount ?? 0,
       discountInPaise: doc?.discountInPaise,
+      offer: doc?.offer || null,
       grandTotal: doc?.grandTotal ?? 0,
       grandTotalInPaise: doc?.grandTotalInPaise,
       paymentMethod: doc?.paymentMethod || 'cod',
@@ -65,33 +69,43 @@ export const ordersService = {
    * Helper to lookup order document by MongoDB ObjectId or orderNumber
    */
   async findOrderDoc(idOrNumber: string) {
-    if (mongoose.Types.ObjectId.isValid(idOrNumber)) {
-      const byId = await Order.findById(idOrNumber);
-      if (byId) return byId;
+    if (!idOrNumber) return null;
+    const clean = idOrNumber.trim();
+    if (mongoose.connection.readyState === 1) {
+      try {
+        if (mongoose.Types.ObjectId.isValid(clean)) {
+          const byId = await Order.findById(clean);
+          if (byId) return byId;
+        }
+        const byNum = await Order.findOne({
+          $or: [
+            { orderNumber: clean },
+            { invoiceNumber: clean },
+          ],
+        });
+        if (byNum) return byNum;
+      } catch {}
     }
-    return Order.findOne({
-      $or: [
-        { orderNumber: idOrNumber.trim() },
-        { invoiceNumber: idOrNumber.trim() },
-      ],
-    });
+    const state = db.getState();
+    const found = (state.orders || []).find(
+      (o: any) => o.id === clean || o._id === clean || o.orderNumber === clean || o.invoiceNumber === clean
+    );
+    return found || null;
   },
 
   /**
    * 1. Place New Order (Direct MongoDB Atlas insertion with real-time dish price verification)
    */
   async createOrder(data: any) {
-    const {
-      customerName,
-      customerPhone,
-      customerEmail,
-      deliveryAddress,
-      fulfillmentType = 'delivery',
-      items,
-      paymentMethod = 'cod',
-      notes,
-      idempotencyKey,
-    } = data;
+    const customerName = data.customerName || data.customer?.name;
+    const customerPhone = data.customerPhone || data.customer?.phone;
+    const customerEmail = data.customerEmail || data.customer?.email;
+    const deliveryAddress = data.deliveryAddress || data.customer?.address || 'Dining In';
+    const fulfillmentType = data.fulfillmentType || 'dining';
+    const items = data.items;
+    const paymentMethod = data.paymentMethod || 'cod';
+    const notes = data.notes;
+    const idempotencyKey = data.idempotencyKey;
 
     if (!customerName || !customerPhone || !items || !Array.isArray(items) || items.length === 0) {
       throw new AppError('Customer name, phone number, and at least one dining item are required.', 400);
@@ -125,17 +139,30 @@ export const ordersService = {
       }
 
       let dish: any = null;
-      if (mongoose.Types.ObjectId.isValid(itemId)) {
-        dish = await MenuItem.findById(itemId).lean();
+      if (mongoose.connection.readyState === 1) {
+        try {
+          if (mongoose.Types.ObjectId.isValid(itemId)) {
+            dish = await MenuItem.findById(itemId).lean();
+          }
+
+          if (!dish) {
+            dish = await MenuItem.findOne({
+              $or: [
+                { slug: itemId },
+                { name: { $regex: new RegExp(`^${itemId.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } },
+              ],
+            }).lean();
+          }
+        } catch {}
       }
 
       if (!dish) {
-        dish = await MenuItem.findOne({
-          $or: [
-            { slug: itemId },
-            { name: { $regex: new RegExp(`^${itemId.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } },
-          ],
-        }).lean();
+        dish = (state.dishes || []).find(
+          (d: any) =>
+            String(d.id || d._id) === itemId ||
+            d.slug === itemId ||
+            (d.name && d.name.toLowerCase() === itemId.toLowerCase())
+        );
       }
 
       if (!dish) {
@@ -179,15 +206,40 @@ export const ordersService = {
     const deliveryInPaise = fulfillmentType === 'delivery' ? Math.round((state.settings.deliveryFee || 0) * 100) : 0;
     const deliveryCharge = deliveryInPaise / 100;
 
-    const discountInPaise = 0;
-    const discountAmount = 0;
+    let discountAmount = 0;
+    let discountInPaise = 0;
+    let offerSnapshot: any = null;
 
-    const grandTotalPaise = calculatedSubtotalPaise + taxInPaise + deliveryInPaise - discountInPaise;
+    const requestedOfferId = data.offerId || data.appliedOffer?.offerId;
+    if (requestedOfferId) {
+      const offer = await offersService.getOfferById(requestedOfferId);
+      const check = discountCalculationService.isOfferAvailable(offer);
+      if (!check.available) {
+        throw new AppError(`Applied offer is not valid: ${check.reason}`, 400);
+      }
+      const calc = discountCalculationService.calculateDiscount(offer, calculatedSubtotal);
+      discountAmount = calc.discountAmount;
+      discountInPaise = Math.round(discountAmount * 100);
+      offerSnapshot = {
+        offerId: offer._id,
+        title: offer.title,
+        discountType: offer.discountType,
+        discountValue: offer.discountValue,
+        discountAmount,
+      };
+    }
+
+    const grandTotalPaise = Math.max(0, calculatedSubtotalPaise + taxInPaise + deliveryInPaise - discountInPaise);
     const grandTotal = grandTotalPaise / 100;
 
     // Auto-generate unique order number based on database count
     const currentYear = new Date().getFullYear();
-    const totalOrderCount = await Order.countDocuments();
+    let totalOrderCount = (state.orders || []).length;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        totalOrderCount = await Order.countDocuments();
+      } catch {}
+    }
     const sequence = totalOrderCount + 1001;
     const orderNumber = `HST-${currentYear}-${sequence}`;
     const invoiceNumber = `HST-INV-${sequence}`;
@@ -195,8 +247,7 @@ export const ordersService = {
     // Online and UPI payments always start as pending until a payment gateway verifies them.
     const initialPaymentStatus = 'pending';
 
-    // 1. Persist directly in MongoDB Atlas
-    const createdOrder = await Order.create({
+    const orderDocData = {
       orderNumber,
       idempotencyKey,
       customerName: customerName.trim(),
@@ -213,11 +264,12 @@ export const ordersService = {
       deliveryInPaise,
       discountAmount,
       discountInPaise,
+      offer: offerSnapshot,
       grandTotal,
       grandTotalInPaise: grandTotalPaise,
       paymentMethod: ['online', 'cod', 'upi'].includes(paymentMethod) ? paymentMethod : 'cod',
-      paymentStatus: initialPaymentStatus,
-      orderStatus: 'pending',
+      paymentStatus: initialPaymentStatus as any,
+      orderStatus: 'pending' as any,
       notes: notes ? String(notes).trim() : '',
       statusHistory: [
         {
@@ -228,9 +280,29 @@ export const ordersService = {
         },
       ],
       invoiceNumber,
-    });
+    };
 
-    const formattedOrder = this.formatOrder((createdOrder as any).toJSON());
+    let formattedOrder: any = null;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const createdOrder = await Order.create(orderDocData);
+        formattedOrder = this.formatOrder((createdOrder as any).toJSON());
+      } catch (err: any) {
+        console.warn('[OrdersService] MongoDB order insertion fallback:', err?.message);
+      }
+    }
+
+    if (!formattedOrder) {
+      const generatedId = new mongoose.Types.ObjectId().toHexString();
+      const localOrder = {
+        ...orderDocData,
+        _id: generatedId,
+        id: generatedId,
+        createdAt: now.toISOString(),
+        updatedAt: now.toISOString(),
+      };
+      formattedOrder = this.formatOrder(localOrder);
+    }
 
     // 2. Synchronize customer profile directly in MongoDB Atlas Customer collection
     customersService
@@ -291,6 +363,15 @@ export const ordersService = {
       invoice: newInvoice,
       payment: newPayment,
     });
+
+    if (paymentMethod === 'cod' && offerSnapshot && discountAmount > 0) {
+      offersService.recordRedemption({
+        offerId: offerSnapshot.offerId,
+        orderId: orderNumber,
+        discountAmount,
+        orderSubtotal: calculatedSubtotal,
+      }).catch(() => {});
+    }
 
     return { order: formattedOrder, invoice: newInvoice, payment: newPayment };
   },
@@ -410,12 +491,12 @@ export const ordersService = {
     };
 
     const updated = await Order.findByIdAndUpdate(
-      orderDoc._id,
+      (orderDoc as any)._id || orderDoc.id,
       {
         $set: { orderStatus: status },
         $push: { statusHistory: newStatusEntry },
       },
-      { new: true }
+      { returnDocument: 'after' }
     ).lean();
 
     if (!updated) {
@@ -454,34 +535,40 @@ export const ordersService = {
     const now = new Date();
     const previousStatus = orderDoc.orderStatus;
     const nextStatus = orderDoc.orderStatus === 'pending' ? 'confirmed' : orderDoc.orderStatus;
-    const updated = await Order.findByIdAndUpdate(
-      orderDoc._id,
-      {
-        $set: {
-          paymentStatus: 'paid',
-          orderStatus: nextStatus,
-          updatedAt: now,
-        },
-        $push: {
-          statusHistory: {
-            status: nextStatus,
-            timestamp: now,
-            actor,
-            note: `Payment of ₹${payment.amount} verified and captured. Order confirmed and sent to kitchen.`,
-          },
-        },
-      },
-      { new: true }
-    ).lean();
-    if (!updated) return null;
+    let updated: any = null;
 
-    const formatted = this.formatOrder(updated);
+    if (mongoose.connection.readyState === 1) {
+      try {
+        updated = await Order.findByIdAndUpdate(
+          (orderDoc as any)._id || orderDoc.id,
+          {
+            $set: {
+              paymentStatus: 'paid',
+              orderStatus: nextStatus,
+              updatedAt: now,
+            },
+            $push: {
+              statusHistory: {
+                status: nextStatus,
+                timestamp: now,
+                actor,
+                note: `Payment of ₹${payment.amount} verified and captured. Order confirmed and sent to kitchen.`,
+              },
+            },
+          },
+          { returnDocument: 'after' }
+        ).lean();
+      } catch {}
+    }
+
+    const formatted = this.formatOrder(updated || orderDoc);
     db.updateState((s) => {
       const target = s.orders.find((o) => o.id === formatted.id || o.orderNumber === formatted.orderNumber);
       if (target) {
         target.paymentStatus = 'paid';
         target.orderStatus = nextStatus as any;
         target.updatedAt = now.toISOString();
+        if (!target.statusHistory) target.statusHistory = [];
         target.statusHistory.push({
           status: nextStatus,
           timestamp: now.toISOString(),
@@ -530,7 +617,7 @@ export const ordersService = {
       note: `Order cancelled. Reason: ${reason}`,
     };
     const updated = await Order.findByIdAndUpdate(
-      orderDoc._id,
+      (orderDoc as any)._id || orderDoc.id,
       {
         $set: {
           orderStatus: 'cancelled',
@@ -540,7 +627,7 @@ export const ordersService = {
         },
         $push: { statusHistory: cancellationEntry },
       },
-      { new: true }
+      { returnDocument: 'after' }
     ).lean();
     if (!updated) {
       throw new AppError('Order cancellation failed.', 500);
@@ -581,11 +668,11 @@ export const ordersService = {
     }
 
     const updated = await Order.findByIdAndUpdate(
-      orderDoc._id,
+      (orderDoc as any)._id || orderDoc.id,
       {
         $set: { paymentStatus },
       },
-      { new: true }
+      { returnDocument: 'after' }
     ).lean();
 
     if (!updated) {

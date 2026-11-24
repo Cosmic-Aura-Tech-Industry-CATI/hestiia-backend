@@ -1,0 +1,289 @@
+{
+  "info": {
+    "_postman_id": "hestiia-contact-module-collection",
+    "name": "Restaurant Backend — Contact Information Module",
+    "description": "Production-ready automated test collection for the Hestiia Restaurant Contact Module covering Customer discovery and Admin management APIs with automated assertions.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Authentication",
+      "item": [
+        {
+          "name": "Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "if (json.token) {",
+                  "    pm.environment.set(\"adminToken\", json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Customer Contact API",
+      "item": [
+        {
+          "name": "Customer - Get Active Contact Information",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Only enabled options exposed with actionable links\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.success).to.be.true;",
+                  "    pm.expect(json.data).to.be.an('object');",
+                  "    if (json.data.phone) {",
+                  "        pm.expect(json.data.phone.action).to.include('tel:');",
+                  "    }",
+                  "    if (json.data.email) {",
+                  "        pm.expect(json.data.email.action).to.include('mailto:');",
+                  "    }",
+                  "    if (json.data.whatsapp) {",
+                  "        pm.expect(json.data.whatsapp.action).to.include('https://wa.me/');",
+                  "    }",
+                  "    pm.expect(json.data._id).to.be.undefined;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/contact",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customer", "contact"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Admin Contact Settings APIs",
+      "item": [
+        {
+          "name": "Admin - Get All Contact Settings",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Returns full settings with enabled booleans\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.success).to.be.true;",
+                  "    pm.expect(json.data.phone).to.have.property('enabled');",
+                  "    pm.expect(json.data.email).to.have.property('enabled');",
+                  "    pm.expect(json.data.whatsapp).to.have.property('enabled');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/contact",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "contact"]
+            }
+          }
+        },
+        {
+          "name": "Admin - Update Full Contact Settings",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Values updated successfully\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.success).to.be.true;",
+                  "    pm.expect(json.data.phone.number).to.eql('+919876543210');",
+                  "    pm.expect(json.data.email.address).to.eql('support@hestiia.com');",
+                  "    pm.expect(json.data.whatsapp.number).to.eql('919876543210');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": {\n    \"number\": \"+919876543210\",\n    \"enabled\": true\n  },\n  \"email\": {\n    \"address\": \"support@hestiia.com\",\n    \"enabled\": true\n  },\n  \"whatsapp\": {\n    \"number\": \"919876543210\",\n    \"enabled\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/contact",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "contact"]
+            }
+          }
+        },
+        {
+          "name": "Admin - Partial Update (Toggle WhatsApp Disabled)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.expect(json.data.whatsapp.enabled).to.be.false;",
+                  "pm.expect(json.data.phone.enabled).to.be.true;"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"whatsapp\": {\n    \"enabled\": false\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/contact",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "contact"]
+            }
+          }
+        },
+        {
+          "name": "Admin - Negative Test: Invalid Email Format",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": {\n    \"address\": \"not-a-valid-email\",\n    \"enabled\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/contact",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "contact"]
+            }
+          }
+        },
+        {
+          "name": "Admin - Negative Test: Missing Token (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/contact",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "contact"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

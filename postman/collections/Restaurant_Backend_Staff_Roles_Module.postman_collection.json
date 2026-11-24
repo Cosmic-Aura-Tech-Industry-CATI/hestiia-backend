@@ -1,0 +1,882 @@
+{
+  "info": {
+    "_postman_id": "7d97edaa-stf-47f9-bb29-5f1967395232",
+    "name": "Restaurant Backend — Staff & Roles Module",
+    "description": "Production Postman test collection for Hestiia Restaurant Staff & Roles Module. Exclusively for Admin Dashboard. Covers all five backend services: Create Staff, Get All Staff, Get Staff by ID, Update Staff, and Soft Delete (Deactivate) Staff with robust security, role validation, duplicate key prevention, and pagination metadata.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Admin Login (Obtain Bearer JWT)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const jsonData = pm.response.json();",
+                  "pm.test(\"JWT token received\", function () {",
+                  "    pm.expect(jsonData.token).to.be.a(\"string\");",
+                  "    pm.environment.set(\"adminToken\", jsonData.token);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "description": "Authenticates restaurant administrator to obtain JWT Bearer Token for subsequent Staff operations."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service 1: Create Staff",
+      "item": [
+        {
+          "name": "Create Staff Member (Success 201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const res = pm.response.json();",
+                  "pm.test(\"Success flag is true and role is staff\", function () {",
+                  "    pm.expect(res.success).to.be.true;",
+                  "    pm.expect(res.data.role).to.eql(\"staff\");",
+                  "    pm.expect(res.data.isActive).to.be.true;",
+                  "    pm.expect(res.data._id).to.be.a(\"string\");",
+                  "    pm.environment.set(\"staffId\", res.data._id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rahul Sharma\",\n  \"phone\": \"9876543210\",\n  \"email\": \"rahul@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"]
+            },
+            "description": "Registers a new staff employee. Role is strictly assigned to 'staff' and isActive defaults to true."
+          }
+        },
+        {
+          "name": "Create Second Staff Member (Success 201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201 Created\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"secondaryStaffId\", res.data._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Priya Verma\",\n  \"phone\": \"+91 9876543211\",\n  \"email\": \"priya.verma@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"]
+            }
+          }
+        },
+        {
+          "name": "Create Staff - Missing Name (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"9876543215\",\n  \"email\": \"noname@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"]
+            }
+          }
+        },
+        {
+          "name": "Create Staff - Invalid Phone (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Vikram\",\n  \"phone\": \"12345\",\n  \"email\": \"vikram@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"]
+            }
+          }
+        },
+        {
+          "name": "Create Staff - Invalid Email (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Vikram\",\n  \"phone\": \"9876543216\",\n  \"email\": \"not-a-valid-email\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"]
+            }
+          }
+        },
+        {
+          "name": "Create Staff - Duplicate Email (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rahul Clone\",\n  \"phone\": \"9876543299\",\n  \"email\": \"rahul@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"]
+            }
+          }
+        },
+        {
+          "name": "Create Staff - Disallowed Role (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Chef Sanjeev\",\n  \"phone\": \"9876543277\",\n  \"email\": \"sanjeev@gmail.com\",\n  \"role\": \"kitchen\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"]
+            }
+          }
+        },
+        {
+          "name": "Create Staff - Unauthenticated (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401 Unauthorized\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Unauth Staff\",\n  \"phone\": \"9876543288\",\n  \"email\": \"unauth@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service 2: Get All Staff",
+      "item": [
+        {
+          "name": "Get All Active Staff (Default 200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const res = pm.response.json();",
+                  "pm.test(\"Pagination and staff array returned\", function () {",
+                  "    pm.expect(res.data.staff).to.be.an(\"array\");",
+                  "    pm.expect(res.data.pagination.total).to.be.a(\"number\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"]
+            }
+          }
+        },
+        {
+          "name": "Get Staff - Pagination (page=1&limit=10)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Staff - Search by Name (search=Rahul)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff?search=Rahul",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Rahul"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Staff - Inactive Filter (status=inactive)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff?status=inactive",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "inactive"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Staff - Invalid Status Filter (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff?status=wrong",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "wrong"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service 3: Get Staff by ID",
+      "item": [
+        {
+          "name": "Get Staff by ID (Success 200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const res = pm.response.json();",
+                  "pm.test(\"Matching staff ID returned\", function () {",
+                  "    pm.expect(res.data._id).to.eql(pm.environment.get(\"staffId\"));",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff/{{staffId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff", "{{staffId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Staff by ID - Invalid ObjectId (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff/invalid-id-format",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff", "invalid-id-format"]
+            }
+          }
+        },
+        {
+          "name": "Get Staff by ID - Nonexistent ID (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404 Not Found\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff/507f1f77bcf86cd799439099",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff", "507f1f77bcf86cd799439099"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service 4: Update Staff",
+      "item": [
+        {
+          "name": "Update Staff Information (Success 200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const res = pm.response.json();",
+                  "pm.test(\"Name and phone updated\", function () {",
+                  "    pm.expect(res.data.name).to.eql(\"Rahul Kumar\");",
+                  "    pm.expect(res.data.phone).to.eql(\"9876543219\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rahul Kumar\",\n  \"phone\": \"9876543219\",\n  \"email\": \"rahulkumar@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff/{{staffId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff", "{{staffId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Staff - Attempt Role Change (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"manager\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff/{{staffId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff", "{{staffId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Staff - Duplicate Email Conflict (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"priya.verma@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff/{{staffId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff", "{{staffId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service 5: Delete Staff",
+      "item": [
+        {
+          "name": "Soft Delete (Deactivate) Staff (Success 200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const res = pm.response.json();",
+                  "pm.test(\"Deactivation message returned\", function () {",
+                  "    pm.expect(res.success).to.be.true;",
+                  "    pm.expect(res.message).to.include(\"deactivated\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff/{{secondaryStaffId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff", "{{secondaryStaffId}}"]
+            }
+          }
+        },
+        {
+          "name": "Repeated Delete Already Inactive Staff (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 Bad Request\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff/{{secondaryStaffId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff", "{{secondaryStaffId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Staff - Nonexistent ID (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404 Not Found\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/staff/507f1f77bcf86cd799439099",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "staff", "507f1f77bcf86cd799439099"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

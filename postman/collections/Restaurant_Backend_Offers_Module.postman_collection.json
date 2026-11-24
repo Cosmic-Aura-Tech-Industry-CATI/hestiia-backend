@@ -1,0 +1,465 @@
+{
+  "info": {
+    "_postman_id": "hestiia-offers-module-collection",
+    "name": "Restaurant Backend — Offers Module API",
+    "description": "Production-ready automated test collection for the Hestiia Restaurant Offers Module covering all 8 Admin services and 6 Customer services, with RBAC guards, cart application, and financial discount verification.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Authentication",
+      "item": [
+        {
+          "name": "Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "if (json.token) {",
+                  "    pm.environment.set(\"adminToken\", json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifier\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Admin Offer Services",
+      "item": [
+        {
+          "name": "Service 1: Create Fixed Discount Offer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "if (json.data && json.data._id) {",
+                  "    pm.environment.set(\"offerId\", json.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Flat ₹100 Off Festive Treat\",\n  \"description\": \"Enjoy ₹100 off on dining orders above ₹400\",\n  \"discountType\": \"fixed\",\n  \"discountValue\": 100,\n  \"minOrderValue\": 400,\n  \"startDate\": \"2026-01-01T00:00:00.000Z\",\n  \"endDate\": \"2026-12-31T23:59:59.000Z\",\n  \"placements\": [\"home\", \"menu\"],\n  \"displayPriority\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers"]
+            }
+          }
+        },
+        {
+          "name": "Service 1b: Create Percentage Discount Offer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "if (json.data && json.data._id) {",
+                  "    pm.environment.set(\"percentOfferId\", json.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"20% Chef Special Discount\",\n  \"description\": \"Get 20% off up to ₹150 on orders above ₹500\",\n  \"discountType\": \"percentage\",\n  \"discountValue\": 20,\n  \"maxDiscount\": 150,\n  \"minOrderValue\": 500,\n  \"startDate\": \"2026-01-01T00:00:00.000Z\",\n  \"endDate\": \"2026-12-31T23:59:59.000Z\",\n  \"placements\": [\"home\"],\n  \"displayPriority\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers"]
+            }
+          }
+        },
+        {
+          "name": "Service 2: Get All Offers (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Service 2b: Filter Offers (Search & Status)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers?search=Festive&status=active&placement=home",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Festive"
+                },
+                {
+                  "key": "status",
+                  "value": "active"
+                },
+                {
+                  "key": "placement",
+                  "value": "home"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Service 8: Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers/summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers", "summary"]
+            }
+          }
+        },
+        {
+          "name": "Service 3: Get Offer By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers/{{offerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers", "{{offerId}}"]
+            }
+          }
+        },
+        {
+          "name": "Service 4: Update Offer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Flat ₹120 Off Super Festive Deal\",\n  \"discountValue\": 120,\n  \"minOrderValue\": 450\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers/{{offerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers", "{{offerId}}"]
+            }
+          }
+        },
+        {
+          "name": "Service 5: Toggle Offer Status (Deactivate / Activate)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers/{{offerId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers", "{{offerId}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Service 7: Get Offer Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers/{{offerId}}/analytics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers", "{{offerId}}", "analytics"]
+            }
+          }
+        },
+        {
+          "name": "Service 6: Archive Offer",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/offers/{{offerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "offers", "{{offerId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Customer Offer Discovery",
+      "item": [
+        {
+          "name": "Customer Service 1: Current Valid Offers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/offers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customer", "offers"]
+            }
+          }
+        },
+        {
+          "name": "Customer Service 2: Home Page Offers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/offers/home",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customer", "offers", "home"]
+            }
+          }
+        },
+        {
+          "name": "Customer Service 3: Menu Page Offers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/offers/menu",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customer", "offers", "menu"]
+            }
+          }
+        },
+        {
+          "name": "Customer Service 4: Offer Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/offers/{{percentOfferId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customer", "offers", "{{percentOfferId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Customer Cart & Offer Application",
+      "item": [
+        {
+          "name": "Add Item to Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.data && json.data._id) {",
+                  "    pm.environment.set(\"cartId\", json.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-guest-id",
+                "value": "{{guestId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dishId\": \"507f1f77bcf86cd799439021\",\n  \"name\": \"Butter Chicken\",\n  \"price\": 350,\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/cart/items",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customer", "cart", "items"]
+            }
+          }
+        },
+        {
+          "name": "Customer Service 5: Apply Offer to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-guest-id",
+                "value": "{{guestId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cartId\": \"{{cartId}}\",\n  \"offerId\": \"{{percentOfferId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/cart/apply-offer",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customer", "cart", "apply-offer"]
+            }
+          }
+        },
+        {
+          "name": "Customer Service 6: Remove Offer from Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-guest-id",
+                "value": "{{guestId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cartId\": \"{{cartId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customer/cart/remove-offer",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "customer", "cart", "remove-offer"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

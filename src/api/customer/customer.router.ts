@@ -13,6 +13,9 @@ import { publicEventsRouter } from '../../modules/events/routes/event.routes.js'
 import { publicInquiryRouter } from '../../modules/events/routes/eventInquiry.routes.js';
 import wishlistRouter from '../../modules/wishlist/routes/wishlist.routes.js';
 import { customerGalleryRouter } from '../../modules/gallery/gallery.router.js';
+import customerOffersRouter from '../../modules/offers/routes/customerOffers.routes.js';
+import cartRouter from '../../modules/cart/routes/cart.routes.js';
+import { customerContactRouter } from '../../modules/contact/contact.routes.js';
 import { catchAsync } from '../../shared/utils/index.js';
 import { sendSuccess } from '../../shared/responses/index.js';
 
@@ -127,5 +130,14 @@ router.use('/wishlist', wishlistRouter);
 
 // 11. Public Gallery & Guest Customer Uploads
 router.use('/gallery', customerGalleryRouter);
+
+// 12. Offers
+router.use('/offers', customerOffersRouter);
+
+// 13. Cart
+router.use('/cart', cartRouter);
+
+// 14. Contact Information
+router.use('/contact', customerContactRouter);
 
 export default router;

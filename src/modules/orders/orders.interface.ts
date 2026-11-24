@@ -23,6 +23,14 @@ export interface IOrderStatusHistory {
   note?: string;
 }
 
+export interface IOrderOfferSnapshot {
+  offerId: string;
+  title: string;
+  discountType: 'fixed' | 'percentage';
+  discountValue: number;
+  discountAmount: number;
+}
+
 export interface IOrder {
   _id?: Types.ObjectId;
   id?: string;
@@ -42,6 +50,7 @@ export interface IOrder {
   deliveryInPaise?: number;
   discountAmount: number;
   discountInPaise?: number;
+  offer?: IOrderOfferSnapshot | null;
   grandTotal: number;
   grandTotalInPaise?: number;
   paymentMethod: PaymentMethod;
@@ -74,6 +83,7 @@ export interface IOrderDocument extends Document {
   deliveryInPaise?: number;
   discountAmount: number;
   discountInPaise?: number;
+  offer?: IOrderOfferSnapshot | null;
   grandTotal: number;
   grandTotalInPaise?: number;
   paymentMethod: PaymentMethod;

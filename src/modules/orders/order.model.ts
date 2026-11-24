@@ -29,6 +29,17 @@ const statusHistorySchema = new Schema(
   { _id: false }
 );
 
+const orderOfferSnapshotSchema = new Schema(
+  {
+    offerId: { type: String, trim: true },
+    title: { type: String, trim: true },
+    discountType: { type: String, enum: ['fixed', 'percentage'] },
+    discountValue: { type: Number },
+    discountAmount: { type: Number },
+  },
+  { _id: false }
+);
+
 const orderSchema = new Schema<IOrderDocument>(
   {
     orderNumber: {
@@ -95,6 +106,10 @@ const orderSchema = new Schema<IOrderDocument>(
       min: [0, 'Discount amount cannot be negative'],
     },
     discountInPaise: { type: Number, min: 0 },
+    offer: {
+      type: orderOfferSnapshotSchema,
+      default: null,
+    },
     grandTotal: {
       type: Number,
       required: [true, 'Grand total is required'],

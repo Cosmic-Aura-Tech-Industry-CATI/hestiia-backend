@@ -111,14 +111,24 @@ export const requireAuth = catchAsync(
           (decoded.username && u.username.toLowerCase() === decoded.username.toLowerCase())
       );
       if (storeUser) {
+        const uRole = (storeUser.role || '').toUpperCase();
         matchedUser = {
           id: storeUser.id,
           name: storeUser.name,
           email: storeUser.email,
           username: storeUser.username,
-          role: (storeUser.role || '').toUpperCase() === 'MANAGER' ? 'MANAGER' : 'SUPERADMIN',
+          role: uRole as UserRole,
           status: storeUser.active ? 'ACTIVE' : 'INACTIVE',
           tokenVersion: storeUser.tokenVersion || 0,
+        };
+      } else if (decoded.role && decoded.role.toLowerCase() === 'customer') {
+        matchedUser = {
+          id: decoded.id || 'cust_user',
+          name: 'Customer',
+          email: decoded.email || 'customer@hestiia.com',
+          role: 'CUSTOMER',
+          status: 'ACTIVE',
+          tokenVersion: 0,
         };
       }
     }
@@ -178,7 +188,12 @@ export const requireRole = (...allowedRoles: Array<UserRole | string>) => {
       return next();
     }
 
-    // 3. Manager receives 403 on Superadmin-only endpoints
+    // 3. STAFF is permitted only when 'STAFF' is in allowed roles
+    if (userRole === 'STAFF' && normalizedAllowed.includes('STAFF')) {
+      return next();
+    }
+
+    // 4. Unauthorized role receives 403
     return next(
       new AppError(
         `Forbidden: Role '${req.user.role}' does not have sufficient permissions to execute this operation.`,

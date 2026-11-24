@@ -1,6 +1,7 @@
 import { eventBus, DOMAIN_EVENTS } from './eventBus.js';
 import { ordersService } from '../modules/orders/orders.service.js';
 import { paymentsService } from '../modules/payments/payments.service.js';
+import { offersService } from '../modules/offers/services/offers.service.js';
 import { broadcast } from '../sockets/socketServer.js';
 import { logger } from '../config/logger.js';
 
@@ -41,6 +42,16 @@ export function registerOrderAndPaymentEventHandlers() {
         broadcast('room:kds:kitchen', 'kds:order:new', {
           order,
           timestamp: new Date().toISOString(),
+        });
+      }
+
+      // Record offer redemption upon verified successful payment
+      if (order && (order as any).offer && (order as any).offer.offerId) {
+        await offersService.recordRedemption({
+          offerId: (order as any).offer.offerId,
+          orderId: order.orderNumber || order.id,
+          discountAmount: (order as any).offer.discountAmount || order.discountAmount || 0,
+          orderSubtotal: order.subtotal || 0,
         });
       }
     } catch (err: any) {

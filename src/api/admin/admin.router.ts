@@ -19,6 +19,9 @@ import uploadRouter from '../../modules/upload/upload.router.js';
 import analyticsRouter from '../../modules/analytics/routes/analytics.routes.js';
 import { adminEventsRouter } from '../../modules/events/routes/event.routes.js';
 import { adminInquiryRouter } from '../../modules/events/routes/eventInquiry.routes.js';
+import adminStaffRouter from '../../modules/staff/staff.router.js';
+import adminOffersRouter from '../../modules/offers/routes/adminOffers.routes.js';
+import { adminContactRouter } from '../../modules/contact/contact.routes.js';
 import tablesRouter from '../../modules/tables/tables.service.js';
 import conversationsRouter from '../../modules/conversations/conversations.service.js';
 import { catchAsync } from '../../shared/utils/index.js';
@@ -50,6 +53,9 @@ router.use('/analytics', analyticsRouter);
 router.use('/upload', uploadRouter);
 router.use('/events', adminEventsRouter);
 router.use('/event-inquiries', adminInquiryRouter);
+router.use('/staff', adminStaffRouter);
+router.use('/offers', adminOffersRouter);
+router.use('/contact', adminContactRouter);
 
 // Tables
 router.get('/tables', catchAsync(async (_req: Request, res: Response) => {
