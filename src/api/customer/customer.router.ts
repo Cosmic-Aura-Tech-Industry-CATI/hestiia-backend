@@ -6,23 +6,28 @@ import { paymentsService } from '../../modules/payments/payments.service.js';
 import { bookingsService } from '../../modules/bookings/bookings.service.js';
 import { partyService } from '../../modules/party/party.service.js';
 import { reviewsService } from '../../modules/reviews/reviews.service.js';
-import { conversationsService } from '../../modules/conversations/conversations.service.js';
+import { conversationsRouter } from '../../modules/conversations/index.js';
 import { invoicesService } from '../../modules/invoices/invoices.service.js';
-import { restaurantService } from '../../modules/restaurant/restaurant.service.js';
+import { restaurantRouter } from '../../modules/restaurant/index.js';
 import { publicEventsRouter } from '../../modules/events/routes/event.routes.js';
 import { publicInquiryRouter } from '../../modules/events/routes/eventInquiry.routes.js';
 import wishlistRouter from '../../modules/wishlist/routes/wishlist.routes.js';
+import { cartRouter } from '../../modules/cart/index.js';
 import { customerGalleryRouter } from '../../modules/gallery/gallery.router.js';
+import { contactRouter } from '../../modules/contact/index.js';
+import { deliveryRouter } from '../../modules/delivery/index.js';
+import { loyaltyRouter } from '../../modules/loyalty/index.js';
+import { offersRouter } from '../../modules/offers/index.js';
+import { pricingRouter } from '../../modules/pricing/index.js';
+import { tablesRouter } from '../../modules/tables/index.js';
+import { notificationsRouter } from '../../modules/notifications/index.js';
 import { catchAsync } from '../../shared/utils/index.js';
 import { sendSuccess } from '../../shared/responses/index.js';
 
 const router = Router();
 
-// 1. Restaurant Details & Public Settings
-router.get('/restaurant', catchAsync(async (_req: Request, res: Response) => {
-  const info = await restaurantService.getInfo();
-  sendSuccess(res, { restaurant: info });
-}));
+// 1. Restaurant Details, Status & Public Settings
+router.use('/restaurant', restaurantRouter);
 
 // 2. Menu & Categories
 router.get('/menu', catchAsync(async (req: Request, res: Response) => {
@@ -75,7 +80,12 @@ router.get('/invoices/:id', catchAsync(async (req: Request, res: Response) => {
   sendSuccess(res, result);
 }));
 
-// 5. Dining Table Reservations
+// 5. Dining Table Reservations & Floor Plan
+router.use('/tables', tablesRouter);
+
+// Notifications & Live In-App Alerts
+router.use('/notifications', notificationsRouter);
+
 router.post('/bookings', catchAsync(async (req: Request, res: Response) => {
   const result = await bookingsService.createBooking(req.body);
   sendSuccess(res, result, 201, 'Table reservation requested');
@@ -94,18 +104,7 @@ router.post('/party', catchAsync(async (req: Request, res: Response) => {
 }));
 
 // 7. Live Order Chat
-router.get('/conversations/:orderNumber', catchAsync(async (req: Request, res: Response) => {
-  const orderNumber = Array.isArray(req.params.orderNumber) ? req.params.orderNumber[0] : req.params.orderNumber;
-  const messages = await conversationsService.getMessagesByOrder(orderNumber);
-  sendSuccess(res, { messages });
-}));
-
-router.post('/conversations/:orderNumber', catchAsync(async (req: Request, res: Response) => {
-  const orderNumber = Array.isArray(req.params.orderNumber) ? req.params.orderNumber[0] : req.params.orderNumber;
-  const { senderName, text } = req.body;
-  const message = await conversationsService.sendMessage(orderNumber, 'customer', senderName || 'Customer', text);
-  sendSuccess(res, { message }, 201);
-}));
+router.use('/conversations', conversationsRouter);
 
 // 8. Reviews
 router.get('/reviews', catchAsync(async (_req: Request, res: Response) => {
@@ -122,10 +121,26 @@ router.post('/reviews', catchAsync(async (req: Request, res: Response) => {
 router.use('/events', publicEventsRouter);
 router.use('/event-inquiries', publicInquiryRouter);
 
-// 10. Guest Wishlist
+// 10. Guest Wishlist & Dining Tray Cart
 router.use('/wishlist', wishlistRouter);
+router.use('/cart', cartRouter);
 
 // 11. Public Gallery & Guest Customer Uploads
 router.use('/gallery', customerGalleryRouter);
+
+// 12. Contact Inquiries
+router.use('/contact', contactRouter);
+
+// 13. Delivery Tracking & Serviceability
+router.use('/delivery', deliveryRouter);
+
+// 14. Loyalty Dining Club & Rewards
+router.use('/loyalty', loyaltyRouter);
+
+// 15. Promotional Offers & Coupons
+router.use('/offers', offersRouter);
+
+// 16. Dynamic Pricing, Surcharges & Bill Quotations
+router.use('/pricing', pricingRouter);
 
 export default router;

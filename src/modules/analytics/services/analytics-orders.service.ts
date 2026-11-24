@@ -89,8 +89,8 @@ export const analyticsOrdersService = {
 
       // Average prep time from status history
       if (Array.isArray(o.statusHistory) && o.statusHistory.length >= 2) {
-        const prepEntry = o.statusHistory.find((h) => h.status === 'preparing');
-        const readyEntry = o.statusHistory.find((h) => h.status === 'ready_for_pickup' || h.status === 'completed');
+        const prepEntry = o.statusHistory.find((h: any) => h.status === 'preparing');
+        const readyEntry = o.statusHistory.find((h: any) => h.status === 'ready_for_pickup' || h.status === 'completed');
 
         if (prepEntry && readyEntry) {
           const prepStart = new Date(prepEntry.timestamp).getTime();

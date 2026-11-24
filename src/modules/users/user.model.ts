@@ -22,7 +22,6 @@ const userSchema = new Schema<IUserDocument>(
       lowercase: true,
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'],
-      index: true,
     },
     username: {
       type: String,
@@ -42,14 +41,14 @@ const userSchema = new Schema<IUserDocument>(
     role: {
       type: String,
       enum: {
-        values: ['SUPERADMIN', 'MANAGER', 'admin', 'manager', 'superadmin'],
-        message: "Role must strictly be 'SUPERADMIN' or 'MANAGER'",
+        values: ['ADMIN', 'STAFF', 'SUPERADMIN', 'MANAGER', 'admin', 'staff', 'superadmin', 'manager'],
+        message: "Role must strictly be 'ADMIN' or 'STAFF'",
       },
-      default: 'MANAGER',
+      default: 'STAFF',
       set: (val: string) => {
-        if (!val) return 'MANAGER';
+        if (!val) return 'STAFF';
         const upper = val.toUpperCase().trim();
-        return upper === 'ADMIN' ? 'SUPERADMIN' : upper;
+        return upper === 'STAFF' ? 'STAFF' : 'ADMIN';
       },
       required: true,
       index: true,
@@ -104,6 +103,9 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
   if (!hash) return false;
   return bcrypt.compare(candidatePassword, hash);
 };
+
+userSchema.index({ role: 1, status: 1 });
+userSchema.index({ createdAt: -1 });
 
 export const User = (mongoose.models.User as IUserModel) || mongoose.model<IUserDocument, IUserModel>('User', userSchema);
 export default User;

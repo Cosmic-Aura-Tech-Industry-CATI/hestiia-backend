@@ -19,6 +19,6 @@ router.post('/admin', protect, restrictTo('SUPERADMIN', 'MANAGER', 'superadmin',
 router.patch('/admin/:id', protect, restrictTo('SUPERADMIN', 'MANAGER', 'superadmin', 'manager'), categoriesController.updateCategory);
 router.put('/admin/:id', protect, restrictTo('SUPERADMIN', 'MANAGER', 'superadmin', 'manager'), categoriesController.updateCategory);
 
-router.delete('/admin/:id', protect, restrictTo('SUPERADMIN', 'superadmin'), categoriesController.deleteCategory);
+router.delete('/admin/:id', protect, restrictTo('ADMIN', 'SUPERADMIN', 'MANAGER'), categoriesController.deleteCategory);
 
 export default router;

@@ -17,7 +17,6 @@ export const ENV = {
   RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET || '',
   CLOUDINARY_URL: process.env.CLOUDINARY_URL || '',
   UPLOADS_DIR: path.resolve(process.cwd(), 'public', 'uploads'),
-  DATA_DIR: path.resolve(process.cwd(), 'data'),
   CURRENCY: 'INR',
   CURRENCY_SYMBOL: '₹',
 };
