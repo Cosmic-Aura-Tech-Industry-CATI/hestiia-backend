@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "build": "tsc",
     "start": "tsx src/server.ts",
     "test": "tsx tests/route-handling.test.ts && tsx tests/orders-payments.test.ts && tsx tests/analytics-stage1.test.ts && tsx tests/postman-auth-analytics.test.ts && tsx tests/events-module.test.ts && tsx tests/wishlist-module.test.ts && tsx tests/gallery-module.test.ts",
     "create:superadmin": "tsx scripts/create-superadmin.ts"
