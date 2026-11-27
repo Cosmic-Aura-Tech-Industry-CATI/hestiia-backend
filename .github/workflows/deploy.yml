@@ -28,7 +28,7 @@ jobs:
         run: npm ci --omit=dev
 
       - name: Compress Build Artifacts
-        run: tar -czf release.tar.gz dist node_modules package.json package-lock.json ecosystem.config.js
+        run: tar -czf release.tar.gz dist node_modules package.json package-lock.json
 
       - name: Prepare Server Directory
         uses: appleboy/ssh-action@master
