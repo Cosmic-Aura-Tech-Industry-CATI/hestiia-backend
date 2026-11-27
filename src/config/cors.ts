@@ -6,8 +6,6 @@ const allowedOrigins = [
   ENV.ADMIN_URL,
   'http://localhost:3000',
   'http://localhost:3001',
-  'http://hestiiarestaurant.com',
-  'https://admin.hestiiarestaurant.com',
 ].filter(Boolean);
 
 export const corsConfig = cors({
