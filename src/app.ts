@@ -52,7 +52,19 @@ app.use(
 app.use('/uploads', express.static(ENV.UPLOADS_DIR));
 app.use('/menu', express.static(path.resolve(process.cwd(), 'public', 'uploads', 'menu')));
 
-// 4. System Healthcheck
+// 4. API Root
+app.get('/', (_req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    message: 'Hestiia Restaurant API is running',
+    version: 'v1.0',
+    system: 'Hestiia Modular Monolith API',
+    health: '/api/v1/health',
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// 5. System Healthcheck
 app.get('/api/health', (_req: Request, res: Response) => {
   res.status(200).json({
     status: 'healthy',
@@ -72,15 +84,15 @@ app.get('/api/v1/health', (_req: Request, res: Response) => {
   });
 });
 
-// 5. Mount Unified Routes
+// 6. Mount Unified Routes
 app.use(mainRouter);
 
-// 6. Centralized 404 Handler for all Unmatched Endpoints & Methods
+// 7. Centralized 404 Handler for all Unmatched Endpoints & Methods
 app.use((req: Request, _res: Response, next: NextFunction) => {
   next(new NotFoundError(`Cannot find ${req.method} ${req.originalUrl} on this server.`));
 });
 
-// 7. Global Centralized Error Handler
+// 8. Global Centralized Error Handler
 app.use(errorHandler);
 
 export default app;
