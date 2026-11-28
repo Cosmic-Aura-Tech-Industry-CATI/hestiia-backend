@@ -21,6 +21,7 @@ build/
 # Uploads / user generated media
 public/uploads/*
 !public/uploads/.gitkeep
+ecosystem.config.cjs
 
 # System files
 .DS_Store
